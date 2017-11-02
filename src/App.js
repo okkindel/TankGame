@@ -7,8 +7,8 @@ import Ojej from './ojej.js';
 
 class App extends Component {
 
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
     this.state = {
       showEgg: false,
       superPrivatePass: "",
@@ -49,8 +49,7 @@ class App extends Component {
           <img src={logo} className="App-logo" alt="logo" />
           <h1 className="App-title">Welcome to React</h1>
         </header>
-        <div className="phaser"></div>
-        <script src="phasTest.js"/>
+        
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
@@ -58,6 +57,8 @@ class App extends Component {
         { this.state.showEgg &&
           <Ojej/>
           }
+
+        {this.props.children}
       </div>
     );
   }

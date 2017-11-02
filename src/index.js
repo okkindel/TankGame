@@ -5,5 +5,8 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 
 ReactDOM.render
-(<App/>, document.getElementById('root'));
+(<App>
+   <div className="phaser"></div>
+        <script src="https://code.jquery.com/jquery-3.2.1.slim.js"/>
+    </App>, document.getElementById('root'));
 registerServiceWorker();
