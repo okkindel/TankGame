@@ -6,7 +6,6 @@ import registerServiceWorker from './registerServiceWorker';
 
 ReactDOM.render
 (<App>
-   <div className="phaser"></div>
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.js"/>
+    <script src="http://localhost/src/phasTest.js"/>
     </App>, document.getElementById('root'));
 registerServiceWorker();

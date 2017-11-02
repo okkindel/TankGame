@@ -17,6 +17,8 @@ class App extends Component {
     this.combinationListener = this.combinationListener.bind(this);
     
   }
+
+
   componentDidMount(){
     document.addEventListener("keydown", this.combinationListener, false);
   }
@@ -55,7 +57,7 @@ class App extends Component {
         </p>
         
         { this.state.showEgg &&
-          <Ojej/>
+          <Ojej>{this.props.children}</Ojej>
           }
 
         {this.props.children}
