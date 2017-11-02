@@ -5,10 +5,12 @@ class Ojej extends Component {
 
   constructor(props){
     super(props);
-
+    console.log(props.children);
     this.state = {
-      gamePath: props.children
+      gamePath: props.children.props
     }
+
+    console.log(this.state.gamePath);
 
 
   }
@@ -16,7 +18,7 @@ class Ojej extends Component {
   componentWillMount(){
     const script = document.createElement("script");
     
-            script.src = this.state.gamePath.src;
+            script.src =this.state.gamePath.src;
             script.async = true;
             document.body.appendChild(script);
 

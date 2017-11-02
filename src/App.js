@@ -24,7 +24,7 @@ class App extends Component {
   }
 
   combinationListener(event){
-    console.log(this.state.superPrivatePass);
+    //console.log(this.state.superPrivatePass);
    
     this.setState({
       superPrivatePass: this.state.superPrivatePass + event.key
@@ -60,7 +60,6 @@ class App extends Component {
           <Ojej>{this.props.children}</Ojej>
           }
 
-        {this.props.children}
       </div>
     );
   }
