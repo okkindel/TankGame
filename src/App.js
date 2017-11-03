@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Ojej from './ojej.js';
+import Egg from './egg.js';
 
 
 
@@ -57,7 +57,7 @@ class App extends Component {
         </p>
         
         { this.state.showEgg &&
-          <Ojej>{this.props.children}</Ojej>
+          <Egg>{this.props.children}</Egg>
           }
 
       </div>

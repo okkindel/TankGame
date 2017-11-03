@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+import './egg.css';
 
 
-class Ojej extends Component {
+class Egg extends Component {
 
   constructor(props){
     super(props);
@@ -15,22 +16,24 @@ class Ojej extends Component {
 
   }
 
-  componentWillMount(){
+  componentDidMount(){
     const script = document.createElement("script");
     
             script.src =this.state.gamePath.src;
             script.async = true;
-            document.body.appendChild(script);
+            document.head.appendChild(script);
 
   }
     render() {
       return (
-        <div className="phaser">
+        <div className="container">
+        <div id="phaser"></div>
           
+
         </div>
       );
     }
   }
   
-  export default Ojej;
+  export default Egg;
   
