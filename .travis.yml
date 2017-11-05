@@ -6,3 +6,8 @@ script:
   - npm install
   - npm run build
   - npm test
+
+deploy:
+  provider: heroku
+  api_key:
+    secure: heroku_key
