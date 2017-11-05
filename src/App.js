@@ -29,12 +29,12 @@ class App extends Component {
     this.setState({
       superPrivatePass: this.state.superPrivatePass + event.key
     })
-    if(this.state.superPrivatePass.length >= 4 && this.state.superPrivatePass == "pass") {
+    if(this.state.superPrivatePass.length >= 4 && this.state.superPrivatePass === "pass") {
       this.setState({
         showEgg: true,
       })
     }
-    if( event.key == 'q'){
+    if( event.key === 'q'){
     this.setState({
       superPrivatePass: "",
     })
