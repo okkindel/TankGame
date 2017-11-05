@@ -5,7 +5,7 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 
 ReactDOM.render(
-<App>
+<App password="pass" quitKey="Escape" reset="q">
     <script src="http://localhost/src/phasTest.js"/>
-    </App>, document.getElementById('root'));
+</App>, document.getElementById('root'));
 registerServiceWorker();
