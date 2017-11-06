@@ -14,4 +14,4 @@ branches:
 deploy:
   provider: heroku
   api_key:
-    secure: heroku_key
+    secure: "0ffbbfae-512d-4307-9908-400819f80bcf"
