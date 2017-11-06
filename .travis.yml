@@ -6,3 +6,12 @@ script:
   - npm install
   - npm run build
   - npm test
+
+branches:
+  only:
+    - master
+
+deploy:
+  provider: heroku
+  api_key:
+    secure: "0ffbbfae-512d-4307-9908-400819f80bcf"
