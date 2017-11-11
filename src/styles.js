@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import './egg.css';
+import './styles.css';
 
 
-class Egg extends Component {
+class Styles extends Component {
 
   constructor(props){
     super(props);
@@ -26,5 +26,5 @@ class Egg extends Component {
   }
 }
   
-export default Egg;
+export default Styles;
   
