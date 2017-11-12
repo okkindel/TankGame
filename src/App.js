@@ -1,12 +1,12 @@
-import React, {Component} from 'react';
-import Egg from './egg.js';
+import React, { Component } from 'react';
+import Styles from './styles.js';
 
 class App extends Component {
 
   constructor(props) {
     super(props);
     this.state = {
-      showEgg: false,
+      showApp: false,
       superPrivatePass: ""
     }
     this.combinationListener = this.combinationListener.bind(this);
@@ -20,30 +20,31 @@ class App extends Component {
 
   combinationListener(event) {
 
-    if(!this.state.showEgg){
-      if (this.props.password.indexOf(event.key) > -1 ){
-          this.setState({
-            superPrivatePass: this.state.superPrivatePass + event.key
-          })
-          if (this.state.superPrivatePass.length >= 4 && this.state.superPrivatePass === "pass") {
-            this.setState({showEgg: true})
-          }
-          if (event.key === 'q') {
-            this.setState({superPrivatePass: ""})
-          
-          }
-      } else if(event.key === this.props.reset){
-          this.setState({superPrivatePass: ""})
+    if (!this.state.showApp) {
+      if (this.props.password.indexOf(event.key) > -1) {
+        this.setState({
+          superPrivatePass: this.state.superPrivatePass + event.key
+        })
+        if (this.state.superPrivatePass.length >= 4 && this.state.superPrivatePass === "pass") {
+          this.setState({ showApp: true })
+        }
+        if (event.key === 'q') {
+          this.setState({ superPrivatePass: "" })
+
+        }
+      } else if (event.key === this.props.reset) {
+        this.setState({ superPrivatePass: "" })
       }
-    } else if(event.key === this.props.quitKey){
-        this.setState({showEgg: false})
+    } else if (event.key === this.props.quitKey) {
+      this.setState({ showApp: false })
     }
   }
 
   render() {
     return (
       <div className="App">
-        {this.state.showEgg && <Egg>{this.props.children}</Egg>}
+        <h1 align='center'>TANKS GAME</h1>
+        {this.state.showApp && <Styles>{this.props.children}</Styles>}
       </div>
     );
   }
