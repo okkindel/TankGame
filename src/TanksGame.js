@@ -1,6 +1,6 @@
-import assets from './assets/tank.png'
-import wall from './assets/wall.png'
-import bullet from './assets/bullet.png'
+import tank_img from './assets/tank.png'
+import wall_img from './assets/wall.png'
+import bullet_img from './assets/bullet.png'
 
 window.PIXI = require('phaser/build/custom/pixi')
 window.p2 = require('phaser/build/custom/p2')
@@ -11,10 +11,10 @@ export default function(){
     var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser', { preload: preload, create: create, update: update });
 
     function preload() {
-        console.log(assets)
-        game.load.image('tank', assets);
-        game.load.image('wall', wall);
-        game.load.image('bullet', bullet);
+        console.log(tank_img)
+        game.load.image('tank', tank_img);
+        game.load.image('wall', wall_img);
+        game.load.image('bullet', bullet_img);
     }
 
     var bullets;
