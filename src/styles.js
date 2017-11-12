@@ -18,7 +18,6 @@ class Styles extends Component {
   //   script.async = true;
   //   document.head.appendChild(script);
   // }
-
   render() {
     return (
       <div className="container">
