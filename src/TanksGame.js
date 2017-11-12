@@ -1,3 +1,11 @@
+export default function(){
+
+window.PIXI = require('phaser/build/custom/pixi')
+window.p2 = require('phaser/build/custom/p2')
+window.Phaser = require('phaser/build/custom/phaser-split')
+const Phaser=window.Phaser;
+
+
 var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser', { preload: preload, create: create, update: update });
 
 function preload() {
@@ -115,4 +123,5 @@ function resetBullet(bullet) {
 function collisionHandler(bullet, wall) {
     bullet.kill();
     wall.kill();
+}
 }

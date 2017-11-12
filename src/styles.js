@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './styles.css';
+import Game from './TanksGame.js';
 
 
 class Styles extends Component {
@@ -11,16 +12,17 @@ class Styles extends Component {
     }
   }
 
-  componentDidMount(){
-    const script = document.createElement("script");
-    script.src =this.state.gamePath.src;
-    script.async = true;
-    document.head.appendChild(script);
-  }
+  // componentDidMount(){
+  //   const script = document.createElement("script");
+  //   script.src =this.state.gamePath.src;
+  //   script.async = true;
+  //   document.head.appendChild(script);
+  // }
   render() {
     return (
       <div className="container">
       <div id="phaser"></div>
+      Game();
       </div>
     );
   }
