@@ -45,7 +45,7 @@ function create() {
 
 function update() {
 
-    game.physics.arcade.collide(player, wall, collisionHandler, bullets, this);
+    game.physics.arcade.collide(player, wall);
 
     if (player.alive) {
         player.body.velocity.setTo(0, 0);
