@@ -23,7 +23,7 @@ class Styles extends Component {
     return (
       <div className="container">
       <div id="phaser"></div>
-        <Game/>
+        {Game()}
       </div>
     );
   }
