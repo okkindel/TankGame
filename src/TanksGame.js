@@ -19,6 +19,7 @@ function create() {
     player = game.add.sprite(200, 200, 'tank');
     game.physics.enable(player, Phaser.Physics.ARCADE);
     player.body.collideWorldBounds = true;
+    player.anchor.set(0.5);
 
     //walls
     wall = game.add.sprite(100, 200, 'wall');
@@ -39,6 +40,7 @@ function create() {
         new_bullet.events.onOutOfBounds.add(resetBullet, this);
     }
 
+    //contors
     cursors = game.input.keyboard.createCursorKeys();
     game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
 }
@@ -51,19 +53,26 @@ function update() {
         player.body.velocity.setTo(0, 0);
 
         if (cursors.left.isDown) {
-            player.body.velocity.x = -200;
+            player_dir = 'left';
+            player.body.velocity.x = -100;
+            player.angle = 270;
         }
         else if (cursors.right.isDown) {
-            player.body.velocity.x = 200;
+            player_dir = 'right';
+            player.body.velocity.x = 100;
+            player.angle = 90;
         }
         else if (cursors.up.isDown) {
-            player.body.velocity.y = -200;
+            player_dir = 'up';
+            player.body.velocity.y = -100;
+            player.angle = 0;
         }
         else if (cursors.down.isDown) {
-            player.body.velocity.y = 200;
+            player_dir = 'down';
+            player.body.velocity.y = 100;
+            player.angle = 180;
         }
-        if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR))
-        {
+        if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
             fireBullet();
         }
     }
@@ -75,9 +84,26 @@ function fireBullet() {
         bullet = bullets.getFirstExists(false);
 
         if (bullet) {
-            bullet.reset(player.x, player.y - 8);
-            bullet.body.velocity.y = -300;
-            bulletTime = game.time.now + 150;
+            if (player_dir == 'up') {
+                bullet.reset(player.x - 18, player.y - 30);
+                bullet.body.velocity.y = -200;
+                bulletTime = game.time.now + 500;
+            }
+            if (player_dir == 'down') {
+                bullet.reset(player.x - 18, player.y);
+                bullet.body.velocity.y = +200;
+                bulletTime = game.time.now + 500;
+            }
+            if (player_dir == 'left') {
+                bullet.reset(player.x - 30, player.y - 18);
+                bullet.body.velocity.x = -200;
+                bulletTime = game.time.now + 500;
+            }
+            if (player_dir == 'right') {
+                bullet.reset(player.x, player.y - 18);
+                bullet.body.velocity.x = +200;
+                bulletTime = game.time.now + 500;
+            }
         }
     }
 }
