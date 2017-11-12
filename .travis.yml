@@ -1,18 +1,21 @@
 language: node_js
 node_js:
-  - "8"
-
+- '8'
 script:
-  - npm install
-  - npm run lint
-  - npm run build
-  - npm test
-
+- npm install
+- npm run lint
+- npm run build
+- npm test
 branches:
   only:
-    - master
-
+  - master
 deploy:
   provider: heroku
   api_key:
-    secure: "0ffbbfae-512d-4307-9908-400819f80bcf"
+    secure: 0ffbbfae-512d-4307-9908-400819f80bcf
+notifications:
+  slack:
+    on_success: always
+    on_failure: always
+    rooms:
+      secure: Q4aDqd/OO9Z+mx7xLLzXVce8O9C7w+FUyU4yfB+TBAI2yKM0BSJVmnzx6+Xm45w85WxUavnjLLTqBvL7MUuAznF6/mNSieUTt8ZQP7zgsph+1dvZHjUO24EE8sZzJRwBngOQgZM3P3hrbXblCxJ282uwdOdV0KOzG2HRQqWdv+piI+ebIIiynfrFvhQ79xXYt+GXhC4EloSz4r2ZAX+YWx+zDc3Gob2uBiMntnwP8x5kiu8jqfptW8uibIf6y3pWiE+UT7NX+V2aXS8Hsk1zn6HFRXUoMua84M+t3b6sVp5/d/NGe/zzb1cfSDHTQMiKoBAkiH5hZ2qpbtw4+zqA6ffwKKHIZGo9RP+wnje7KzA+TCstmhaNXzjtlBPOS7bLXjR8zAbhLL7TIaTwvc54xJRpIbNXZQZbiRJ2hwlS+Fic21e72HOoiwfx9fyMRAwPwGoMWSAelOKSjigc9amRtFlTD55FRxGFWD+K5bnrCgsSLp3sRz0Pxqkc3Ftlw5qLtpJtinSrlldgL7Qnq1iIGUTGVu8CZupEwd/NwPffHZWW0TKyyYXZ9/97jWKNWFi6hAp+H5yqYiKy902oKN09U/FUgw2nGHglZKYdXw8rqEmFtJ4UT9qaQcMJOVrrsWVlSrmgw3PrpL5BIKXtaoEM3e0CJe/eSzu+vC6TNpQteIo=
