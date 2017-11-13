@@ -2,6 +2,7 @@ import tank_img from './assets/tank.png'
 import wall_img from './assets/wall.png'
 import bullet_img from './assets/bullet.png'
 import enemy_img from './assets/enemy.png'
+import explode_img from './assets/explode.png'
 import enemy_bullet_img from './assets/enemy_bullet.png'
 
 window.PIXI = require('phaser/build/custom/pixi')
@@ -19,6 +20,7 @@ export default function () {
         game.load.image('bullet', bullet_img);
         game.load.image('enemy', enemy_img);
         game.load.image('enemy_bullet', enemy_bullet_img);
+        game.load.spritesheet('kaboom', explode_img, 68, 68);
     }
 
     var player;
@@ -34,6 +36,7 @@ export default function () {
     var livingEnemies = [];
     var cursors;
     var walls;
+    var explosions;
 
     function create() {
 
@@ -94,15 +97,28 @@ export default function () {
             new_enemy_bullet.events.onOutOfBounds.add(resetBullet, this);
         }
 
+        //explosion
+        explosions = game.add.group();
+        explosions.createMultiple(30, 'kaboom');
+        explosions.forEach(boom, this);
+
         //contors
         cursors = game.input.keyboard.createCursorKeys();
         game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
+    }
+
+    function boom(enemy) {
+
+        enemy.anchor.x = 0;
+        enemy.anchor.y = 0;
+        enemy.animations.add('kaboom');
     }
 
     function update() {
 
         //collisions
         game.physics.arcade.overlap(bullets, enemies, collisionEnemy, null, this);
+        game.physics.arcade.overlap(bullets, enemy_bullets, collisionEnemy, null, this);        
         game.physics.arcade.overlap(enemy_bullets, player, collisionPlayer, null, this);
         game.physics.arcade.overlap(bullets, walls, collisionHandler, null, this);
         game.physics.arcade.overlap(enemy_bullets, walls, collisionHandler, null, this);
@@ -197,14 +213,24 @@ export default function () {
     function collisionEnemy(enemy, object) {
         object.kill();
         enemy.kill();
+
+        var explosion = explosions.getFirstExists(false);
+        explosion.reset(object.body.x, object.body.y);
+        explosion.play('kaboom', 30, false, true);
     }
 
     function collisionPlayer(player, object) {
         object.kill();
+
+        var explosion = explosions.getFirstExists(false);
+        explosion.reset(object.body.x, object.body.y);
+        explosion.play('kaboom', 30, false, true);
+
         player_lives -= 1;
         player.body.x = 400;
         player.body.y = 540;
         player.angle = 0;
+
         if (player_lives < 0)
             player.kill();
     }
