@@ -2,6 +2,7 @@ import tank_img from './assets/tank.png'
 import wall_img from './assets/wall.png'
 import bullet_img from './assets/bullet.png'
 import enemy_img from './assets/enemy.png'
+import enemy_bullet_img from './assets/enemy_bullet.png'
 
 window.PIXI = require('phaser/build/custom/pixi')
 window.p2 = require('phaser/build/custom/p2')
@@ -12,28 +13,34 @@ export default function () {
     var game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser', { preload: preload, create: create, update: update });
 
     function preload() {
-        console.log(tank_img)
+
         game.load.image('tank', tank_img);
         game.load.image('wall', wall_img);
         game.load.image('bullet', bullet_img);
         game.load.image('enemy', enemy_img);
+        game.load.image('enemy_bullet', enemy_bullet_img);
     }
 
-    var bullets;
-    var bulletTime = 0;
-    var bullet;
-    var player_dir;
     var player;
+    var player_dir;
+    var player_lives = 3;
+    var bullet;
+    var bullets;
+    var bullet_time = 0;
+    var enemy_bullet;
+    var enemy_bullets;
+    var enemy_bullet_time = 5000;
     var enemies;
+    var livingEnemies = [];
     var cursors;
-    var wall;
+    var walls;
 
     function create() {
 
         game.stage.backgroundColor = '#123';
 
         //player's tank
-        player = game.add.sprite(200, 200, 'tank');
+        player = game.add.sprite(416, 556, 'tank');
         game.physics.enable(player, Phaser.Physics.ARCADE);
         player.body.collideWorldBounds = true;
         player.anchor.set(0.5);
@@ -45,29 +52,46 @@ export default function () {
 
         for (var i = 0; i < 10; i++) {
             var new_enemy = enemies.create(game.world.randomX, game.world.randomY, 'enemy');
-            new_enemy.name = 'enemy' + i;
             new_enemy.anchor.set(0.5);
-            new_enemy.angle = game.rnd.integerInRange(0, 360);
+            new_enemy.angle = game.rnd.integerInRange(0, 3) * 90;
             new_enemy.body.immovable = false;
         }
 
         //walls
-        wall = game.add.sprite(100, 200, 'wall');
-        game.physics.enable(wall, Phaser.Physics.ARCADE);
-        wall.body.immovable = true;
+        walls = game.add.group();
+        walls.enableBody = true;
+        walls.physicsBodyType = Phaser.Physics.ARCADE;
+        for (i = 0; i < 3; i++) {
+            var new_wall = walls.create(368 + i * 32, 480, 'wall');
+            new_wall.body.immovable = true;
+        }
 
         //bullets
         bullets = game.add.group();
         bullets.enableBody = true;
         bullets.physicsBodyType = Phaser.Physics.ARCADE;
 
-        for (var i = 0; i < 20; i++) {
+        for (i = 0; i < 20; i++) {
             var new_bullet = bullets.create(0, 0, 'bullet');
             new_bullet.name = 'bullet' + i;
             new_bullet.exists = false;
             new_bullet.visible = false;
             new_bullet.checkWorldBounds = true;
             new_bullet.events.onOutOfBounds.add(resetBullet, this);
+        }
+
+        //enemy_bullets
+        enemy_bullets = game.add.group();
+        enemy_bullets.enableBody = true;
+        enemy_bullets.physicsBodyType = Phaser.Physics.ARCADE;
+
+        for (i = 0; i < 20; i++) {
+            var new_enemy_bullet = enemy_bullets.create(0, 0, 'enemy_bullet');
+            new_enemy_bullet.name = 'enemy_bullet' + i;
+            new_enemy_bullet.exists = false;
+            new_enemy_bullet.visible = false;
+            new_enemy_bullet.checkWorldBounds = true;
+            new_enemy_bullet.events.onOutOfBounds.add(resetBullet, this);
         }
 
         //contors
@@ -77,8 +101,15 @@ export default function () {
 
     function update() {
 
-        game.physics.arcade.overlap(bullets, enemies, collisionHandler, null, this);
-        game.physics.arcade.collide(player, wall);
+        //collisions
+        game.physics.arcade.overlap(bullets, enemies, collisionEnemy, null, this);
+        game.physics.arcade.overlap(enemy_bullets, player, collisionPlayer, null, this);
+        game.physics.arcade.overlap(bullets, walls, collisionHandler, null, this);
+        game.physics.arcade.overlap(enemy_bullets, walls, collisionHandler, null, this);
+
+        game.physics.arcade.collide(player, walls);
+        game.physics.arcade.collide(enemies, enemies);
+        game.physics.arcade.collide(enemies, walls);
         game.physics.arcade.collide(player, enemies);
 
         if (player.alive) {
@@ -98,6 +129,7 @@ export default function () {
                 player_dir = 'up';
                 player.body.velocity.y = -100;
                 player.angle = 0;
+                //enemyFires();
             }
             else if (cursors.down.isDown) {
                 player_dir = 'down';
@@ -107,36 +139,54 @@ export default function () {
             if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
                 fireBullet();
             }
+            if (game.time.now > enemy_bullet_time) {
+                enemyFires();
+            }
         }
     }
 
     function fireBullet() {
 
-        if (game.time.now > bulletTime) {
+        if (game.time.now > bullet_time) {
             bullet = bullets.getFirstExists(false);
 
             if (bullet) {
-                if (player_dir == 'up') {
+                if (player_dir === 'up') {
                     bullet.reset(player.x - 18, player.y - 30);
                     bullet.body.velocity.y = -200;
-                    bulletTime = game.time.now + 500;
                 }
-                if (player_dir == 'down') {
+                if (player_dir === 'down') {
                     bullet.reset(player.x - 18, player.y);
                     bullet.body.velocity.y = +200;
-                    bulletTime = game.time.now + 500;
                 }
-                if (player_dir == 'left') {
+                if (player_dir === 'left') {
                     bullet.reset(player.x - 30, player.y - 18);
                     bullet.body.velocity.x = -200;
-                    bulletTime = game.time.now + 500;
                 }
-                if (player_dir == 'right') {
+                if (player_dir === 'right') {
                     bullet.reset(player.x, player.y - 18);
                     bullet.body.velocity.x = +200;
-                    bulletTime = game.time.now + 500;
                 }
+                bullet_time = game.time.now + 500;
             }
+        }
+    }
+
+    function enemyFires() {
+
+        enemy_bullet = enemy_bullets.getFirstExists(false);
+        livingEnemies.length = 0;
+
+        enemies.forEachAlive(function (enemy) {
+            livingEnemies.push(enemy);
+        });
+
+        if (enemy_bullet && livingEnemies.length > 0) {
+            var random = game.rnd.integerInRange(0, livingEnemies.length - 1);
+            var shooter = livingEnemies[random];
+            enemy_bullet.reset(shooter.body.x, shooter.body.y);
+            game.physics.arcade.moveToObject(enemy_bullet, player, 120);
+            enemy_bullet_time = game.time.now + 2000;
         }
     }
 
@@ -144,8 +194,22 @@ export default function () {
         bullet.kill();
     }
 
-    function collisionHandler(bullet, enemy) {
-        bullet.kill();
+    function collisionEnemy(enemy, object) {
+        object.kill();
         enemy.kill();
+    }
+
+    function collisionPlayer(player, object) {
+        object.kill();
+        player_lives -= 1;
+        player.body.x = 400;
+        player.body.y = 540;
+        player.angle = 0;
+        if (player_lives < 0)
+            player.kill();
+    }
+
+    function collisionHandler(object, bullet) {
+        object.kill();
     }
 }
