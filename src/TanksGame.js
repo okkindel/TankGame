@@ -6,14 +6,17 @@ import explode_img from './assets/explode.png';
 import enemy_bullet_img from './assets/enemy_bullet.png';
 
 
-window.PIXI = require('phaser/build/custom/pixi');
-window.p2 = require('phaser/build/custom/p2');
-window.Phaser = require('phaser/build/custom/phaser-split');
-
-
-const Phaser = window.Phaser;
-
 export default function () {
+  function setupPhaser() {
+    /* eslint-disable global-require */
+    window.PIXI = require('phaser/build/custom/pixi');
+    window.p2 = require('phaser/build/custom/p2');
+    window.Phaser = require('phaser/build/custom/phaser-split');
+    /* eslint-enable global-require */
+    return window.Phaser;
+  }
+
+  const Phaser = setupPhaser();
   const game = new Phaser.Game(800, 600, Phaser.CANVAS, 'phaser', { preload, create, update });
 
   function preload() {
