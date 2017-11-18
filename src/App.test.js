@@ -19,5 +19,22 @@ describe('App logic test suite', () => {
         superPrivatePass: ''
       });
     });
+
+    it('Entering a mid-password letter changes nothing', () => {
+      const app = new App({ password: 'pass' });
+
+      expect(app.state).toEqual({
+        showApp: false,
+        superPrivatePass: ''
+      });
+
+      const event = { key: 'a' };
+      app.combinationListener(event);
+
+      expect(app.state).toEqual({
+        showApp: false,
+        superPrivatePass: ''
+      });
+    });
   });
 });
