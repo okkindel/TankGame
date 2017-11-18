@@ -1,7 +1,12 @@
+import App from '../src/App';
 
-describe('test suite', () => {
-  it('check test', () => {
-    expect(1 + 2).toEqual(3);
-    expect(2 + 2).toEqual(4);
+
+describe('App logic test suite', () => {
+  describe('combinationListener', () => {
+    it('Not much of a test', () => {
+      const app = new App({ password: 'pass' });
+      const event = { key: 'z' };
+      app.combinationListener(event);
+    });
   });
 });
