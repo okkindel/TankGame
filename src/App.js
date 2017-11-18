@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import Styles from './styles.js';
+import Styles from './styles';
+
 
 class App extends Component {
   constructor(props) {
@@ -14,7 +15,6 @@ class App extends Component {
   componentDidMount() {
     document.addEventListener('keydown', this.combinationListener, false);
   }
-
 
   combinationListener(event) {
     if (!this.state.showApp) {
