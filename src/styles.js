@@ -4,12 +4,11 @@ import Game from './TanksGame.js';
 
 
 class Styles extends Component {
-
-  constructor(props){
+  constructor(props) {
     super(props);
     this.state = {
       gamePath: props.children.props
-    }
+    };
   }
 
   // componentDidMount(){
@@ -20,13 +19,12 @@ class Styles extends Component {
   // }
   render() {
     return (
-      <div className="container">
-      <div id="phaser"></div>
+      <div className='container'>
+        <div id='phaser' />
         {Game()}
       </div>
     );
   }
 }
-  
+
 export default Styles;
-  
