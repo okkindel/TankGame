@@ -6,7 +6,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "lint": "eslint --ext .js ./",
-    "test": "react-scripts test --env=jsdom",
+    "test": "CI=true react-scripts test --env=jsdom --color",
+    "testwatch": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   },
   "dependencies": {
