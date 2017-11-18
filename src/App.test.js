@@ -11,8 +11,7 @@ describe('App logic test suite', () => {
         superPrivatePass: ''
       });
 
-      const event = { key: 'z' };
-      app.combinationListener(event);
+      app.combinationListener({ key: 'z' });
 
       expect(app.state).toEqual({
         showApp: false,
@@ -28,12 +27,27 @@ describe('App logic test suite', () => {
         superPrivatePass: ''
       });
 
-      const event = { key: 'a' };
-      app.combinationListener(event);
+      app.combinationListener({ key: 'a' });
 
       expect(app.state).toEqual({
         showApp: false,
         superPrivatePass: ''
+      });
+    });
+
+    it('Entering a mid-password letter changes nothing', () => {
+      const app = new App({ password: 'pass' });
+
+      expect(app.state).toEqual({
+        showApp: false,
+        superPrivatePass: ''
+      });
+
+      app.combinationListener({ key: 'p' });
+
+      expect(app.state).toEqual({
+        showApp: false,
+        superPrivatePass: 'p'
       });
     });
   });
