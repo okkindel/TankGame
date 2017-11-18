@@ -1,8 +1,16 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Styles from './styles';
 
 
 class App extends Component {
+  static propTypes = {
+    children: PropTypes.node.isRequired,
+    reset: PropTypes.string.isRequired,
+    password: PropTypes.string.isRequired,
+    quitKey: PropTypes.string.isRequired
+  };
+
   constructor(props) {
     super(props);
     this.state = {
