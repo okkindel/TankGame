@@ -1,8 +1,13 @@
+import { extend } from 'lodash';
 import App from '../src/App';
 
 
 describe('App logic test suite', () => {
   describe('combinationListener', () => {
+    App.prototype.setState = function setStateStub(obj) {
+      extend(this.state, obj);
+    };
+
     it('Entering a none-password letter changes nothing', () => {
       const app = new App({ password: 'pass' });
 
