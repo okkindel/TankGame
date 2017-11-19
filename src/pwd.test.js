@@ -1,6 +1,10 @@
 function checkPwd(password, letter, iter = 0) {
   if (!password) { throw new Error('Nu nu. User very bad!'); }
-  return { iter, result: false };
+
+  return {
+    iter: (password[iter] === letter ? iter + 1 : iter),
+    result: false
+  };
 }
 
 describe('Password checker test suite', () => {
@@ -17,5 +21,9 @@ describe('Password checker test suite', () => {
 
   it('Returns an iterator and a check result', () => {
     expect(checkPwd('pass', 'l')).toEqual({ iter: 0, result: false });
+  });
+
+  it('Returns an iterator and a check result', () => {
+    expect(checkPwd('pass', 'p')).toEqual({ iter: 1, result: false });
   });
 });
