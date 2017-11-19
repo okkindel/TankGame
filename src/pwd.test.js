@@ -16,12 +16,12 @@ function checkPwd(password, letter, iter = 0) {
   };
 }
 
-function passwordChecker(password) {
+function passwordChecker(password, debug = false) {
   let iter;
   return function closure(letter) {
     const result = checkPwd(password, letter, iter);
     iter = result.iter; // eslint-disable-line prefer-destructuring
-    return result;
+    return debug ? result : result.result;
   };
 }
 
@@ -49,7 +49,7 @@ describe('Password checker test suite', () => {
 
   describe('closured', () => {
     it('full password check', () => {
-      const check = passwordChecker('pass');
+      const check = passwordChecker('pass', true);
       expect(check('p')).toEqual({ iter: 1, result: false });
       expect(check('a')).toEqual({ iter: 2, result: false });
       expect(check('s')).toEqual({ iter: 3, result: false });
@@ -57,7 +57,7 @@ describe('Password checker test suite', () => {
     });
 
     it('doubled first letter', () => {
-      const check = passwordChecker('pass');
+      const check = passwordChecker('pass', true);
       expect(check('p')).toEqual({ iter: 1, result: false });
       expect(check('p')).toEqual({ iter: 1, result: false });
       expect(check('a')).toEqual({ iter: 2, result: false });
@@ -66,7 +66,7 @@ describe('Password checker test suite', () => {
     });
 
     it('first letter, error, then ongoing', () => {
-      const check = passwordChecker('pass');
+      const check = passwordChecker('pass', true);
       expect(check('p')).toEqual({ iter: 1, result: false });
       expect(check('x')).toEqual({ iter: 0, result: false });
       expect(check('a')).toEqual({ iter: 0, result: false });
@@ -75,7 +75,7 @@ describe('Password checker test suite', () => {
     });
 
     it('first letter, second, second, then ongoing', () => {
-      const check = passwordChecker('pass');
+      const check = passwordChecker('pass', true);
       expect(check('p')).toEqual({ iter: 1, result: false });
       expect(check('a')).toEqual({ iter: 2, result: false });
       expect(check('a')).toEqual({ iter: 0, result: false });
@@ -84,7 +84,7 @@ describe('Password checker test suite', () => {
     });
 
     it('password checker is done', () => {
-      const check = passwordChecker('pass');
+      const check = passwordChecker('pass', true);
       check('p');
       check('a');
       check('s');
@@ -100,7 +100,7 @@ describe('Password checker test suite', () => {
       expect(threw).toEqual(true);
     });
 
-    it.skip('Closure returns just a boolean', () => {
+    it('Closure returns just a boolean', () => {
       const check = passwordChecker('s');
       expect(check('y')).toEqual(false);
       expect(check('s')).toEqual(true);
