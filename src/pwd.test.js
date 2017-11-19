@@ -1,25 +1,27 @@
-function checkPwd(password, letter, iter = 0) {
-  if (!password) { throw new Error('Nu nu. User very bad!'); }
-  if (password.length <= iter) { throw new Error('I\' done already!'); }
+function passwordChecker(pwd, debug = false) {
+  if (!pwd) { throw new Error('Nu nu. User very bad!'); }
 
-  let newIter;
-  if (password[iter] === letter) {
-    newIter = iter + 1;
+  function checkPwd(password, letter, iter = 0) {
+    if (password.length <= iter) { throw new Error('I\' done already!'); }
+
+    function next() {
+      if (password[iter] === letter) {
+        return iter + 1;
+      }
+      return password[0] === letter ? 1 : 0;
+    }
+
+    const newIter = next();
+
+    return {
+      iter: newIter,
+      result: newIter === password.length
+    };
   }
-  else {
-    newIter = password[0] === letter ? 1 : 0;
-  }
 
-  return {
-    iter: newIter,
-    result: newIter === password.length
-  };
-}
-
-function passwordChecker(password, debug = false) {
   let iter;
   return function closure(letter) {
-    const result = checkPwd(password, letter, iter);
+    const result = checkPwd(pwd, letter, iter);
     iter = result.iter; // eslint-disable-line prefer-destructuring
     return debug ? result : result.result;
   };
@@ -30,7 +32,7 @@ describe('Password checker test suite', () => {
   it('Empty password is a no go', () => {
     let threw = false;
     try {
-      checkPwd('');
+      passwordChecker('');
     } catch (error) {
       expect(error.message).toEqual('Nu nu. User very bad!');
       threw = true;
@@ -39,11 +41,13 @@ describe('Password checker test suite', () => {
   });
 
   it('Returns an iterator and a check result', () => {
-    expect(checkPwd('pass', 'l')).toEqual({ iter: 0, result: false });
+    const check = passwordChecker('pass', true);
+    expect(check('l')).toEqual({ iter: 0, result: false });
   });
 
   it('Returns an iterator and a check result', () => {
-    expect(checkPwd('pass', 'p')).toEqual({ iter: 1, result: false });
+    const check = passwordChecker('pass', true);
+    expect(check('p')).toEqual({ iter: 1, result: false });
   });
 
 
