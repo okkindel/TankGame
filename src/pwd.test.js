@@ -7,6 +7,16 @@ function checkPwd(password, letter, iter = 0) {
   };
 }
 
+function passwordChecker(password) {
+  let iter;
+  return function closure(letter) {
+    const result = checkPwd(password, letter, iter);
+    iter = result.iter; // eslint-disable-line prefer-destructuring
+    return result;
+  };
+}
+
+
 describe('Password checker test suite', () => {
   it('Empty password is a no go', () => {
     let threw = false;
@@ -25,5 +35,16 @@ describe('Password checker test suite', () => {
 
   it('Returns an iterator and a check result', () => {
     expect(checkPwd('pass', 'p')).toEqual({ iter: 1, result: false });
+  });
+
+
+  describe('closured', () => {
+    const check = passwordChecker('pass');
+
+    it('Returns an iterator and a check result', () => {
+      expect(check('p')).toEqual({ iter: 1, result: false });
+      expect(check('a')).toEqual({ iter: 2, result: false });
+      expect(check('s')).toEqual({ iter: 3, result: false });
+    });
   });
 });
