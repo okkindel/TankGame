@@ -39,7 +39,7 @@ class App extends Component {
         if (this.state.superPrivatePass.length === this.props.password.length && this.state.superPrivatePass === this.props.password) {
           this.setState({ showApp: true });
         }
-        if (event.key === 'q') {
+        if (event.key === this.props.reset) {
           this.setState({ superPrivatePass: '' });
         }
       } else if (event.key === this.props.reset) {
