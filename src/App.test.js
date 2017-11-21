@@ -20,14 +20,12 @@ describe('simpleReactTestWrapper test suite', () => {
   it('Default props in tests', () => {
     let app = new App();
     expect(app.props).toEqual({
-      reset: 'q',
       password: 'pass',
       quitKey: ESCAPE
     });
 
     app = new App({ quitKey: 'x' });
     expect(app.props).toEqual({
-      reset: 'q',
       password: 'pass',
       quitKey: 'x'
     });
@@ -178,40 +176,10 @@ describe('App logic test suite', () => {
 
       expect(app.state).toEqual({
         showApp: false,
-        superPrivatePass: 'pp'
-      });
-
-      app.combinationListener({ key: 'q' });
-
-      expect(app.state).toEqual({
-        showApp: false,
         superPrivatePass: ''
       });
 
-      app.combinationListener({ key: 'p' });
-      app.combinationListener({ key: 'a' });
-      app.combinationListener({ key: 's' });
-      app.combinationListener({ key: 's' });
-
-      expect(app.state).toEqual({
-        showApp: true,
-        superPrivatePass: 'pass'
-      });
-    });
-
-    it('Custom reset button', () => {
-      const RESET = 'x';
-      const app = new App({ reset: RESET });
-
-      app.combinationListener({ key: 'p' });
-      app.combinationListener({ key: 'p' });
-
-      expect(app.state).toEqual({
-        showApp: false,
-        superPrivatePass: 'pp'
-      });
-
-      app.combinationListener({ key: RESET });
+      app.combinationListener({ key: 'q' });
 
       expect(app.state).toEqual({
         showApp: false,
@@ -235,13 +203,13 @@ describe('App logic test suite', () => {
       app.combinationListener({ key: 'p' });
       app.combinationListener({ key: 'a' });
       app.combinationListener({ key: 's' });
-      app.combinationListener({ key: 's' });
+      // app.combinationListener({ key: 's' });
 
       app.combinationListener({ key: 'q' });
 
       expect(app.state).toEqual({
-        showApp: true,
-        superPrivatePass: 'pass'
+        showApp: false,
+        superPrivatePass: ''
       });
     });
 
@@ -257,7 +225,7 @@ describe('App logic test suite', () => {
 
       expect(app.state).toEqual({
         showApp: false,
-        superPrivatePass: 'pass'
+        superPrivatePass: ''
       });
     });
 
@@ -270,11 +238,13 @@ describe('App logic test suite', () => {
       app.combinationListener({ key: 's' });
       app.combinationListener({ key: 's' });
 
+      // showApp = true
+
       app.combinationListener({ key: QUIT });
 
       expect(app.state).toEqual({
         showApp: false,
-        superPrivatePass: 'pass'
+        superPrivatePass: ''
       });
     });
   });
