@@ -1,23 +1,25 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Styles from './styles';
+import Game from './TanksGame';
+import './App.css';
 
 
 class App extends Component {
   static propTypes = {
     children: PropTypes.node.isRequired,
+    reset: PropTypes.string,
     password: PropTypes.string,
     quitKey: PropTypes.string
   };
 
   static defaultProps = {
+    reset: 'q',
     password: 'pass',
     quitKey: 'Escape'
   };
 
   constructor(props) {
     super(props);
-    this.passIndex = 0; // password iterator
     this.state = {
       showApp: false,
       superPrivatePass: ''
@@ -29,30 +31,24 @@ class App extends Component {
     document.addEventListener('keydown', this.combinationListener, false);
   }
 
-  resetPasswordState() {
-    this.passIndex = 0;
-    this.state.superPrivatePass = '';
-  }
-
   combinationListener(event) {
-    // Check if App hidden
     if (!this.state.showApp) {
-      if (event.key === this.props.password.charAt(this.passIndex)) {
-        // if password char matches, inrement iterator and add that char
-        this.passIndex += 1;
-        this.state.superPrivatePass += event.key;
-
-        if (this.props.password === this.state.superPrivatePass) {
-          // Password matches, show App and reset password state
+      if (this.props.password.indexOf(event.key) > -1) {
+        this.setState({
+          superPrivatePass: this.state.superPrivatePass + event.key
+        });
+        if (this.state.superPrivatePass.length === this.props.password.length && this.state.superPrivatePass === this.props.password) {
           this.setState({ showApp: true });
+          
         }
-      } else {
-        // Reset password iterator on bad input
-        this.resetPasswordState();
+        if (event.key === this.props.reset) {
+          this.setState({ superPrivatePass: '' });
+        }
+      } else if (event.key === this.props.reset) {  
+        this.setState({ superPrivatePass: '' });
       }
     } else if (event.key === this.props.quitKey) {
       this.setState({ showApp: false });
-      this.resetPasswordState();
     }
   }
 
@@ -60,7 +56,7 @@ class App extends Component {
     return (
       <div className='App'>
         <h1 align='center'>TANKS GAME</h1>
-        {this.state.showApp && <Styles>{this.props.children}</Styles>}
+        {this.state.showApp && <div className='container'><div id='phaser'> {Game()}</div></div>}
       </div>
     );
   }
