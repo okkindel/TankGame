@@ -36,7 +36,7 @@ class App extends Component {
         this.setState({
           superPrivatePass: this.state.superPrivatePass + event.key
         });
-        if (this.state.superPrivatePass.length >= 4 && this.state.superPrivatePass === 'pass') {
+        if (this.state.superPrivatePass.length === this.props.password.length && this.state.superPrivatePass === this.props.password) {
           this.setState({ showApp: true });
         }
         if (event.key === 'q') {
