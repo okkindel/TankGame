@@ -15,6 +15,7 @@ module.exports = {
     'jsx-quotes': [ERROR, 'prefer-single'],
     'max-len': [ERROR, 120, { 'ignoreComments': true }],
     'no-plusplus': [ERROR, { 'allowForLoopAfterthoughts': true }],
-    'react/jsx-filename-extension': [ERROR, { 'extensions': ['.js'] }]
+    'react/jsx-filename-extension': [ERROR, { 'extensions': ['.js'] }],
+    'space-before-function-paren': ['error', 'never']
   }
 };
