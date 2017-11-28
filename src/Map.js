@@ -11,12 +11,11 @@ export default class Map{
 
     load_map(map){
         if(!this.is_loaded){
-            var values = JSON.parse(map);
-            this.start_point = values.start_point;
-            this.enemy_spawn = values.enemy_spawn;
-            this.walls = values.walls;
-            this.eagle = values.eagle;
-            is_loaded = true;
+            this.start_point = map.start_point;
+            this.enemy_spawn = map.enemy_spawn;
+            this.walls = map.walls;
+            this.eagle = map.eagle;
+            this.is_loaded = true;
         }
     }
 
