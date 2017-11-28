@@ -11007,36 +11007,21 @@ const centerGameObjects = objects => {
 
       let dist = Math.sqrt(Math.pow(this.x - playerX, 2) + Math.pow(this.y - playerY, 2));
       let decision = Math.random();
+
+      this.body.velocity.setTo(0, 0);
     } else if (this.direction == 1) {
-      this.x += 1;
+      this.body.velocity.x += 1;
       this.angle = 90;
     } else if (this.direction == 2) {
-      this.x -= 1;
+      this.body.velocity.x -= 1;
       this.angle = 270;
     } else if (this.direction == 3) {
-      this.y += 1;
+      this.body.velocity.y += 1;
       this.angle = 180;
     } else if (this.direction == 4) {
-      this.y -= 1;
+      this.body.velocity.y -= 1;
       this.angle = 0;
     }
-
-    // else if(this.x > playerX && this.y > playerY){
-    //   this.x -= 1;
-    //   this.y -= 1;
-    // }
-    // else if(this.x < playerX && this.y < playerY){
-    //   this.x += 1;
-    //   this.y += 1;
-    // }
-    // else if(this.x > playerX && this.y < playerY){
-    //   this.x -= 1;
-    //   this.y += 1;
-    // }
-    // else if(this.x < playerX && this.y > playerY){
-    //   this.x += 1;
-    //   this.y -= 1;
-    // }
   }
 
   die() {
