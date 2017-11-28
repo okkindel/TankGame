@@ -10719,8 +10719,8 @@ if (window.cordova) {
     this.load.image('wall_img', 'assets/wall.png');
     this.load.image('bullet_img', 'assets/bullet.png');
     this.load.image('enemy_img', 'assets/enemy.png');
-    this.load.image('explode_img', 'assets/explode.png');
     this.load.image('enemy_bullet_img', 'assets/enemy_bullet.png');
+    this.load.spritesheet('explode_img', 'assets/explode.png', 68, 68);
   }
 
   create() {
@@ -10760,7 +10760,9 @@ const centerGameObjects = objects => {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_phaser___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_phaser__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__sprites_Enemy_Tank__ = __webpack_require__(/*! ../sprites/Enemy_Tank */ 340);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__sprites_Player_Bullets__ = __webpack_require__(/*! ../sprites/Player_Bullets */ 344);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__sprites_Player__ = __webpack_require__(/*! ../sprites/Player */ 341);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__sprites_Enemy_Bullets__ = __webpack_require__(/*! ../sprites/Enemy_Bullets */ 345);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__sprites_Player__ = __webpack_require__(/*! ../sprites/Player */ 341);
+
 
 
 
@@ -10772,11 +10774,11 @@ const centerGameObjects = objects => {
     super();
     this.bullet_time = 0;
     this.enemy_bullet_time = 0;
+    this.player_lives = 3;
   }
 
   init() {}
   preload() {}
-
   create() {
 
     //ENEMY TANK
@@ -10788,11 +10790,12 @@ const centerGameObjects = objects => {
         y: this.game.rnd.integerInRange(0, 450),
         asset: 'enemy_img'
       });
+      this.enemy.events.onOutOfBounds.add(this.resetObject, this);
       this.enemies.add(this.enemy);
     }
 
     //PLAYER TANK
-    this.player = new __WEBPACK_IMPORTED_MODULE_3__sprites_Player__["a" /* default */]({
+    this.player = new __WEBPACK_IMPORTED_MODULE_4__sprites_Player__["a" /* default */]({
       game: this.game,
       x: 466,
       y: 556,
@@ -10807,19 +10810,43 @@ const centerGameObjects = objects => {
         game: this.game,
         asset: 'bullet_img'
       });
-      this.bullet.events.onOutOfBounds.add(this.resetBullet, this);
+      this.bullet.events.onOutOfBounds.add(this.resetObject, this);
       this.bullets.add(this.bullet);
     }
+
+    //ENEMY BULLETS
+    this.enemy_bullets = this.game.add.group();
+    for (var i = 0; i < 20; i++) {
+      this.enemy_bullet = new __WEBPACK_IMPORTED_MODULE_3__sprites_Enemy_Bullets__["a" /* default */]({
+        game: this.game,
+        asset: 'enemy_bullet_img'
+      });
+      this.enemy_bullet.events.onOutOfBounds.add(this.resetObject, this);
+      this.enemy_bullets.add(this.enemy_bullet);
+    }
+
+    //EXPLOSIONS
+    this.explosions = this.game.add.group();
+    this.explosions.createMultiple(30, 'explode_img');
+    this.explosions.forEach(this.boom, this);
 
     //CURSORS
     this.cursors = game.input.keyboard.createCursorKeys();
     game.input.keyboard.addKeyCapture([__WEBPACK_IMPORTED_MODULE_0_phaser___default.a.Keyboard.SPACEBAR]);
   }
 
+  boom(enemy) {
+    enemy.anchor.x = 0.5;
+    enemy.anchor.y = 0.5;
+    enemy.animations.add('kaboom');
+  }
+
   update() {
 
     //COLLISIONS
     this.game.physics.arcade.overlap(this.bullets, this.enemies, this.collisionEnemy, null, this);
+    game.physics.arcade.overlap(this.bullets, this.enemy_bullets, this.collisionEnemy, null, this);
+    game.physics.arcade.overlap(this.enemy_bullets, this.player, this.collisionPlayer, null, this);
 
     this.game.physics.arcade.collide(this.player, this.enemies);
     this.game.physics.arcade.collide(this.enemies, this.enemies);
@@ -10827,7 +10854,6 @@ const centerGameObjects = objects => {
     if (this.player.alive) {
 
       //MOVING
-
       this.player.body.velocity.setTo(0, 0);
 
       if (this.cursors.left.isDown) {
@@ -10850,11 +10876,13 @@ const centerGameObjects = objects => {
       if (this.game.input.keyboard.isDown(__WEBPACK_IMPORTED_MODULE_0_phaser___default.a.Keyboard.SPACEBAR)) {
         this.fireBullet();
       }
+      if (this.game.time.now > this.enemy_bullet_time) {
+        this.enemyFires();
+      }
     }
   }
 
   fireBullet() {
-
     if (this.game.time.now > this.bullet_time) {
       this.bullet = this.bullets.getFirstExists(false);
 
@@ -10880,31 +10908,46 @@ const centerGameObjects = objects => {
     }
   }
 
-  /*enemyFires() {
-    enemy_bullet = enemy_bullets.getFirstExists(false);
-    livingEnemies.length = 0;
-  
-    enemies.forEachAlive((enemy) => {
-      livingEnemies.push(enemy);
+  enemyFires() {
+    this.livingEnemies = [];
+    this.livingEnemies.length = 0;
+    this.enemy_bullet = this.enemy_bullets.getFirstExists(false);
+    this.enemies.forEachAlive(enemy => {
+      this.livingEnemies.push(enemy);
     });
-  
-    if (enemy_bullet && livingEnemies.length > 0) {
-      const random = game.rnd.integerInRange(0, livingEnemies.length - 1);
-      const shooter = livingEnemies[random];
-      enemy_bullet.reset(shooter.body.x, shooter.body.y);
-      game.physics.arcade.moveToObject(enemy_bullet, player, 120);
-      enemy_bullet_time = game.time.now + 2000;
+
+    if (this.enemy_bullet && this.livingEnemies.length > 0) {
+      const random = this.game.rnd.integerInRange(0, this.livingEnemies.length - 1);
+      const shooter = this.livingEnemies[random];
+      this.enemy_bullet.reset(shooter.body.x, shooter.body.y);
+      this.game.physics.arcade.moveToObject(this.enemy_bullet, this.player, 120);
+      this.enemy_bullet_time = game.time.now + 2000;
     }
-  }*/
+  }
   collisionEnemy(enemy, object) {
     object.kill();
     enemy.kill();
 
-    //const explosion = explosions.getFirstExists(false);
-    //explosion.reset(object.body.x, object.body.y);
-    //explosion.play('kaboom', 30, false, true);
+    const explosion = this.explosions.getFirstExists(false);
+    explosion.reset(object.body.x, object.body.y);
+    explosion.play('kaboom', 30, false, true);
   }
-  resetBullet(bullet) {
+  collisionPlayer(player, object) {
+    object.kill();
+
+    const explosion = this.explosions.getFirstExists(false);
+    explosion.reset(object.body.x, object.body.y);
+    explosion.play('kaboom', 30, false, true);
+
+    this.player_lives -= 1;
+    this.player.body.x = 466;
+    this.player.body.y = 556;
+    this.player.angle = 0;
+    if (this.player_lives < 0) {
+      this.player.kill();
+    }
+  }
+  resetObject(bullet) {
     bullet.kill();
   }
   collisionHandler(object, bullet) {
@@ -10983,6 +11026,29 @@ const centerGameObjects = objects => {
 /*!***************************************!*\
   !*** ./src/sprites/Player_Bullets.js ***!
   \***************************************/
+/*! exports provided: default */
+/*! exports used: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_phaser__ = __webpack_require__(/*! phaser */ 42);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_phaser___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_phaser__);
+
+
+/* harmony default export */ __webpack_exports__["a"] = (class extends __WEBPACK_IMPORTED_MODULE_0_phaser___default.a.Sprite {
+  constructor({ game, x, y, asset }) {
+    super(game, x, y, asset);
+    this.game.physics.arcade.enable(this), this.exists = false, this.visible = false, this.enableBOdy = true, this.checkWorldBounds = true;
+  }
+
+  update() {}
+});
+
+/***/ }),
+/* 345 */
+/*!**************************************!*\
+  !*** ./src/sprites/Enemy_Bullets.js ***!
+  \**************************************/
 /*! exports provided: default */
 /*! exports used: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
