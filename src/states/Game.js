@@ -128,17 +128,28 @@ export default class extends Phaser.State {
     //EXPLOSIONS
     this.explosions = this.game.add.group();
     this.explosions.createMultiple(30, 'explode_img');
-    this.explosions.forEach(this.boom, this);
+    this.explosions.forEach(this.big_boom, this);
+
+    //EXPLOSION SMALL
+    this.small_explode = this.game.add.group();
+    this.small_explode.createMultiple(30, 'explode_small_img');
+    this.small_explode.forEach(this.small_boom, this);
 
     //CURSORS
     this.cursors = game.input.keyboard.createCursorKeys();
     game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
   }
 
-  boom(enemy) {
-    enemy.anchor.x = 0.5;
-    enemy.anchor.y = 0.5;
-    enemy.animations.add('kaboom');
+  big_boom(object) {
+    object.anchor.x = 0.5;
+    object.anchor.y = 0.5;
+    object.animations.add('kaboom');
+  }
+
+  small_boom(object) {
+    object.anchor.x = 0.5;
+    object.anchor.y = 0.5;
+    object.animations.add('small_kaboom');
   }
 
   update() {
@@ -198,24 +209,30 @@ export default class extends Phaser.State {
   fireBullet() {
     if (this.game.time.now > this.bullet_time) {
       this.bullet = this.bullets.getFirstExists(false);
+      const explosion = this.small_explode.getFirstExists(false);
 
       if (this.bullet) {
         if (this.player_dir === 'up') {
           this.bullet.reset(this.player.x - 4, this.player.y - 20);
+          explosion.reset(this.player.x, this.player.y - 20);
           this.bullet.body.velocity.y = -200;
         }
         if (this.player_dir === 'down') {
           this.bullet.reset(this.player.x - 4, this.player.y + 20);
+          explosion.reset(this.player.x, this.player.y + 20);
           this.bullet.body.velocity.y = +200;
         }
         if (this.player_dir === 'left') {
           this.bullet.reset(this.player.x - 20, this.player.y - 4);
+          explosion.reset(this.player.x - 20, this.player.y);
           this.bullet.body.velocity.x = -200;
         }
         if (this.player_dir === 'right') {
           this.bullet.reset(this.player.x + 20, this.player.y - 4);
+          explosion.reset(this.player.x + 20, this.player.y);
           this.bullet.body.velocity.x = +200;
         }
+        explosion.play('small_kaboom', 30, false, true);
         this.bullet_time = this.game.time.now + 500;
       }
     }
@@ -231,22 +248,28 @@ export default class extends Phaser.State {
     if (this.enemy_bullet && this.livingEnemies.length > 0) {
       const random = this.game.rnd.integerInRange(0, this.livingEnemies.length - 1);
       const shooter = this.livingEnemies[random];
+      const explosion = this.small_explode.getFirstExists(false);
       if (shooter.direction == 4) {
         this.enemy_bullet.reset(shooter.x - 4, shooter.y - 20);
+        explosion.reset(shooter.x, shooter.y - 20);
         this.enemy_bullet.body.velocity.y = -120;
       }
       if (shooter.direction == 3) {
         this.enemy_bullet.reset(shooter.x - 4, shooter.y + 20);
+        explosion.reset(shooter.x, shooter.y + 20);
         this.enemy_bullet.body.velocity.y = +120;
       }
       if (shooter.direction == 2) {
         this.enemy_bullet.reset(shooter.x - 20, shooter.y - 4);
+        explosion.reset(shooter.x - 20, shooter.y);
         this.enemy_bullet.body.velocity.x = -120;
       }
       if (shooter.direction == 1) {
         this.enemy_bullet.reset(shooter.x + 20, shooter.y - 4);
+        explosion.reset(shooter.x + 20, shooter.y);
         this.enemy_bullet.body.velocity.x = +120;
       }
+      explosion.play('small_kaboom', 30, false, true);
       this.enemy_bullet_time = game.time.now + 500;
     }
   }
@@ -255,7 +278,7 @@ export default class extends Phaser.State {
     enemy.kill();
 
     const explosion = this.explosions.getFirstExists(false);
-    explosion.reset(object.body.x, object.body.y);
+    explosion.reset(object.x, object.y);
     explosion.play('kaboom', 30, false, true);
   }
 
