@@ -13,6 +13,7 @@ export default class extends Phaser.State {
 
     this.load.setPreloadSprite(this.loaderBar)
     // HERE I AM LOADING ASSETS
+    this.load.image('button', 'assets/tank.png')
     this.load.image('tank_img', 'assets/tank.png')
     this.load.image('wall_img', 'assets/wall.png')
     this.load.image('bullet_img', 'assets/bullet.png')

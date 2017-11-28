@@ -21,7 +21,7 @@ export default class extends Phaser.State {
     //PLAYER TANK
     this.player = new Player({
       game: this.game,
-      x: 434,
+      x: 432,
       y: 650,
       asset: 'tank_img'
     })
@@ -44,7 +44,7 @@ export default class extends Phaser.State {
     for (i = 0; i < 8; i++) {
       this.wall = new Walls({
         game: this.game,
-        x: 322 + i * 32,
+        x: 306 + i * 36,
         y: 570,
         asset: 'wall_img'
       })
@@ -215,10 +215,14 @@ export default class extends Phaser.State {
     explosion.play('kaboom', 30, false, true);
 
     this.player_lives -= 1;
-    this.player.x = 434;
+    this.player.x = 432;
     this.player.y = 650;
     this.player.angle = 0;
-    if (this.player_lives < 0) { this.player.kill(); }
+    if (this.player_lives < 0) { 
+      this.player.kill(); 
+      this.state.start('Boot');
+    
+    }
   }
   resetObject(bullet) {
     bullet.kill();

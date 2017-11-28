@@ -21,7 +21,7 @@ export default class extends Phaser.State {
   }
 
   create() {
-    let text = this.add.text(this.world.centerX, this.world.centerY - 100, 'Tank Game', { font: '100px Arial', fill: '#dddddd', align: 'center' })
+    let text = this.add.text(this.world.centerX, this.world.centerY - 100, 'Game Over', { font: '140px Arial', fill: '#dddddd', align: 'center' })
     text.anchor.setTo(0.5, 0.5)
     let button = game.add.button(game.world.centerX - 150, 450, 'button', this.actionOnClick, this, 2, 1, 0);
   }
