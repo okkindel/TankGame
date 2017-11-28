@@ -5,7 +5,7 @@ import Enemy_Bullets from '../sprites/Enemy_Bullets'
 import Player from '../sprites/Player'
 
 export default class extends Phaser.State {
-
+ 
   constructor () {
     super()
     this.bullet_time = 0;
@@ -79,7 +79,11 @@ export default class extends Phaser.State {
 
   update() {
 
-//COLLISIONS
+    this.enemies.forEachAlive(function(enemy) {
+      enemy.move(this.player.x, this.player.y);
+    }, this)
+
+    //COLLISIONS
     this.game.physics.arcade.overlap(this.bullets, this.enemies, this.collisionEnemy, null, this);
     game.physics.arcade.overlap(this.bullets, this.enemy_bullets, this.collisionEnemy, null, this);
     game.physics.arcade.overlap(this.enemy_bullets, this.player, this.collisionPlayer, null, this);
