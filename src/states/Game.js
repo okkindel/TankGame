@@ -34,25 +34,56 @@ export default class extends Phaser.State {
     //ENEMY TANKS
     this.enemy_spawn_point = this.map.get_enemy_spawn_point();
     this.enemies = this.game.add.group();
-    for(let i = 0; i < 20; i++){
+    for (let i = 0; i < 10; i++) {
       this.enemy = new Enemy({
         game: this.game,
         x: this.enemy_spawn_point[0].x * 36,
         y: this.enemy_spawn_point[0].y * 36,
         asset: 'enemy_img'
       })
-        this.enemies.add(this.enemy);
+      this.enemies.add(this.enemy);
     }
 
     //WALLS
     this.walls_position = this.map.get_walls_array();
     this.walls = this.game.add.group();
+    //LEFT UP
     for (i = 0; i < this.walls_position.length; i++) {
       this.wall = new Walls({
         game: this.game,
         x: this.walls_position[i].x * 36,
         y: this.walls_position[i].y * 36,
-        asset: 'wall_img'
+        asset: 'small_wall_1'
+      })
+      this.walls.add(this.wall);
+    }
+    //RIGHT UP
+    for (i = 0; i < this.walls_position.length; i++) {
+      this.wall = new Walls({
+        game: this.game,
+        x: this.walls_position[i].x * 36 + 18,
+        y: this.walls_position[i].y * 36,
+        asset: 'small_wall_2'
+      })
+      this.walls.add(this.wall);
+    }
+    //LEFT DOWN
+    for (i = 0; i < this.walls_position.length; i++) {
+      this.wall = new Walls({
+        game: this.game,
+        x: this.walls_position[i].x * 36,
+        y: this.walls_position[i].y * 36 + 18,
+        asset: 'small_wall_3'
+      })
+      this.walls.add(this.wall);
+    }
+    //RIGHT DOWN
+    for (i = 0; i < this.walls_position.length; i++) {
+      this.wall = new Walls({
+        game: this.game,
+        x: this.walls_position[i].x * 36 + 18,
+        y: this.walls_position[i].y * 36 + 18,
+        asset: 'small_wall_4'
       })
       this.walls.add(this.wall);
     }
@@ -82,7 +113,7 @@ export default class extends Phaser.State {
     //LIVES
     this.lives = game.add.group();
 
-    for (var i = 0; i < 1; i++) {
+    for (var i = 0; i < 3; i++) {
       this.icon = this.lives.create(game.world.width - 95 + (35 * i), 22, 'enemy_img');
       this.icon.anchor.setTo(0.5, 0.5);
       this.icon.angle = 90;
@@ -110,13 +141,13 @@ export default class extends Phaser.State {
 
     //ENEMIES MOVING
     this.enemies.forEachAlive(function (enemy) {
-      enemy.move(this.player.x, this.player.y,this.map.get_eagle_point().x,this.map.get_eagle_point().y, this.game.time.now);
+      enemy.move(this.player.x, this.player.y, this.map.get_eagle_point().x, this.map.get_eagle_point().y, this.game.time.now);
     }, this);
 
 
     //COLLISIONS
-    this.game.physics.arcade.overlap(this.bullets, this.enemies, this.collisionEnemy, null, this);
-    game.physics.arcade.overlap(this.bullets, this.enemy_bullets, this.collisionEnemy, null, this);
+    this.game.physics.arcade.overlap(this.bullets, this.enemies, this.collisionHandler, null, this);
+    game.physics.arcade.overlap(this.bullets, this.enemy_bullets, this.collisionHandler, null, this);
     game.physics.arcade.overlap(this.enemy_bullets, this.player, this.collisionPlayer, null, this);
     game.physics.arcade.overlap(this.bullets, this.walls, this.collisionHandler, null, this);
     game.physics.arcade.overlap(this.enemy_bullets, this.walls, this.collisionHandler, null, this);
@@ -215,7 +246,7 @@ export default class extends Phaser.State {
       this.enemy_bullet_time = game.time.now + 500;
     }
   }
-  collisionEnemy(enemy, object) {
+  collisionHandler(enemy, object) {
     object.kill();
     enemy.kill();
 
@@ -223,6 +254,7 @@ export default class extends Phaser.State {
     explosion.reset(object.body.x, object.body.y);
     explosion.play('kaboom', 30, false, true);
   }
+
   collisionPlayer(player, object) {
     object.kill();
 
@@ -248,7 +280,8 @@ export default class extends Phaser.State {
   resetObject(bullet) {
     bullet.kill();
   }
-  collisionHandler(object, bullet) {
+
+  collision(object, bullet) {
     object.kill();
   }
 
