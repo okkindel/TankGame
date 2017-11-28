@@ -29,7 +29,7 @@ export default class extends Phaser.State {
 
     //ENEMY TANKS
     this.enemies = this.game.add.group();
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 10; i++) {
       this.enemy = new Enemy({
         game: this.game,
         x: this.game.world.randomX,
@@ -180,9 +180,23 @@ export default class extends Phaser.State {
     if (this.enemy_bullet && this.livingEnemies.length > 0) {
       const random = this.game.rnd.integerInRange(0, this.livingEnemies.length - 1);
       const shooter = this.livingEnemies[random];
-      this.enemy_bullet.reset(shooter.body.x, shooter.body.y);
-      this.game.physics.arcade.moveToObject(this.enemy_bullet, this.player, 120);
-      this.enemy_bullet_time = game.time.now + 2000;
+      if (shooter.direction == 4) {
+        this.enemy_bullet.reset(shooter.x - 4, shooter.y - 20);
+        this.enemy_bullet.body.velocity.y = -120;
+      }
+      if (shooter.direction == 3) {
+        this.enemy_bullet.reset(shooter.x - 4, shooter.y + 20);
+        this.enemy_bullet.body.velocity.y = +120;
+      }
+      if (shooter.direction == 2) {
+        this.enemy_bullet.reset(shooter.x - 20, shooter.y - 4);
+        this.enemy_bullet.body.velocity.x = -120;
+      }
+      if (shooter.direction == 1) {
+        this.enemy_bullet.reset(shooter.x + 20, shooter.y - 4);
+        this.enemy_bullet.body.velocity.x = +120;
+      }
+      this.enemy_bullet_time = game.time.now + 500;
     }
   }
   collisionEnemy(enemy, object) {
