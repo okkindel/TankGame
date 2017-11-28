@@ -232,7 +232,7 @@ export default class extends Phaser.State {
           explosion.reset(this.player.x + 20, this.player.y);
           this.bullet.body.velocity.x = +200;
         }
-        explosion.play('small_kaboom', 30, false, true);
+        explosion.play('small_kaboom', 80, false, true);
         this.bullet_time = this.game.time.now + 500;
       }
     }
@@ -269,7 +269,7 @@ export default class extends Phaser.State {
         explosion.reset(shooter.x + 20, shooter.y);
         this.enemy_bullet.body.velocity.x = +120;
       }
-      explosion.play('small_kaboom', 30, false, true);
+      explosion.play('small_kaboom', 80, false, true);
       this.enemy_bullet_time = game.time.now + 500;
     }
   }
