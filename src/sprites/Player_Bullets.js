@@ -9,10 +9,6 @@ export default class extends Phaser.Sprite {
     this.enableBOdy = true,
     this.checkWorldBounds = true;
   }
-
-  die(bullet){
-    //this.bullet.destroy();
-  }
   
   update () {
   }
