@@ -18,7 +18,7 @@ export default class extends Phaser.Sprite {
     if(timeNow > this.timeToStep){
       this.timeToStep = timeNow;
       this.timeToStep += 2000*Math.random();
-      this.direction = Math.floor(Math.random() * ( 5 - 1)) + 1
+      this.direction = Math.floor(Math.random() * ( 5 - 1)) + 1}
 
     if (timeNow > this.timeToStep) {
       this.timeToStep = timeNow;
@@ -46,9 +46,9 @@ export default class extends Phaser.Sprite {
     // this.y -= 1; }
   }
 
-  die() {
-    // this.destroy();
-  }
+  // die() {
+  //   // this.destroy();
+  // }
 
   update() {}
 }

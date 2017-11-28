@@ -8,7 +8,7 @@ import Walls from '../sprites/Walls'
 export default class extends Phaser.State {
  
   constructor () {
-    super()
+    super();
     this.bullet_time = 0;
     this.enemy_bullet_time = 2000;
     this.player_lives = 3;
