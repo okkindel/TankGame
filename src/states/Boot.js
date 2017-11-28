@@ -21,6 +21,7 @@ export default class extends Phaser.State {
     text.anchor.setTo(0.5, 0.5)
     let button = game.add.button(game.world.centerX - 95, 400, 'button', this.actionOnClick, this, 2, 1, 0);
 
+
     this.load.image('loaderBg', './assets/images/loader-bg.png')
     this.load.image('loaderBar', './assets/images/loader-bar.png')
   }

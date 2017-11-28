@@ -10801,7 +10801,7 @@ const centerGameObjects = objects => {
 
     //ENEMY TANKS
     this.enemies = this.game.add.group();
-    for (let i = 0; i < 20; i++) {
+    for (let i = 0; i < 10; i++) {
       this.enemy = new __WEBPACK_IMPORTED_MODULE_1__sprites_Enemy_Tank__["a" /* default */]({
         game: this.game,
         x: this.game.world.randomX,
@@ -10947,9 +10947,23 @@ const centerGameObjects = objects => {
     if (this.enemy_bullet && this.livingEnemies.length > 0) {
       const random = this.game.rnd.integerInRange(0, this.livingEnemies.length - 1);
       const shooter = this.livingEnemies[random];
-      this.enemy_bullet.reset(shooter.body.x, shooter.body.y);
-      this.game.physics.arcade.moveToObject(this.enemy_bullet, this.player, 120);
-      this.enemy_bullet_time = game.time.now + 2000;
+      if (shooter.direction == 4) {
+        this.enemy_bullet.reset(shooter.x - 4, shooter.y - 20);
+        this.enemy_bullet.body.velocity.y = -120;
+      }
+      if (shooter.direction == 3) {
+        this.enemy_bullet.reset(shooter.x - 4, shooter.y + 20);
+        this.enemy_bullet.body.velocity.y = +120;
+      }
+      if (shooter.direction == 2) {
+        this.enemy_bullet.reset(shooter.x - 20, shooter.y - 4);
+        this.enemy_bullet.body.velocity.x = -120;
+      }
+      if (shooter.direction == 1) {
+        this.enemy_bullet.reset(shooter.x + 20, shooter.y - 4);
+        this.enemy_bullet.body.velocity.x = +120;
+      }
+      this.enemy_bullet_time = game.time.now + 500;
     }
   }
   collisionEnemy(enemy, object) {
@@ -11002,7 +11016,7 @@ const centerGameObjects = objects => {
 /* harmony default export */ __webpack_exports__["a"] = (class extends __WEBPACK_IMPORTED_MODULE_0_phaser___default.a.Sprite {
   constructor({ game, x, y, asset }) {
     super(game, x, y, asset);
-    this.anchor.setTo(0.5), this.game.physics.arcade.enable(this), this.enableBody = true, this.body.immovable = false, this.body.collideWorldBounds = true, this.timeToStep = 0, this.direction = 1;
+    this.anchor.setTo(0.5), this.game.physics.arcade.enable(this), this.enableBody = true, this.body.immovable = false, this.body.collideWorldBounds = true, this.timeToStep = 0, this.direction = 0;
   }
 
   move(playerX, playerY, timeNow) {
@@ -11056,10 +11070,6 @@ const centerGameObjects = objects => {
   constructor({ game, x, y, asset }) {
     super(game, x, y, asset);
     this.game.physics.arcade.enable(this), this.exists = false, this.visible = false, this.enableBOdy = true, this.checkWorldBounds = true;
-  }
-
-  die(bullet) {
-    //this.bullet.destroy();
   }
 
   update() {}

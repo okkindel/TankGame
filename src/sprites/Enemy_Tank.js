@@ -9,7 +9,7 @@ export default class extends Phaser.Sprite {
       this.body.immovable = false,
       this.body.collideWorldBounds = true,
       this.timeToStep = 0,
-      this.direction = 1;
+      this.direction = 0;
   }
 
   move(playerX, playerY, timeNow) {
