@@ -233,8 +233,10 @@ export default class extends Phaser.State {
     this.player.x = 432;
     this.player.y = 650;
     this.player.angle = 0;
-    if (this.lives.countLiving() < 1) { this.player.kill(); 
-    this.state.start('GameOver')}
+    if (this.lives.countLiving() < 3) {
+      this.player.kill();
+      this.state.start('GameOver');
+    }
   }
   resetObject(bullet) {
     bullet.kill();
