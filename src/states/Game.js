@@ -27,7 +27,7 @@ export default class extends Phaser.State {
     this.player_start_point = this.map.get_start_point();
     this.player = new Player({
       game: this.game,
-      x: this.player_start_point.x * 36 + 9,
+      x: this.player_start_point.x * 36 + 18,
       y: this.player_start_point.y * 36,
       asset: 'tank_img'
     })
@@ -37,10 +37,11 @@ export default class extends Phaser.State {
     this.enemy_spawn_point = this.map.get_enemy_spawn_point();
     this.enemies = this.game.add.group();
     for (let i = 0; i < 10; i++) {
+      let random = this.game.rnd.integerInRange(0, 1)
       this.enemy = new Enemy({
         game: this.game,
-        x: this.enemy_spawn_point[0].x * 36 + 36,
-        y: this.enemy_spawn_point[0].y * 36 + 36,
+        x: this.enemy_spawn_point[random].x * 36 + 18,
+        y: this.enemy_spawn_point[random].y * 36,
         asset: 'enemy_img'
       })
       this.enemies.add(this.enemy);
@@ -49,6 +50,7 @@ export default class extends Phaser.State {
     //WALLS
     this.walls_position = this.map.get_walls_array();
     this.walls = this.game.add.group();
+
     //LEFT UP
     for (i = 0; i < this.walls_position.length; i++) {
       this.wall = new Walls({
@@ -116,7 +118,7 @@ export default class extends Phaser.State {
     this.lives = game.add.group();
 
     for (var i = 0; i < 3; i++) {
-      this.icon = this.lives.create(game.world.width - 95 + (35 * i), 22, 'enemy_img');
+      this.icon = this.lives.create(game.world.width - 95 + (35 * i), 22, 'tank_img');
       this.icon.anchor.setTo(0.5, 0.5);
       this.icon.angle = 90;
       this.icon.scale.setTo(0.9, 0.9);
@@ -271,7 +273,7 @@ export default class extends Phaser.State {
     explosion.play('kaboom', 30, false, true);
 
     this.player_lives -= 1;
-    this.player.x = this.player_start_point.x * 36 + 9;
+    this.player.x = this.player_start_point.x * 36 + 18;
     this.player.y = this.player_start_point.y * 36;
     this.player.angle = 0;
     if (this.lives.countLiving() < 1) {
