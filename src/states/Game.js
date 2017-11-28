@@ -75,7 +75,7 @@ export default class extends Phaser.State {
     //  Lives
     this.lives = game.add.group();
 
-    for (var i = 0; i < 3; i++) {
+    for (var i = 0; i < 1; i++) {
       this.icon = this.lives.create(game.world.width - 95 + (35 * i), 22, 'enemy_img');
       this.icon.anchor.setTo(0.5, 0.5);
       this.icon.angle = 90;
@@ -233,8 +233,9 @@ export default class extends Phaser.State {
     this.player.x = 432;
     this.player.y = 650;
     this.player.angle = 0;
-    if (this.lives.countLiving() < 1) { this.player.kill(); 
-    this.state.start('GameOver')}
+    if (this.lives.countLiving() < 1) { 
+      this.player.kill(); 
+       this.state.start('GameOver');}
   }
   resetObject(bullet) {
     bullet.kill();

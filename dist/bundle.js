@@ -10574,9 +10574,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_phaser__ = __webpack_require__(/*! phaser */ 27);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_phaser___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_phaser__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__states_Boot__ = __webpack_require__(/*! ./states/Boot */ 336);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__states_Splash__ = __webpack_require__(/*! ./states/Splash */ 337);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__states_Game__ = __webpack_require__(/*! ./states/Game */ 339);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__config__ = __webpack_require__(/*! ./config */ 345);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__states_GameOver__ = __webpack_require__(/*! ./states/GameOver */ 347);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__states_Splash__ = __webpack_require__(/*! ./states/Splash */ 337);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__states_Game__ = __webpack_require__(/*! ./states/Game */ 339);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__config__ = __webpack_require__(/*! ./config */ 345);
+
 
 
 
@@ -10590,14 +10592,15 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 class Game extends __WEBPACK_IMPORTED_MODULE_2_phaser___default.a.Game {
   constructor() {
     const docElement = document.documentElement;
-    const width = docElement.clientWidth > __WEBPACK_IMPORTED_MODULE_6__config__["a" /* default */].gameWidth ? __WEBPACK_IMPORTED_MODULE_6__config__["a" /* default */].gameWidth : docElement.clientWidth;
-    const height = docElement.clientHeight > __WEBPACK_IMPORTED_MODULE_6__config__["a" /* default */].gameHeight ? __WEBPACK_IMPORTED_MODULE_6__config__["a" /* default */].gameHeight : docElement.clientHeight;
+    const width = docElement.clientWidth > __WEBPACK_IMPORTED_MODULE_7__config__["a" /* default */].gameWidth ? __WEBPACK_IMPORTED_MODULE_7__config__["a" /* default */].gameWidth : docElement.clientWidth;
+    const height = docElement.clientHeight > __WEBPACK_IMPORTED_MODULE_7__config__["a" /* default */].gameHeight ? __WEBPACK_IMPORTED_MODULE_7__config__["a" /* default */].gameHeight : docElement.clientHeight;
 
     super(width, height, __WEBPACK_IMPORTED_MODULE_2_phaser___default.a.CANVAS, 'content', null);
 
     this.state.add('Boot', __WEBPACK_IMPORTED_MODULE_3__states_Boot__["a" /* default */], false);
-    this.state.add('Splash', __WEBPACK_IMPORTED_MODULE_4__states_Splash__["a" /* default */], false);
-    this.state.add('Game', __WEBPACK_IMPORTED_MODULE_5__states_Game__["a" /* default */], false);
+    this.state.add('Splash', __WEBPACK_IMPORTED_MODULE_5__states_Splash__["a" /* default */], false);
+    this.state.add('Game', __WEBPACK_IMPORTED_MODULE_6__states_Game__["a" /* default */], false);
+    this.state.add('GameOver', __WEBPACK_IMPORTED_MODULE_4__states_GameOver__["a" /* default */], false);
 
     // with Cordova with need to wait that the device is ready so we will call the Boot state in another file
     if (!window.cordova) {
@@ -10848,7 +10851,7 @@ const centerGameObjects = objects => {
     //  Lives
     this.lives = game.add.group();
 
-    for (var i = 0; i < 3; i++) {
+    for (var i = 0; i < 1; i++) {
       this.icon = this.lives.create(game.world.width - 95 + 35 * i, 22, 'enemy_img');
       this.icon.anchor.setTo(0.5, 0.5);
       this.icon.angle = 90;
@@ -11004,7 +11007,7 @@ const centerGameObjects = objects => {
     this.player.angle = 0;
     if (this.lives.countLiving() < 1) {
       this.player.kill();
-      this.state.start('Boot');
+      this.state.start('GameOver');
     }
   }
   resetObject(bullet) {
@@ -11176,6 +11179,64 @@ const centerGameObjects = objects => {
   gameWidth: 900,
   gameHeight: 720,
   localStorageName: 'phaseres6webpack'
+});
+
+/***/ }),
+/* 346 */,
+/* 347 */
+/*!********************************!*\
+  !*** ./src/states/GameOver.js ***!
+  \********************************/
+/*! exports provided: default */
+/*! exports used: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_phaser__ = __webpack_require__(/*! phaser */ 27);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_phaser___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_phaser__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_webfontloader__ = __webpack_require__(/*! webfontloader */ 127);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_webfontloader___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_webfontloader__);
+
+
+
+/* harmony default export */ __webpack_exports__["a"] = (class extends __WEBPACK_IMPORTED_MODULE_0_phaser___default.a.State {
+  init() {
+    this.stage.backgroundColor = '#123';
+    this.fontsReady = false;
+    this.fontsLoaded = this.fontsLoaded.bind(this);
+    this.buttonCliked = false;
+  }
+
+  preload() {
+    __WEBPACK_IMPORTED_MODULE_1_webfontloader___default.a.load({
+      google: {
+        families: ['Bangers']
+      },
+      active: this.fontsLoaded
+    });
+
+    this.load.image('button', './assets/button.png');
+  }
+
+  create() {
+    let text = this.add.text(this.world.centerX, this.world.centerY - 100, 'Game Over', { font: '140px Arial', fill: '#dddddd', align: 'center' });
+    text.anchor.setTo(0.5, 0.5);
+    let button = game.add.button(game.world.centerX - 150, 450, 'button', this.actionOnClick, this, 2, 1, 0);
+  }
+
+  render() {
+    if (this.buttonCliked) {
+      this.state.start('Splash');
+    }
+  }
+
+  fontsLoaded() {
+    this.fontsReady = true;
+  }
+
+  actionOnClick() {
+    this.buttonCliked = true;
+  }
 });
 
 /***/ })
