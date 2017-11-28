@@ -12,11 +12,8 @@ export default class extends Phaser.State {
     super()
     this.bullet_time = 0;
     this.enemy_bullet_time = 2000;
-<<<<<<< HEAD
-=======
     this.player_lives = 3;
     this.map = new Map();
->>>>>>> functionality/map-loading-from-file
   }
 
   init() { }
@@ -28,13 +25,8 @@ export default class extends Phaser.State {
     this.player_start_point = this.map.get_start_point();
     this.player = new Player({
       game: this.game,
-<<<<<<< HEAD
-      x: 432,
-      y: 650,
-=======
       x: this.player_start_point.x * 36,
       y: this.player_start_point.y * 36,
->>>>>>> functionality/map-loading-from-file
       asset: 'tank_img'
     })
     this.game.add.existing(this.player)
@@ -42,22 +34,12 @@ export default class extends Phaser.State {
     //ENEMY TANKS
     this.enemy_spawn_point = this.map.get_enemy_spawn_point();
     this.enemies = this.game.add.group();
-<<<<<<< HEAD
-    for (let i = 0; i < 10; i++) {
-      this.enemy = new Enemy({
-        game: this.game,
-        x: 432,
-        y: 50,
-        asset: 'enemy_img'
-      })
-=======
     this.enemy = new Enemy({
       game: this.game,
       x: this.enemy_spawn_point[0].x * 36,
       y: this.enemy_spawn_point[0].y * 36,
       asset: 'enemy_img'
     })
->>>>>>> functionality/map-loading-from-file
       this.enemies.add(this.enemy);
 
     //WALLS
@@ -66,13 +48,8 @@ export default class extends Phaser.State {
     for (i = 0; i < this.walls_position.length; i++) {
       this.wall = new Walls({
         game: this.game,
-<<<<<<< HEAD
-        x: 306 + i * 36,
-        y: 570,
-=======
         x: this.walls_position[i].x * 36,
         y: this.walls_position[i].y * 36,
->>>>>>> functionality/map-loading-from-file
         asset: 'wall_img'
       })
       this.walls.add(this.wall);
@@ -100,7 +77,7 @@ export default class extends Phaser.State {
       this.enemy_bullets.add(this.enemy_bullet);
     }
 
-    //  Lives
+    //LIVES
     this.lives = game.add.group();
 
     for (var i = 0; i < 3; i++) {
