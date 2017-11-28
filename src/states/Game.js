@@ -3,25 +3,24 @@ import Enemy from '../sprites/Enemy_Tank'
 import Player from '../sprites/Player'
 
 export default class extends Phaser.State {
-
+ 
   constructor () {
     super()
-    let cursors;
-    let enemies;
-    let player_dir;
+    var cursors;
+     var enemies;
+    var player_dir;
   }
 
   init () {}
   preload () {}
 
   create () {
-
+    var new_enemy;
     //ENEMY TANK
 
     this.enemies = game.add.group();
-    this.game.physics.arcade.enable(this.enemies);
-    this.enemies.enableBody = true;
-
+    let enemy;
+    
     for (var i = 0; i < 20; i++) {
       this.enemy = new Enemy({
         game: this.game,
@@ -29,9 +28,12 @@ export default class extends Phaser.State {
         y: this.game.rnd.integerInRange(0, 450),
         asset: 'enemy_img'
       })
-      this.enemies.create(this.enemy);
-      this.game.add.existing(this.enemy);
+      this.enemies.add(this.enemy);
+      //this.game.add.existing(this.enemy);
     }
+
+    this.game.physics.arcade.enable(this.enemies);
+    this.enemies.enableBody = true;
 
     //PLAYER TANK
     this.player = new Player({

@@ -4234,7 +4234,7 @@ module.exports = Math.scale || function scale(x, inLow, inHigh, outLow, outHigh)
 /***/ (function(module, exports, __webpack_require__) {
 
 __webpack_require__(/*! babel-polyfill */129);
-module.exports = __webpack_require__(/*! /home/adrian/innovativeproject-tanks-game/src/main.js */331);
+module.exports = __webpack_require__(/*! /home/maku/Desktop/nokia/innovativeproject-tanks-game/src/main.js */331);
 
 
 /***/ }),
@@ -10768,21 +10768,20 @@ const centerGameObjects = objects => {
 
   constructor() {
     super();
-    let cursors;
-    let enemies;
-    let player_dir;
+    var cursors;
+    var enemies;
+    var player_dir;
   }
 
   init() {}
   preload() {}
 
   create() {
-
+    var new_enemy;
     //ENEMY TANK
 
     this.enemies = game.add.group();
-    this.game.physics.arcade.enable(this.enemies);
-    this.enemies.enableBody = true;
+    let enemy;
 
     for (var i = 0; i < 20; i++) {
       this.enemy = new __WEBPACK_IMPORTED_MODULE_1__sprites_Enemy_Tank__["a" /* default */]({
@@ -10791,9 +10790,12 @@ const centerGameObjects = objects => {
         y: this.game.rnd.integerInRange(0, 450),
         asset: 'enemy_img'
       });
-      this.enemies.create(this.enemy);
-      this.game.add.existing(this.enemy);
+      this.enemies.add(this.enemy);
+      //this.game.add.existing(this.enemy);
     }
+
+    this.game.physics.arcade.enable(this.enemies);
+    this.enemies.enableBody = true;
 
     //PLAYER TANK
     this.player = new __WEBPACK_IMPORTED_MODULE_2__sprites_Player__["a" /* default */]({
