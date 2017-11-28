@@ -10773,7 +10773,7 @@ const centerGameObjects = objects => {
   constructor() {
     super();
     this.bullet_time = 0;
-    this.enemy_bullet_time = 0;
+    this.enemy_bullet_time = 2000;
     this.player_lives = 3;
   }
 
@@ -10843,6 +10843,7 @@ const centerGameObjects = objects => {
 
   update() {
 
+    //ENEMIES MOVING
     this.enemies.forEachAlive(function (enemy) {
       enemy.move(this.player.x, this.player.y);
     }, this);
@@ -10919,7 +10920,6 @@ const centerGameObjects = objects => {
     this.enemies.forEachAlive(enemy => {
       this.livingEnemies.push(enemy);
     });
-
     if (this.enemy_bullet && this.livingEnemies.length > 0) {
       const random = this.game.rnd.integerInRange(0, this.livingEnemies.length - 1);
       const shooter = this.livingEnemies[random];
@@ -10978,7 +10978,7 @@ const centerGameObjects = objects => {
 /* harmony default export */ __webpack_exports__["a"] = (class extends __WEBPACK_IMPORTED_MODULE_0_phaser___default.a.Sprite {
   constructor({ game, x, y, asset }) {
     super(game, x, y, asset);
-    this.anchor.setTo(0.5), this.angle = game.rnd.integerInRange(0, 3) * 90, this.game.physics.arcade.enable(this), this.enableBOdy = true, this.body.immovable = false;
+    this.anchor.setTo(0.5), this.angle = game.rnd.integerInRange(0, 3) * 90, this.game.physics.arcade.enable(this), this.enableBody = true, this.body.immovable = false;
   }
 
   move(playerX, playerY) {
@@ -10992,27 +10992,6 @@ const centerGameObjects = objects => {
       this.x += Math.random() * -1 * 5;
       this.y += Math.random() * -1 * 5;
     }
-
-    // else if(this.x > playerX && this.y > playerY){
-    //   this.x -= 1;
-    //   this.y -= 1;
-    // }
-    // else if(this.x < playerX && this.y < playerY){
-    //   this.x += 1;
-    //   this.y += 1;
-    // }
-    // else if(this.x > playerX && this.y < playerY){
-    //   this.x -= 1;
-    //   this.y += 1;
-    // }
-    // else if(this.x < playerX && this.y > playerY){
-    //   this.x += 1;
-    //   this.y -= 1;
-    // }
-  }
-
-  die() {
-    // this.destroy();
   }
 
   update() {}
@@ -11085,8 +11064,7 @@ const centerGameObjects = objects => {
 /* harmony default export */ __webpack_exports__["a"] = (class extends __WEBPACK_IMPORTED_MODULE_0_phaser___default.a.Sprite {
   constructor({ game, x, y, asset }) {
     super(game, x, y, asset);
-    this.anchor.setTo(0.5), this.checkWorldBounds = true;
-    this.game.physics.arcade.enable(this);
+    this.anchor.setTo(0.5), this.game.physics.arcade.enable(this), this.enableBody = true, this.body.collideWorldBounds = true;
   }
 
   update() {}
