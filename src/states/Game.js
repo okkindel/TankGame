@@ -6,28 +6,28 @@ import Player from '../sprites/Player'
 import Walls from '../sprites/Walls'
 
 export default class extends Phaser.State {
- 
-  constructor () {
-    super();
+
+  constructor() {
+    super()
     this.bullet_time = 0;
     this.enemy_bullet_time = 2000;
     this.player_lives = 3;
   }
 
-  init () {}
-  preload () {}
-  create () {
+  init() { }
+  preload() { }
+  create() {
 
-//PLAYER TANK
-this.player = new Player({
-  game: this.game,
-  x: 434,
-  y: 650,
-  asset: 'tank_img'
-})
-this.game.add.existing(this.player)    
+    //PLAYER TANK
+    this.player = new Player({
+      game: this.game,
+      x: 434,
+      y: 650,
+      asset: 'tank_img'
+    })
+    this.game.add.existing(this.player)
 
-//ENEMY TANKS
+    //ENEMY TANKS
     this.enemies = this.game.add.group();
     for (let i = 0; i < 20; i++) {
       this.enemy = new Enemy({
@@ -39,7 +39,7 @@ this.game.add.existing(this.player)
       this.enemies.add(this.enemy);
     }
 
-//WALLS
+    //WALLS
     this.walls = this.game.add.group();
     for (i = 0; i < 8; i++) {
       this.wall = new Walls({
@@ -50,9 +50,9 @@ this.game.add.existing(this.player)
       })
       this.walls.add(this.wall);
     }
-    
 
-//PLAYER BULLETS
+
+    //PLAYER BULLETS
     this.bullets = this.game.add.group();
     for (var i = 0; i < 20; i++) {
       this.bullet = new Player_Bullets({
@@ -63,7 +63,7 @@ this.game.add.existing(this.player)
       this.bullets.add(this.bullet);
     }
 
-//ENEMY BULLETS
+    //ENEMY BULLETS
     this.enemy_bullets = this.game.add.group();
     for (i = 0; i < 20; i++) {
       this.enemy_bullet = new Enemy_Bullets({
@@ -74,12 +74,12 @@ this.game.add.existing(this.player)
       this.enemy_bullets.add(this.enemy_bullet);
     }
 
-//EXPLOSIONS
+    //EXPLOSIONS
     this.explosions = this.game.add.group();
     this.explosions.createMultiple(30, 'explode_img');
     this.explosions.forEach(this.boom, this);
 
-//CURSORS
+    //CURSORS
     this.cursors = game.input.keyboard.createCursorKeys();
     game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
   }
@@ -93,11 +93,11 @@ this.game.add.existing(this.player)
   update() {
 
     //ENEMIES MOVING
-    this.enemies.forEachAlive(function(enemy) {
+    this.enemies.forEachAlive(function (enemy) {
       enemy.move(this.player.x, this.player.y, this.game.time.now);
     }, this);
 
-    
+
     //COLLISIONS
     this.game.physics.arcade.overlap(this.bullets, this.enemies, this.collisionEnemy, null, this);
     game.physics.arcade.overlap(this.bullets, this.enemy_bullets, this.collisionEnemy, null, this);
@@ -112,7 +112,7 @@ this.game.add.existing(this.player)
 
     if (this.player.alive) {
 
-//MOVING
+      //MOVING
       this.player.body.velocity.setTo(0, 0);
 
       if (this.cursors.left.isDown) {
@@ -213,6 +213,6 @@ this.game.add.existing(this.player)
     object.kill();
   }
 
-  render () {
+  render() {
   }
 }
