@@ -12,7 +12,7 @@ export default class extends Phaser.Sprite {
       this.direction = 0;
   }
 
-  move(playerX, playerY, timeNow) {
+  move(playerX, playerY, eagleX, eagleY, timeNow) {
 
     if (timeNow > this.timeToStep) {
       this.timeToStep = timeNow;
