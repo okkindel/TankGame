@@ -10784,7 +10784,6 @@ const centerGameObjects = objects => {
     super();
     this.bullet_time = 0;
     this.enemy_bullet_time = 2000;
-    this.player_lives = 3;
   }
 
   init() {}
@@ -10844,6 +10843,17 @@ const centerGameObjects = objects => {
       });
       this.enemy_bullet.events.onOutOfBounds.add(this.resetObject, this);
       this.enemy_bullets.add(this.enemy_bullet);
+    }
+
+    //  Lives
+    this.lives = game.add.group();
+
+    for (var i = 0; i < 3; i++) {
+      this.icon = this.lives.create(game.world.width - 95 + 35 * i, 22, 'enemy_img');
+      this.icon.anchor.setTo(0.5, 0.5);
+      this.icon.angle = 90;
+      this.icon.scale.setTo(0.9, 0.9);
+      this.icon.alpha = 0.4;
     }
 
     //EXPLOSIONS
@@ -10978,6 +10988,12 @@ const centerGameObjects = objects => {
   collisionPlayer(player, object) {
     object.kill();
 
+    this.live = this.lives.getFirstAlive();
+
+    if (this.live) {
+      this.live.kill();
+    }
+
     const explosion = this.explosions.getFirstExists(false);
     explosion.reset(object.body.x, object.body.y);
     explosion.play('kaboom', 30, false, true);
@@ -10986,7 +11002,7 @@ const centerGameObjects = objects => {
     this.player.x = 432;
     this.player.y = 650;
     this.player.angle = 0;
-    if (this.player_lives < 0) {
+    if (this.lives.countLiving() < 1) {
       this.player.kill();
       this.state.start('Boot');
     }
