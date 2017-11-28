@@ -17,8 +17,8 @@ export default class extends Phaser.Sprite {
     if(timeNow > this.timeToStep){
       this.timeToStep = timeNow;
       this.timeToStep += 2000*Math.random();
-      this.direction = Math.floor(Math.random() * ( 4 -1)) + 1
-
+      this.direction = Math.floor(Math.random() * ( 5 -1)) + 1
+      console.log(this.direction);
       let dist = Math.sqrt(Math.pow((this.x - playerX),2) + Math.pow((this.y - playerY),2));
       let decision = Math.random();
       
