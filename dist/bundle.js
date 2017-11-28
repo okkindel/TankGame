@@ -10576,7 +10576,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__states_Boot__ = __webpack_require__(/*! ./states/Boot */ 336);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__states_Splash__ = __webpack_require__(/*! ./states/Splash */ 337);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__states_Game__ = __webpack_require__(/*! ./states/Game */ 339);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__config__ = __webpack_require__(/*! ./config */ 344);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__config__ = __webpack_require__(/*! ./config */ 345);
 
 
 
@@ -10759,9 +10759,12 @@ const centerGameObjects = objects => {
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_phaser__ = __webpack_require__(/*! phaser */ 29);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_phaser___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_phaser__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__sprites_Enemy_Tank__ = __webpack_require__(/*! ../sprites/Enemy_Tank */ 340);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__sprites_Enemy_Tank___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1__sprites_Enemy_Tank__);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__sprites_Player_Bullets__ = __webpack_require__(/*! ../sprites/Player_Bullets */ 341);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__sprites_Enemy_Bullets__ = __webpack_require__(/*! ../sprites/Enemy_Bullets */ 342);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__sprites_Player__ = __webpack_require__(/*! ../sprites/Player */ 343);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__sprites_Walls__ = __webpack_require__(/*! ../sprites/Walls */ 344);
+
 
 
 
@@ -10781,27 +10784,38 @@ const centerGameObjects = objects => {
   preload() {}
   create() {
 
-    //ENEMY TANK
-    this.enemies = this.game.add.group();
-    for (var i = 0; i < 20; i++) {
-      this.enemy = new __WEBPACK_IMPORTED_MODULE_1__sprites_Enemy_Tank__["a" /* default */]({
-        game: this.game,
-        x: this.game.world.randomX,
-        y: this.game.rnd.integerInRange(0, 450),
-        asset: 'enemy_img'
-      });
-      this.enemy.events.onOutOfBounds.add(this.resetObject, this);
-      this.enemies.add(this.enemy);
-    }
-
     //PLAYER TANK
     this.player = new __WEBPACK_IMPORTED_MODULE_4__sprites_Player__["a" /* default */]({
       game: this.game,
-      x: 466,
-      y: 556,
+      x: 434,
+      y: 650,
       asset: 'tank_img'
     });
     this.game.add.existing(this.player);
+
+    //ENEMY TANKS
+    this.enemies = this.game.add.group();
+    for (let i = 0; i < 20; i++) {
+      this.enemy = new __WEBPACK_IMPORTED_MODULE_1__sprites_Enemy_Tank__["default"]({
+        game: this.game,
+        x: this.game.world.randomX,
+        y: this.game.rnd.integerInRange(0, 460),
+        asset: 'enemy_img'
+      });
+      this.enemies.add(this.enemy);
+    }
+
+    //WALLS
+    this.walls = this.game.add.group();
+    for (i = 0; i < 8; i++) {
+      this.wall = new __WEBPACK_IMPORTED_MODULE_5__sprites_Walls__["a" /* default */]({
+        game: this.game,
+        x: 322 + i * 32,
+        y: 570,
+        asset: 'wall_img'
+      });
+      this.walls.add(this.wall);
+    }
 
     //PLAYER BULLETS
     this.bullets = this.game.add.group();
@@ -10816,7 +10830,7 @@ const centerGameObjects = objects => {
 
     //ENEMY BULLETS
     this.enemy_bullets = this.game.add.group();
-    for (var i = 0; i < 20; i++) {
+    for (i = 0; i < 20; i++) {
       this.enemy_bullet = new __WEBPACK_IMPORTED_MODULE_3__sprites_Enemy_Bullets__["a" /* default */]({
         game: this.game,
         asset: 'enemy_bullet_img'
@@ -10852,9 +10866,13 @@ const centerGameObjects = objects => {
     this.game.physics.arcade.overlap(this.bullets, this.enemies, this.collisionEnemy, null, this);
     game.physics.arcade.overlap(this.bullets, this.enemy_bullets, this.collisionEnemy, null, this);
     game.physics.arcade.overlap(this.enemy_bullets, this.player, this.collisionPlayer, null, this);
+    game.physics.arcade.overlap(this.bullets, this.walls, this.collisionHandler, null, this);
+    game.physics.arcade.overlap(this.enemy_bullets, this.walls, this.collisionHandler, null, this);
 
     this.game.physics.arcade.collide(this.player, this.enemies);
     this.game.physics.arcade.collide(this.enemies, this.enemies);
+    this.game.physics.arcade.collide(this.player, this.walls);
+    this.game.physics.arcade.collide(this.enemies, this.walls);
 
     if (this.player.alive) {
 
@@ -10944,8 +10962,8 @@ const centerGameObjects = objects => {
     explosion.play('kaboom', 30, false, true);
 
     this.player_lives -= 1;
-    this.player.body.x = 466;
-    this.player.body.y = 556;
+    this.player.x = 434;
+    this.player.y = 650;
     this.player.angle = 0;
     if (this.player_lives < 0) {
       this.player.kill();
@@ -10966,67 +10984,11 @@ const centerGameObjects = objects => {
 /*!***********************************!*\
   !*** ./src/sprites/Enemy_Tank.js ***!
   \***********************************/
-/*! exports provided: default */
+/*! no static exports found */
 /*! exports used: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
+/***/ (function(module, exports) {
 
-"use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_phaser__ = __webpack_require__(/*! phaser */ 29);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_phaser___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_phaser__);
-
-
-/* harmony default export */ __webpack_exports__["a"] = (class extends __WEBPACK_IMPORTED_MODULE_0_phaser___default.a.Sprite {
-  constructor({ game, x, y, asset }) {
-    super(game, x, y, asset);
-    this.anchor.setTo(0.5), this.angle = game.rnd.integerInRange(0, 3) * 90, this.game.physics.arcade.enable(this), this.enableBody = true, this.body.immovable = false;
-    this.timeToStep = 0;
-    this.direction = 1;
-  }
-
-  move(playerX, playerY, timeNow) {
-
-    if (timeNow > this.timeToStep) {
-      this.timeToStep = timeNow;
-      this.timeToStep += 2000 * Math.random();
-      this.direction = Math.floor(Math.random() * (5 - 1)) + 1;
-      console.log(this.direction);
-      let dist = Math.sqrt(Math.pow(this.x - playerX, 2) + Math.pow(this.y - playerY, 2));
-      let decision = Math.random();
-    } else if (this.direction == 1) {
-      this.x += 1;
-    } else if (this.direction == 2) {
-      this.x -= 1;
-    } else if (this.direction == 3) {
-      this.y += 1;
-    } else if (this.direction == 4) {
-      this.y -= 1;
-    }
-    console.log(this.direction);
-
-    // else if(this.x > playerX && this.y > playerY){
-    //   this.x -= 1;
-    //   this.y -= 1;
-    // }
-    // else if(this.x < playerX && this.y < playerY){
-    //   this.x += 1;
-    //   this.y += 1;
-    // }
-    // else if(this.x > playerX && this.y < playerY){
-    //   this.x -= 1;
-    //   this.y += 1;
-    // }
-    // else if(this.x < playerX && this.y > playerY){
-    //   this.x += 1;
-    //   this.y -= 1;
-    // }
-  }
-
-  die() {
-    // this.destroy();
-  }
-
-  update() {}
-});
+throw new Error("Module build failed: SyntaxError: Unexpected token, expected ; (49:8)\n\n\u001b[0m \u001b[90m 47 | \u001b[39m  }\n \u001b[90m 48 | \u001b[39m\n\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 49 | \u001b[39m  die() {\n \u001b[90m    | \u001b[39m        \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\n \u001b[90m 50 | \u001b[39m    \u001b[90m// this.destroy();\u001b[39m\n \u001b[90m 51 | \u001b[39m  }\n \u001b[90m 52 | \u001b[39m\u001b[0m\n");
 
 /***/ }),
 /* 341 */
@@ -11103,6 +11065,29 @@ const centerGameObjects = objects => {
 
 /***/ }),
 /* 344 */
+/*!******************************!*\
+  !*** ./src/sprites/Walls.js ***!
+  \******************************/
+/*! exports provided: default */
+/*! exports used: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_phaser__ = __webpack_require__(/*! phaser */ 29);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_phaser___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_phaser__);
+
+
+/* harmony default export */ __webpack_exports__["a"] = (class extends __WEBPACK_IMPORTED_MODULE_0_phaser___default.a.Sprite {
+  constructor({ game, x, y, asset }) {
+    super(game, x, y, asset);
+    this.anchor.setTo(0.5), this.game.physics.arcade.enable(this), this.enableBody = true, this.body.immovable = true;
+  }
+
+  update() {}
+});
+
+/***/ }),
+/* 345 */
 /*!***********************!*\
   !*** ./src/config.js ***!
   \***********************/

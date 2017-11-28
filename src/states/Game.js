@@ -3,6 +3,7 @@ import Enemy from '../sprites/Enemy_Tank'
 import Player_Bullets from '../sprites/Player_Bullets'
 import Enemy_Bullets from '../sprites/Enemy_Bullets'
 import Player from '../sprites/Player'
+import Walls from '../sprites/Walls'
 
 export default class extends Phaser.State {
  
@@ -17,27 +18,39 @@ export default class extends Phaser.State {
   preload () {}
   create () {
 
-//ENEMY TANK
+//PLAYER TANK
+this.player = new Player({
+  game: this.game,
+  x: 434,
+  y: 650,
+  asset: 'tank_img'
+})
+this.game.add.existing(this.player)    
+
+//ENEMY TANKS
     this.enemies = this.game.add.group();
-    for (var i = 0; i < 20; i++) {
+    for (let i = 0; i < 20; i++) {
       this.enemy = new Enemy({
         game: this.game,
         x: this.game.world.randomX,
-        y: this.game.rnd.integerInRange(0, 450),
+        y: this.game.rnd.integerInRange(0, 460),
         asset: 'enemy_img'
       })
-      this.enemy.events.onOutOfBounds.add(this.resetObject, this);
       this.enemies.add(this.enemy);
     }
 
-//PLAYER TANK
-    this.player = new Player({
-      game: this.game,
-      x: 466,
-      y: 556,
-      asset: 'tank_img'
-    })
-    this.game.add.existing(this.player)
+//WALLS
+    this.walls = this.game.add.group();
+    for (i = 0; i < 8; i++) {
+      this.wall = new Walls({
+        game: this.game,
+        x: 322 + i * 32,
+        y: 570,
+        asset: 'wall_img'
+      })
+      this.walls.add(this.wall);
+    }
+    
 
 //PLAYER BULLETS
     this.bullets = this.game.add.group();
@@ -52,7 +65,7 @@ export default class extends Phaser.State {
 
 //ENEMY BULLETS
     this.enemy_bullets = this.game.add.group();
-    for (var i = 0; i < 20; i++) {
+    for (i = 0; i < 20; i++) {
       this.enemy_bullet = new Enemy_Bullets({
         game: this.game,
         asset: 'enemy_bullet_img'
@@ -89,9 +102,13 @@ export default class extends Phaser.State {
     this.game.physics.arcade.overlap(this.bullets, this.enemies, this.collisionEnemy, null, this);
     game.physics.arcade.overlap(this.bullets, this.enemy_bullets, this.collisionEnemy, null, this);
     game.physics.arcade.overlap(this.enemy_bullets, this.player, this.collisionPlayer, null, this);
+    game.physics.arcade.overlap(this.bullets, this.walls, this.collisionHandler, null, this);
+    game.physics.arcade.overlap(this.enemy_bullets, this.walls, this.collisionHandler, null, this);
 
     this.game.physics.arcade.collide(this.player, this.enemies);
     this.game.physics.arcade.collide(this.enemies, this.enemies);
+    this.game.physics.arcade.collide(this.player, this.walls);
+    this.game.physics.arcade.collide(this.enemies, this.walls);
 
     if (this.player.alive) {
 
@@ -184,8 +201,8 @@ export default class extends Phaser.State {
     explosion.play('kaboom', 30, false, true);
 
     this.player_lives -= 1;
-    this.player.body.x = 466;
-    this.player.body.y = 556;
+    this.player.x = 434;
+    this.player.y = 650;
     this.player.angle = 0;
     if (this.player_lives < 0) { this.player.kill(); }
   }

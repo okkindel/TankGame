@@ -2,25 +2,23 @@ import Phaser from 'phaser'
 
 export default class extends Phaser.Sprite {
   constructor({game, x, y, asset}) {
-    super(game, x, y, asset)
-    this
-      .anchor
-      .setTo(0.5),
-    this.angle = game
-      .rnd
-      .integerInRange(0, 3) * 90,
-    this
-      .game
-      .physics
-      .arcade
-      .enable(this),
+    super(game, x, y, asset),
+    this.anchor.setTo(0.5),
+    this.angle = game.rnd.integerInRange(0, 3) * 90,
+    this.game.physics.arcade.enable(this),
     this.enableBody = true,
-    this.body.immovable = false;
-    this.timeToStep = 0;
+    this.body.immovable = false,
+    this.body.collideWorldBounds = true,
+    this.timeToStep = 0,
     this.direction = 1;
   }
 
-  move(playerX, playerY, timeNow) {
+  move(playerX, playerY, timeNow){
+    
+    if(timeNow > this.timeToStep){
+      this.timeToStep = timeNow;
+      this.timeToStep += 2000*Math.random();
+      this.direction = Math.floor(Math.random() * ( 5 - 1)) + 1
 
     if (timeNow > this.timeToStep) {
       this.timeToStep = timeNow;
