@@ -78,11 +78,12 @@ export default class extends Phaser.State {
   }
 
   update() {
-
+    
     this.enemies.forEachAlive(function(enemy) {
-      enemy.move(this.player.x, this.player.y);
-    }, this)
+      enemy.move(this.player.x, this.player.y, this.game.time.now);
+    }, this);
 
+    
     //COLLISIONS
     this.game.physics.arcade.overlap(this.bullets, this.enemies, this.collisionEnemy, null, this);
     game.physics.arcade.overlap(this.bullets, this.enemy_bullets, this.collisionEnemy, null, this);
