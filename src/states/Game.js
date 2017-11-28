@@ -31,8 +31,8 @@ export default class extends Phaser.State {
     for (let i = 0; i < 10; i++) {
       this.enemy = new Enemy({
         game: this.game,
-        x: this.game.world.randomX,
-        y: this.game.rnd.integerInRange(0, 460),
+        x: 432,
+        y: 50,
         asset: 'enemy_img'
       })
       this.enemies.add(this.enemy);
