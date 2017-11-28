@@ -11006,6 +11006,7 @@ const centerGameObjects = objects => {
     this.player.angle = 0;
     if (this.lives.countLiving() < 1) {
       this.player.kill();
+      this.state.start('GameOver');
     }
   }
   resetObject(bullet) {
