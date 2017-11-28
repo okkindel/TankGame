@@ -4,11 +4,11 @@ export default class extends Phaser.Sprite {
   constructor ({ game, x, y, asset }) {
     super(game, x, y, asset)
     this.anchor.setTo(0.5),
-    this.angle = game.rnd.integerInRange(0, 3) * 90,
     this.game.physics.arcade.enable(this),
     this.enableBody = true,
-    this.body.immovable = false;
-    this.timeToStep = 0;
+    this.body.immovable = false,
+    this.body.collideWorldBounds = true,
+    this.timeToStep = 0,
     this.direction = 1;
   }
 
@@ -24,15 +24,19 @@ export default class extends Phaser.Sprite {
       
     }else if(this.direction ==1){
         this.x +=1;
+        this.angle = 90;
     }
     else if(this.direction ==2){
       this.x -=1;
+      this.angle = 270;
     }
     else if(this.direction ==3){
       this.y +=1;
+      this.angle = 180;
     }
     else if(this.direction ==4){
       this.y -=1;
+      this.angle = 0;
     }
     console.log(this.direction);
     
