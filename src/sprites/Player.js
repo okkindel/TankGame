@@ -4,8 +4,9 @@ export default class extends Phaser.Sprite {
   constructor ({ game, x, y, asset }) {
     super(game, x, y, asset)
     this.anchor.setTo(0.5),
-    this.checkWorldBounds = true
-    this.game.physics.arcade.enable(this)
+    this.game.physics.arcade.enable(this),
+    this.enableBody = true,
+    this.body.collideWorldBounds = true;
   }
 
   update () {

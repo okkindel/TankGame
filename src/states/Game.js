@@ -9,7 +9,7 @@ export default class extends Phaser.State {
   constructor () {
     super()
     this.bullet_time = 0;
-    this.enemy_bullet_time = 0;
+    this.enemy_bullet_time = 2000;
     this.player_lives = 3;
   }
 
@@ -78,7 +78,8 @@ export default class extends Phaser.State {
   }
 
   update() {
-    
+
+    //ENEMIES MOVING
     this.enemies.forEachAlive(function(enemy) {
       enemy.move(this.player.x, this.player.y, this.game.time.now);
     }, this);
@@ -159,7 +160,6 @@ export default class extends Phaser.State {
     this.enemies.forEachAlive((enemy) => {
       this.livingEnemies.push(enemy);
     });
-
     if (this.enemy_bullet && this.livingEnemies.length > 0) {
       const random = this.game.rnd.integerInRange(0, this.livingEnemies.length - 1);
       const shooter = this.livingEnemies[random];
@@ -172,16 +172,16 @@ export default class extends Phaser.State {
     object.kill();
     enemy.kill();
 
-const explosion = this.explosions.getFirstExists(false);
-explosion.reset(object.body.x, object.body.y);
-explosion.play('kaboom', 30, false, true);
+    const explosion = this.explosions.getFirstExists(false);
+    explosion.reset(object.body.x, object.body.y);
+    explosion.play('kaboom', 30, false, true);
   }
   collisionPlayer(player, object) {
     object.kill();
 
-const explosion = this.explosions.getFirstExists(false);
-explosion.reset(object.body.x, object.body.y);
-explosion.play('kaboom', 30, false, true);
+    const explosion = this.explosions.getFirstExists(false);
+    explosion.reset(object.body.x, object.body.y);
+    explosion.play('kaboom', 30, false, true);
 
     this.player_lives -= 1;
     this.player.body.x = 466;
