@@ -128,9 +128,7 @@ function update() {
     game.physics.arcade.collide(player, walls);
     game.physics.arcade.collide(enemies, enemies);
     game.physics.arcade.collide(enemies, walls);
-	game.physics.arcade.collide(player, enemies);
-	
-
+    game.physics.arcade.collide(player, enemies);
 
     if (player.alive) {
     	player.body.velocity.setTo(0, 0);
