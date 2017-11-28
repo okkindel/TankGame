@@ -10680,9 +10680,9 @@ if (window.cordova) {
   }
 
   render() {
-    //if (this.buttonCliked) {
-    this.state.start('Splash');
-    //}
+    if (this.buttonCliked) {
+      this.state.start('Splash');
+    }
   }
 
   fontsLoaded() {
