@@ -19,14 +19,15 @@ export default class extends Phaser.State {
   init() { }
   preload() { }
   create() {
-    //Map loading
+
+    //MAP LOADING
     this.map.load_map(require("../maps/map1.json"));
     //PLAYER TANK
     this.player_start_point = this.map.get_start_point();
     this.player = new Player({
       game: this.game,
-      x: this.player_start_point.x * 36,
-      y: this.player_start_point.y * 36,
+      x: this.player_start_point.x * 36 + 27,
+      y: this.player_start_point.y * 36 + 18,
       asset: 'tank_img'
     })
     this.game.add.existing(this.player)
@@ -37,8 +38,8 @@ export default class extends Phaser.State {
     for (let i = 0; i < 10; i++) {
       this.enemy = new Enemy({
         game: this.game,
-        x: this.enemy_spawn_point[0].x * 36,
-        y: this.enemy_spawn_point[0].y * 36,
+        x: this.enemy_spawn_point[0].x * 36 + 36,
+        y: this.enemy_spawn_point[0].y * 36 + 36,
         asset: 'enemy_img'
       })
       this.enemies.add(this.enemy);
@@ -269,8 +270,8 @@ export default class extends Phaser.State {
     explosion.play('kaboom', 30, false, true);
 
     this.player_lives -= 1;
-    this.player.x = 432;
-    this.player.y = 650;
+    this.player.x = this.player_start_point.x * 36 + 27;
+    this.player.y = this.player_start_point.y * 36 + 18;
     this.player.angle = 0;
     if (this.lives.countLiving() < 1) {
       this.player.kill();

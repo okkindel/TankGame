@@ -46,192 +46,192 @@ export default function () {
 	function create() {
 		game.stage.backgroundColor = '#123';
 
-    // player's tank
-    player = game.add.sprite(416, 556, 'tank');
-    game.physics.enable(player, Phaser.Physics.ARCADE);
-    player.body.collideWorldBounds = true;
-    player.anchor.set(0.5);
+		// player's tank
+		player = game.add.sprite(416, 556, 'tank');
+		game.physics.enable(player, Phaser.Physics.ARCADE);
+		player.body.collideWorldBounds = true;
+		player.anchor.set(0.5);
 
-    // enemies
-    enemies = game.add.group();
-    enemies.enableBody = true;
-    enemies.physicsBodyType = Phaser.Physics.ARCADE;
+		// enemies
+		enemies = game.add.group();
+		enemies.enableBody = true;
+		enemies.physicsBodyType = Phaser.Physics.ARCADE;
 
-    for (var i = 0; i < 20; i++) {
-    	var new_enemy = enemies.create(game.world.randomX, game.rnd.integerInRange(0, 450), 'enemy');
-    	new_enemy.anchor.set(0.5);
-    	new_enemy.angle = game.rnd.integerInRange(0, 3) * 90;
-    	new_enemy.body.immovable = false;
-    }
+		for (var i = 0; i < 20; i++) {
+			var new_enemy = enemies.create(game.world.randomX, game.rnd.integerInRange(0, 450), 'enemy');
+			new_enemy.anchor.set(0.5);
+			new_enemy.angle = game.rnd.integerInRange(0, 3) * 90;
+			new_enemy.body.immovable = false;
+		}
 
-    // walls
-    walls = game.add.group();
-    walls.enableBody = true;
-    walls.physicsBodyType = Phaser.Physics.ARCADE;
-    for (i = 0; i < 3; i++) {
-    	const new_wall = walls.create(368 + i * 32, 480, 'wall');
-    	new_wall.body.immovable = true;
-    }
+		// walls
+		walls = game.add.group();
+		walls.enableBody = true;
+		walls.physicsBodyType = Phaser.Physics.ARCADE;
+		for (i = 0; i < 3; i++) {
+			const new_wall = walls.create(368 + i * 32, 480, 'wall');
+			new_wall.body.immovable = true;
+		}
 
-    // bullets
-    bullets = game.add.group();
-    bullets.enableBody = true;
-    bullets.physicsBodyType = Phaser.Physics.ARCADE;
+		// bullets
+		bullets = game.add.group();
+		bullets.enableBody = true;
+		bullets.physicsBodyType = Phaser.Physics.ARCADE;
 
-    for (i = 0; i < 20; i++) {
-    	const new_bullet = bullets.create(0, 0, 'bullet');
-    	new_bullet.name = `bullet${i}`;
-    	new_bullet.exists = false;
-    	new_bullet.visible = false;
-    	new_bullet.checkWorldBounds = true;
-    	new_bullet.events.onOutOfBounds.add(resetBullet, this);
-    }
+		for (i = 0; i < 20; i++) {
+			const new_bullet = bullets.create(0, 0, 'bullet');
+			new_bullet.name = `bullet${i}`;
+			new_bullet.exists = false;
+			new_bullet.visible = false;
+			new_bullet.checkWorldBounds = true;
+			new_bullet.events.onOutOfBounds.add(resetBullet, this);
+		}
 
-    // enemy_bullets
-    enemy_bullets = game.add.group();
-    enemy_bullets.enableBody = true;
-    enemy_bullets.physicsBodyType = Phaser.Physics.ARCADE;
+		// enemy_bullets
+		enemy_bullets = game.add.group();
+		enemy_bullets.enableBody = true;
+		enemy_bullets.physicsBodyType = Phaser.Physics.ARCADE;
 
-    for (i = 0; i < 20; i++) {
-    	const new_enemy_bullet = enemy_bullets.create(0, 0, 'enemy_bullet');
-    	new_enemy_bullet.name = `enemy_bullet${i}`;
-    	new_enemy_bullet.exists = false;
-    	new_enemy_bullet.visible = false;
-    	new_enemy_bullet.checkWorldBounds = true;
-    	new_enemy_bullet.events.onOutOfBounds.add(resetBullet, this);
-    }
+		for (i = 0; i < 20; i++) {
+			const new_enemy_bullet = enemy_bullets.create(0, 0, 'enemy_bullet');
+			new_enemy_bullet.name = `enemy_bullet${i}`;
+			new_enemy_bullet.exists = false;
+			new_enemy_bullet.visible = false;
+			new_enemy_bullet.checkWorldBounds = true;
+			new_enemy_bullet.events.onOutOfBounds.add(resetBullet, this);
+		}
 
-    // explosion
-    explosions = game.add.group();
-    explosions.createMultiple(30, 'kaboom');
-    explosions.forEach(boom, this);
+		// explosion
+		explosions = game.add.group();
+		explosions.createMultiple(30, 'kaboom');
+		explosions.forEach(boom, this);
 
-    // contors
-    cursors = game.input.keyboard.createCursorKeys();
-    game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
-}
+		// contors
+		cursors = game.input.keyboard.createCursorKeys();
+		game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
+	}
 
-function boom(enemy) {
-	enemy.anchor.x = 0.5;
-	enemy.anchor.y = 0.5;
-	enemy.animations.add('kaboom');
-}
+	function boom(enemy) {
+		enemy.anchor.x = 0.5;
+		enemy.anchor.y = 0.5;
+		enemy.animations.add('kaboom');
+	}
 
-function update() {
-    // collisions
-    game.physics.arcade.overlap(bullets, enemies, collisionEnemy, null, this);
-    game.physics.arcade.overlap(bullets, enemy_bullets, collisionEnemy, null, this);
-    game.physics.arcade.overlap(enemy_bullets, player, collisionPlayer, null, this);
-    game.physics.arcade.overlap(bullets, walls, collisionHandler, null, this);
-    game.physics.arcade.overlap(enemy_bullets, walls, collisionHandler, null, this);
+	function update() {
+		// collisions
+		game.physics.arcade.overlap(bullets, enemies, collisionEnemy, null, this);
+		game.physics.arcade.overlap(bullets, enemy_bullets, collisionEnemy, null, this);
+		game.physics.arcade.overlap(enemy_bullets, player, collisionPlayer, null, this);
+		game.physics.arcade.overlap(bullets, walls, collisionHandler, null, this);
+		game.physics.arcade.overlap(enemy_bullets, walls, collisionHandler, null, this);
 
-    game.physics.arcade.collide(player, walls);
-    game.physics.arcade.collide(enemies, enemies);
-    game.physics.arcade.collide(enemies, walls);
-    game.physics.arcade.collide(player, enemies);
+		game.physics.arcade.collide(player, walls);
+		game.physics.arcade.collide(enemies, enemies);
+		game.physics.arcade.collide(enemies, walls);
+		game.physics.arcade.collide(player, enemies);
 
-    if (player.alive) {
-    	player.body.velocity.setTo(0, 0);
+		if (player.alive) {
+			player.body.velocity.setTo(0, 0);
 
-    	if (cursors.left.isDown) {
-    		player_dir = 'left';
-    		player.body.velocity.x = -100;
-    		player.angle = 270;
-    	} else if (cursors.right.isDown) {
-    		player_dir = 'right';
-    		player.body.velocity.x = 100;
-    		player.angle = 90;
-    	} else if (cursors.up.isDown) {
-    		player_dir = 'up';
-    		player.body.velocity.y = -100;
-    		player.angle = 0;
-        // enemyFires();
-    } else if (cursors.down.isDown) {
-    	player_dir = 'down';
-    	player.body.velocity.y = 100;
-    	player.angle = 180;
-    }
-    if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
-    	fireBullet();
-    }
-    if (game.time.now > enemy_bullet_time) {
-    	enemyFires();
-    }
-}
-}
-
-function fireBullet() {
-	if (game.time.now > bullet_time) {
-		bullet = bullets.getFirstExists(false);
-
-		if (bullet) {
-			if (player_dir === 'up') {
-				bullet.reset(player.x - 4, player.y - 20);
-				bullet.body.velocity.y = -200;
+			if (cursors.left.isDown) {
+				player_dir = 'left';
+				player.body.velocity.x = -100;
+				player.angle = 270;
+			} else if (cursors.right.isDown) {
+				player_dir = 'right';
+				player.body.velocity.x = 100;
+				player.angle = 90;
+			} else if (cursors.up.isDown) {
+				player_dir = 'up';
+				player.body.velocity.y = -100;
+				player.angle = 0;
+				// enemyFires();
+			} else if (cursors.down.isDown) {
+				player_dir = 'down';
+				player.body.velocity.y = 100;
+				player.angle = 180;
 			}
-			if (player_dir === 'down') {
-				bullet.reset(player.x - 4, player.y + 20);
-				bullet.body.velocity.y = +200;
+			if (game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
+				fireBullet();
 			}
-			if (player_dir === 'left') {
-				bullet.reset(player.x - 20, player.y - 4);
-				bullet.body.velocity.x = -200;
+			if (game.time.now > enemy_bullet_time) {
+				enemyFires();
 			}
-			if (player_dir === 'right') {
-				bullet.reset(player.x + 20, player.y - 4);
-				bullet.body.velocity.x = +200;
-			}
-			bullet_time = game.time.now + 500;
 		}
 	}
-}
 
-function enemyFires() {
-	enemy_bullet = enemy_bullets.getFirstExists(false);
-	livingEnemies.length = 0;
+	function fireBullet() {
+		if (game.time.now > bullet_time) {
+			bullet = bullets.getFirstExists(false);
 
-	enemies.forEachAlive((enemy) => {
-		livingEnemies.push(enemy);
-	});
-
-	if (enemy_bullet && livingEnemies.length > 0) {
-		const random = game.rnd.integerInRange(0, livingEnemies.length - 1);
-		const shooter = livingEnemies[random];
-		enemy_bullet.reset(shooter.body.x, shooter.body.y);
-		game.physics.arcade.moveToObject(enemy_bullet, player, 120);
-		enemy_bullet_time = game.time.now + 2000;
+			if (bullet) {
+				if (player_dir === 'up') {
+					bullet.reset(player.x - 4, player.y - 20);
+					bullet.body.velocity.y = -200;
+				}
+				if (player_dir === 'down') {
+					bullet.reset(player.x - 4, player.y + 20);
+					bullet.body.velocity.y = +200;
+				}
+				if (player_dir === 'left') {
+					bullet.reset(player.x - 20, player.y - 4);
+					bullet.body.velocity.x = -200;
+				}
+				if (player_dir === 'right') {
+					bullet.reset(player.x + 20, player.y - 4);
+					bullet.body.velocity.x = +200;
+				}
+				bullet_time = game.time.now + 500;
+			}
+		}
 	}
-}
 
-function resetBullet(bullet) {
-	bullet.kill();
-}
+	function enemyFires() {
+		enemy_bullet = enemy_bullets.getFirstExists(false);
+		livingEnemies.length = 0;
 
-function collisionEnemy(enemy, object) {
-	object.kill();
-	enemy.kill();
+		enemies.forEachAlive((enemy) => {
+			livingEnemies.push(enemy);
+		});
 
-	const explosion = explosions.getFirstExists(false);
-	explosion.reset(object.body.x, object.body.y);
-	explosion.play('kaboom', 30, false, true);
-}
+		if (enemy_bullet && livingEnemies.length > 0) {
+			const random = game.rnd.integerInRange(0, livingEnemies.length - 1);
+			const shooter = livingEnemies[random];
+			enemy_bullet.reset(shooter.body.x, shooter.body.y);
+			game.physics.arcade.moveToObject(enemy_bullet, player, 120);
+			enemy_bullet_time = game.time.now + 2000;
+		}
+	}
 
-function collisionPlayer(player, object) {
-	object.kill();
+	function resetBullet(bullet) {
+		bullet.kill();
+	}
 
-	const explosion = explosions.getFirstExists(false);
-	explosion.reset(object.body.x, object.body.y);
-	explosion.play('kaboom', 30, false, true);
+	function collisionEnemy(enemy, object) {
+		object.kill();
+		enemy.kill();
 
-	player_lives -= 1;
-	player.body.x = 400;
-	player.body.y = 540;
-	player.angle = 0;
+		const explosion = explosions.getFirstExists(false);
+		explosion.reset(object.body.x, object.body.y);
+		explosion.play('kaboom', 30, false, true);
+	}
 
-	if (player_lives < 0) { player.kill(); }
-}
+	function collisionPlayer(player, object) {
+		object.kill();
 
-function collisionHandler(object, bullet) {
-	object.kill();
-}
+		const explosion = explosions.getFirstExists(false);
+		explosion.reset(object.body.x, object.body.y);
+		explosion.play('kaboom', 30, false, true);
+
+		player_lives -= 1;
+		player.body.x = 400;
+		player.body.y = 540;
+		player.angle = 0;
+
+		if (player_lives < 0) { player.kill(); }
+	}
+
+	function collisionHandler(object, bullet) {
+		object.kill();
+	}
 }
