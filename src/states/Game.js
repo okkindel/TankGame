@@ -4,6 +4,7 @@ import Player_Bullets from '../sprites/Player_Bullets'
 import Enemy_Bullets from '../sprites/Enemy_Bullets'
 import Player from '../sprites/Player'
 import Walls from '../sprites/Walls'
+import Map from '../Map'
 
 export default class extends Phaser.State {
 
@@ -11,40 +12,44 @@ export default class extends Phaser.State {
     super()
     this.bullet_time = 0;
     this.enemy_bullet_time = 2000;
+    this.player_lives = 3;
+    this.map = new Map();
   }
 
   init() { }
   preload() { }
   create() {
-
+    //Map loading
+    this.map.load_map(require("../maps/map1.json"));
     //PLAYER TANK
+    this.player_start_point = this.map.get_start_point();
     this.player = new Player({
       game: this.game,
-      x: 432,
-      y: 650,
+      x: this.player_start_point.x * 36,
+      y: this.player_start_point.y * 36,
       asset: 'tank_img'
     })
     this.game.add.existing(this.player)
 
     //ENEMY TANKS
+    this.enemy_spawn_point = this.map.get_enemy_spawn_point();
     this.enemies = this.game.add.group();
-    for (let i = 0; i < 10; i++) {
-      this.enemy = new Enemy({
-        game: this.game,
-        x: this.game.world.randomX,
-        y: this.game.rnd.integerInRange(0, 460),
-        asset: 'enemy_img'
-      })
+    this.enemy = new Enemy({
+      game: this.game,
+      x: this.enemy_spawn_point[0].x * 36,
+      y: this.enemy_spawn_point[0].y * 36,
+      asset: 'enemy_img'
+    })
       this.enemies.add(this.enemy);
-    }
 
     //WALLS
+    this.walls_position = this.map.get_walls_array();
     this.walls = this.game.add.group();
-    for (i = 0; i < 8; i++) {
+    for (i = 0; i < this.walls_position.length; i++) {
       this.wall = new Walls({
         game: this.game,
-        x: 306 + i * 36,
-        y: 570,
+        x: this.walls_position[i].x * 36,
+        y: this.walls_position[i].y * 36,
         asset: 'wall_img'
       })
       this.walls.add(this.wall);
@@ -233,9 +238,10 @@ export default class extends Phaser.State {
     this.player.x = 432;
     this.player.y = 650;
     this.player.angle = 0;
-    if (this.lives.countLiving() < 1) { 
-      this.player.kill(); 
-       this.state.start('GameOver');}
+    if (this.lives.countLiving() < 1) {
+      this.player.kill();
+      this.state.start('GameOver');
+    }
   }
   resetObject(bullet) {
     bullet.kill();
