@@ -34,13 +34,15 @@ export default class extends Phaser.State {
     //ENEMY TANKS
     this.enemy_spawn_point = this.map.get_enemy_spawn_point();
     this.enemies = this.game.add.group();
-    this.enemy = new Enemy({
-      game: this.game,
-      x: this.enemy_spawn_point[0].x * 36,
-      y: this.enemy_spawn_point[0].y * 36,
-      asset: 'enemy_img'
-    })
+    for (i = 0; i < 20; i++) {
+      this.enemy = new Enemy({
+        game: this.game,
+        x: this.enemy_spawn_point[0].x * 36,
+        y: this.enemy_spawn_point[0].y * 36,
+        asset: 'enemy_img'
+      })
       this.enemies.add(this.enemy);
+    }
 
     //WALLS
     this.walls_position = this.map.get_walls_array();
@@ -57,7 +59,7 @@ export default class extends Phaser.State {
 
     //PLAYER BULLETS
     this.bullets = this.game.add.group();
-    for (var i = 0; i < 20; i++) {
+    for (i = 0; i < 20; i++) {
       this.bullet = new Player_Bullets({
         game: this.game,
         asset: 'bullet_img'
