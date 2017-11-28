@@ -17,29 +17,28 @@ export default class extends Phaser.Sprite {
     if(timeNow > this.timeToStep){
       this.timeToStep = timeNow;
       this.timeToStep += 2000*Math.random();
-      this.direction = Math.floor(Math.random() * ( 4 -1)) + 1
+      this.direction = Math.floor(Math.random() * ( 5 - 1)) + 1
 
       let dist = Math.sqrt(Math.pow((this.x - playerX),2) + Math.pow((this.y - playerY),2));
       let decision = Math.random();
       
-    }else if(this.direction ==1){
+    }
+    else if(this.direction == 1) {
         this.x +=1;
         this.angle = 90;
     }
-    else if(this.direction ==2){
+    else if(this.direction == 2) {
       this.x -=1;
       this.angle = 270;
     }
-    else if(this.direction ==3){
+    else if(this.direction == 3) {
       this.y +=1;
       this.angle = 180;
     }
-    else if(this.direction ==4){
+    else if(this.direction == 4) {
       this.y -=1;
       this.angle = 0;
     }
-    console.log(this.direction);
-    
     
     // else if(this.x > playerX && this.y > playerY){
     //   this.x -= 1;

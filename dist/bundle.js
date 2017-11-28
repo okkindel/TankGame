@@ -11003,7 +11003,7 @@ const centerGameObjects = objects => {
     if (timeNow > this.timeToStep) {
       this.timeToStep = timeNow;
       this.timeToStep += 2000 * Math.random();
-      this.direction = Math.floor(Math.random() * (4 - 1)) + 1;
+      this.direction = Math.floor(Math.random() * (5 - 1)) + 1;
 
       let dist = Math.sqrt(Math.pow(this.x - playerX, 2) + Math.pow(this.y - playerY, 2));
       let decision = Math.random();
@@ -11020,7 +11020,6 @@ const centerGameObjects = objects => {
       this.y -= 1;
       this.angle = 0;
     }
-    console.log(this.direction);
 
     // else if(this.x > playerX && this.y > playerY){
     //   this.x -= 1;
@@ -11137,7 +11136,7 @@ const centerGameObjects = objects => {
 /* harmony default export */ __webpack_exports__["a"] = (class extends __WEBPACK_IMPORTED_MODULE_0_phaser___default.a.Sprite {
   constructor({ game, x, y, asset }) {
     super(game, x, y, asset);
-    this.anchor.setTo(0.5), this.game.physics.arcade.enable(this), this.enableBody = true, this.immovable = true;
+    this.anchor.setTo(0.5), this.game.physics.arcade.enable(this), this.enableBody = true, this.body.immovable = true;
   }
 
   update() {}
