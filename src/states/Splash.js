@@ -16,6 +16,7 @@ export default class extends Phaser.State {
     this.load.image('button', 'assets/tank.png')
     this.load.image('tank_img', 'assets/tank.png')
     this.load.image('wall_img', 'assets/wall.png')
+    this.load.image('eagle_img', 'assets/eagle.png')
     this.load.image('small_wall_1', 'assets/small_wall_1.png')
     this.load.image('small_wall_2', 'assets/small_wall_2.png')
     this.load.image('small_wall_3', 'assets/small_wall_3.png')

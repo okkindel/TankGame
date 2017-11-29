@@ -1,8 +1,9 @@
 import Phaser from 'phaser'
+import Player from '../sprites/Player'
 import Enemy from '../sprites/Enemy_Tank'
+import Eagle from '../sprites/Eagle'
 import Player_Bullets from '../sprites/Player_Bullets'
 import Enemy_Bullets from '../sprites/Enemy_Bullets'
-import Player from '../sprites/Player'
 import Walls from '../sprites/Walls'
 import Brick from '../sprites/Brick'
 import Map from '../Map'
@@ -46,6 +47,16 @@ export default class extends Phaser.State {
       })
       this.enemies.add(this.enemy);
     }
+
+    //EAGLE
+    this.eagle_position = this.map.get_eagle_point();
+    this.eagle = new Eagle({
+      game: this.game,
+      x: this.eagle_position.x * 36,
+      y: this.eagle_position.y * 36,
+      asset: 'eagle_img'
+    })
+    this.game.add.existing(this.eagle)
 
     //BRICKS
     this.brick_position = this.map.get_brick_array();
@@ -181,6 +192,8 @@ export default class extends Phaser.State {
     game.physics.arcade.overlap(this.enemy_bullets, this.bricks, this.collisionHandler, null, this);
     game.physics.arcade.overlap(this.bullets, this.walls, this.collision, null, this);
     game.physics.arcade.overlap(this.enemy_bullets, this.walls, this.collision, null, this);
+    game.physics.arcade.overlap(this.bullets, this.eagle, this.collisionEagle, null, this);
+    game.physics.arcade.overlap(this.enemy_bullets, this.eagle, this.collisionEagle, null, this);
 
     this.game.physics.arcade.collide(this.player, this.enemies);
     this.game.physics.arcade.collide(this.enemies, this.enemies);
@@ -188,6 +201,8 @@ export default class extends Phaser.State {
     this.game.physics.arcade.collide(this.enemies, this.bricks);
     this.game.physics.arcade.collide(this.player, this.walls);
     this.game.physics.arcade.collide(this.enemies, this.walls);
+    this.game.physics.arcade.collide(this.player, this.eagle);
+    this.game.physics.arcade.collide(this.enemies, this.eagle);
 
     if (this.player.alive) {
 
@@ -290,6 +305,7 @@ export default class extends Phaser.State {
       this.enemy_bullet_time = game.time.now + 500;
     }
   }
+
   collisionHandler(enemy, object) {
     object.kill();
     enemy.kill();
@@ -297,6 +313,17 @@ export default class extends Phaser.State {
     const explosion = this.explosions.getFirstExists(false);
     explosion.reset(object.x, object.y);
     explosion.play('kaboom', 30, false, true);
+  }
+
+  collisionEagle(eagle, object) {
+    object.kill();
+    eagle.kill();
+
+    const explosion = this.explosions.getFirstExists(false);
+    explosion.reset(object.x, object.y);
+    explosion.play('kaboom', 30, false, true);
+
+    this.state.start('GameOver');
   }
 
   collisionPlayer(player, object) {
