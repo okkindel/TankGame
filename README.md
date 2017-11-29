@@ -13,12 +13,13 @@ and after pressing a certain combination of keys it overlays the webpage
 and opens up a game based on "Tanks" (see: https://pl.wikipedia.org/wiki/Battle_City).
 
 ## Scope definition
-Following project includes::
-• React component with playable game of Tanks
-• Basic gameplay features: driving the tank, shooting at the enemies, collisions,
-destructible terrain
-• Simple AI for enemies
-• Highscores
+Following project includes
+<ul>
+  <li>React component with playable game of Tanks</li>
+  <li>Basic gameplay features: driving the tank, shooting at the enemies, collisions, destructible terrain</li>
+  <li>Simple AI for enemies</li>
+  <li>Highscores</li>
+</ul>
 You can add your own features and ideas in the game
 
 ## Screenshots
