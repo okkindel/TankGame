@@ -385,6 +385,9 @@ export default class extends Phaser.State {
 
   collision(object, bullet) {
     object.kill();
+    const explosion = this.small_explode.getFirstExists(false);
+    explosion.reset(object.body.x, object.body.y);
+    explosion.play('small_kaboom', 80, false, true);
   }
 
   render() {
