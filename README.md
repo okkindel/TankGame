@@ -40,8 +40,8 @@ npm start
 ## Technologies and Frameworks
 <p align="center">
   <img width="70px" src="https://raw.githubusercontent.com/nokia-wroclaw/innovativeproject-tanks-game/Development/phaser-logo.png" alt="Phaser"/>
-  <img width="70px" src="https://raw.githubusercontent.com/nokia-wroclaw/innovativeproject-tanks-game/Development/react-logo.svg" alt="React"/>
-  <img width="70px" src="https://raw.githubusercontent.com/nokia-wroclaw/innovativeproject-tanks-game/Development/webpack-logo.svg" alt="Webpack"/>
+  <img width="70px" src="https://raw.githubusercontent.com/nokia-wroclaw/innovativeproject-tanks-game/Development/react-logo.png" alt="React"/>
+  <img width="70px" src="https://raw.githubusercontent.com/nokia-wroclaw/innovativeproject-tanks-game/Development/webpack-logo.png" alt="Webpack"/>
 </p>
 
 ## Senseis
