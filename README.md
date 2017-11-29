@@ -41,7 +41,7 @@ npm start
 <p align="center">
   <img width="25%" src="https://raw.githubusercontent.com/nokia-wroclaw/innovativeproject-tanks-game/Development/phaser-logo.png" alt="Phaser"/>
   <img width="25%" src="https://raw.githubusercontent.com/nokia-wroclaw/innovativeproject-tanks-game/Development/react-logo.png" alt="React"/>
-  <img width="25%" src="https://raw.githubusercontent.com/nokia-wroclaw/innovativeproject-tanks-game/Development/webpack-logo.png" alt="Webpack"/>
+  <img width="25%" src="https://raw.githubusercontent.com/nokia-wroclaw/innovativeproject-tanks-game/Development/wpack-logo.png" alt="Webpack"/>
 </p>
 
 ## Senseis
