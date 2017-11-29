@@ -22,6 +22,14 @@ Following project includes
 </ul>
 You can add your own features and ideas in the game
 
+## Installation
+```bash
+git clone https://github.com/nokia-wroclaw/innovativeproject-tanks-game.git
+cd innovativeproject-tanks-game
+npm install // or yarn install
+npm start
+```
+
 ## Screenshots
 <p align="center">
   <img src="https://raw.githubusercontent.com/nokia-wroclaw/innovativeproject-tanks-game/Development/scr1.png" alt="Main menu"/>
