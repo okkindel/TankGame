@@ -40,7 +40,7 @@ export default class extends Phaser.State {
       let random = this.game.rnd.integerInRange(0, 1)
       this.enemy = new Enemy({
         game: this.game,
-        x: this.enemy_spawn_point[random].x * 36 + 18,
+        x: this.enemy_spawn_point[random].x * 36 + 18 + 100 * Math.random()*-1,
         y: this.enemy_spawn_point[random].y * 36,
         asset: 'enemy_img'
       })
