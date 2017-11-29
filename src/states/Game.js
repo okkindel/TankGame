@@ -1,8 +1,9 @@
 import Phaser from 'phaser'
+import Player from '../sprites/Player'
 import Enemy from '../sprites/Enemy_Tank'
+import Eagle from '../sprites/Eagle'
 import Player_Bullets from '../sprites/Player_Bullets'
 import Enemy_Bullets from '../sprites/Enemy_Bullets'
-import Player from '../sprites/Player'
 import Walls from '../sprites/Walls'
 import Brick from '../sprites/Brick'
 import Map from '../Map'
@@ -39,14 +40,24 @@ export default class extends Phaser.State {
     //ENEMY TANKS
     this.enemy_spawn_point = this.map.get_enemy_spawn_point();
     this.enemies = this.game.add.group();
-      let random = this.game.rnd.integerInRange(0, 2)
-      this.enemy = new Enemy({
-        game: this.game,
-        x: this.enemy_spawn_point[random].x * 36 + 18 /*+ 100 * Math.random()*-1*/,
-        y: this.enemy_spawn_point[random].y * 36,
-        asset: 'enemy_img'
-      })
-      this.enemies.add(this.enemy);
+    let random = this.game.rnd.integerInRange(0, 1)
+    this.enemy = new Enemy({
+      game: this.game,
+      x: this.enemy_spawn_point[random].x * 36 + 18 /*+ 100 * Math.random()*-1*/,
+      y: this.enemy_spawn_point[random].y * 36,
+      asset: 'enemy_img'
+    })
+    this.enemies.add(this.enemy);
+
+    //EAGLE
+    this.eagle_position = this.map.get_eagle_point();
+    this.eagle = new Eagle({
+      game: this.game,
+      x: this.eagle_position.x * 36,
+      y: this.eagle_position.y * 36,
+      asset: 'eagle_img'
+    })
+    this.game.add.existing(this.eagle)
 
     //BRICKS
     this.brick_position = this.map.get_brick_array();
@@ -180,8 +191,8 @@ export default class extends Phaser.State {
     game.physics.arcade.overlap(this.enemy_bullets, this.player, this.collisionPlayer, null, this);
     game.physics.arcade.overlap(this.bullets, this.bricks, this.collisionHandler, null, this);
     game.physics.arcade.overlap(this.enemy_bullets, this.bricks, this.collisionHandler, null, this);
-    game.physics.arcade.overlap(this.bullets, this.walls, this.collision, null, this);
-    game.physics.arcade.overlap(this.enemy_bullets, this.walls, this.collision, null, this);
+    game.physics.arcade.overlap(this.bullets, this.eagle, this.collisionEagle, null, this);
+    game.physics.arcade.overlap(this.enemy_bullets, this.eagle, this.collisionEagle, null, this);
 
     this.game.physics.arcade.collide(this.player, this.enemies);
     this.game.physics.arcade.collide(this.enemies, this.enemies);
@@ -189,8 +200,10 @@ export default class extends Phaser.State {
     this.game.physics.arcade.collide(this.enemies, this.bricks);
     this.game.physics.arcade.collide(this.player, this.walls);
     this.game.physics.arcade.collide(this.enemies, this.walls);
+    this.game.physics.arcade.collide(this.player, this.eagle);
+    this.game.physics.arcade.collide(this.enemies, this.eagle);
 
-    if(this.enemy_number > 0 && (this.game.time.now - this.last_time_spawn) > this.enemy_spawn_interval ){
+    if (this.enemy_number > 0 && (this.game.time.now - this.last_time_spawn) > this.enemy_spawn_interval) {
       this.last_time_spawn = this.game.time.now;
       this.enemy_number -= 1;
       let random = this.game.rnd.integerInRange(0, 2)
@@ -304,6 +317,19 @@ export default class extends Phaser.State {
       this.enemy_bullet_time = game.time.now + 750 / Math.sqrt(this.livingEnemies.length);
     }
   }
+
+  collisionEagle(eagle, object) {
+    object.kill();
+    eagle.kill();
+
+    const explosion = this.explosions.getFirstExists(false);
+    explosion.reset(object.x, object.y);
+    explosion.play('kaboom', 30, false, true);
+
+    this.state.start('GameOver');
+  }
+
+
   collisionHandler(enemy, object) {
     object.kill();
     enemy.kill();
