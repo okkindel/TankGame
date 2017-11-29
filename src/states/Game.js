@@ -302,7 +302,7 @@ export default class extends Phaser.State {
         this.enemy_bullet.body.velocity.x = +120;
       }
       explosion.play('small_kaboom', 80, false, true);
-      this.enemy_bullet_time = game.time.now + 500;
+      this.enemy_bullet_time = game.time.now + 1000 / Math.sqrt(this.livingEnemies.length);
     }
   }
 
