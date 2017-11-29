@@ -10,89 +10,78 @@ export default class extends Phaser.Sprite {
       this.body.collideWorldBounds = true,
       this.timeToStep = 0,
       this.direction = 0;
+      //p l d g 
+      this.chances = [25, 25, 25, 25];
+  }
+
+  distanceFromTo(x1, x2, y1, y2) {
+    return Math.sqrt(Math.pow((x2-x1), 2) + Math.pow((y2-y1), 2));
   }
 
   move(playerX, playerY, eagleX, eagleY, timeNow) {
+    if(timeNow > this.timeToStep) {
+      let dist_to_player = this.distanceFromTo(this.x, playerX, this.y, playerY);
+      let dist_to_eagle = this.distanceFromTo(this.x, eagleX, this.y, eagleY);
 
-    if (timeNow > this.timeToStep) {
-      this.timeToStep = timeNow;
-      this.timeToStep += 2000 * Math.random();
-
-
-      
-      let myArray =[];
-      let distU = Math.sqrt(Math.pow((this.x - playerX), 2) + Math.pow((this.y-1 - playerY), 2));
-      let distD = Math.sqrt(Math.pow((this.x - playerX), 2) + Math.pow((this.y+1 - playerY), 2));
-      let distR = Math.sqrt(Math.pow((this.x+1 - playerX), 2) + Math.pow((this.y - playerY), 2));
-      let distL = Math.sqrt(Math.pow((this.x-1 - playerX), 2) + Math.pow((this.y - playerY), 2));
-      let decision = Math.random();
-      this.direction = Math.floor(Math.random() * (5 - 1)) + 1;
-      if(distD > distU){
-        myArray.push(1);
-        myArray.push(1);
-        myArray.push(1);
-        if(distL < distR){
-          myArray.push(4);
-          myArray.push(4);
-          myArray.push(4);
-        }else{
-          myArray.push(2);
-          myArray.push(2);
-          myArray.push(2);
-        }
-      }else{
-        myArray.push(3);
-        myArray.push(3);
-        myArray.push(3);
-        if(distL < distR){
-          myArray.push(2);
-          myArray.push(2);
-          myArray.push(2);
-        }else{
-          myArray.push(4);
-          myArray.push(4);
-          myArray.push(4);
-        }
+      console.log("eX " + eagleX + " | eY " + eagleY);
+  
+      if(dist_to_player > dist_to_eagle) {
+        // Swap
+        playerX = eagleX;
+        playerY = eagleY
       }
 
-      // if(playerX > this.x){
-      //   for(let i=0; i < 3; i++)
-      //     myArray.push(2);
+      this.timeToStep = timeNow;
+      this.timeToStep += Math.floor(1000 * Math.random());
 
-      // }
-      // if(playerX < this.x){
-      //   for(let i=0; i < 3; i++)
-      //     myArray.push(4);
-      // }
-      // if(playerY > this.y){
-      //   for(let i=0; i < 3; i++)
-      //     myArray.push(3);
-      //  }
-      // if(playerY < this.y){
-      //   for(let i=0; i < 3; i++)
-      //     myArray.push(1);
-      // }
+      let diff_x = playerX - this.x;
+      let diff_y = playerY - this.y;
 
-      this.direction = myArray[Math.floor(Math.random() * myArray.length)];
-      this.body.velocity.setTo(0, 0);
-      console.log(this.direction);
+      if( diff_x > 0 ) {
+        this.chances[0] += 25;
+      } else {
+        this.chances[1] += 25;
+      }
 
-    }
-    else if (this.direction == 1) {
-      this.body.velocity.x += 1;
-      this.angle = 90;
-    }
-    else if (this.direction == 2) {
-      this.body.velocity.x -= 1;
-      this.angle = 270;
-    }
-    else if (this.direction == 3) {
-      this.body.velocity.y += 1;
-      this.angle = 180;
-    }
-    else if (this.direction == 4) {
-      this.body.velocity.y -= 1;
-      this.angle = 0;
+      if( diff_y > 0 ) {
+        this.chances[2] += 25;
+      } else {
+        this.chances[3] += 25;
+      }
+
+      let randomSum = 0;
+      let dirChance = 0;
+
+      for(let i = 0; i < 4; i++) {
+        randomSum += this.chances[i];
+      }
+
+      dirChance = Math.floor(Math.random() * randomSum);
+
+      this.body.velocity.setTo(0,0);
+
+      if( dirChance < this.chances[0]) {
+        this.direction = 1; // Prawo
+        this.angle = 90;
+        this.body.velocity.x = 100;
+      } else if( dirChance < this.chances[0] + this.chances[1]) {
+        this.direction = 2; // Lewo
+        this.angle = 270;
+        this.body.velocity.x = -100;
+      } else if( dirChance < this.chances[0] + this.chances[1] + this.chances[2]) {
+        this.direction = 3; // dół
+        this.angle = 180;
+        this.body.velocity.y = 100;
+      } else {
+        this.direction = 4; // góra
+        this.angle = 0;
+        this.body.velocity.y = -100;
+      }
+
+      if(randomSum >= 1000) {
+        this.chances = [25, 25, 25, 25];
+      }
+
     }
   }
 
