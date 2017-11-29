@@ -13,7 +13,7 @@ export default class extends Phaser.State {
   constructor() {
     super()
     this.map = new Map();
-    this.enemy_bullet_time = 20000;
+    this.enemy_bullet_time = 2000;
     this.enemy_spawn_interval = 5000;
     this.bullet_time = 0;
     this.last_time_spawn = 0;
@@ -180,7 +180,7 @@ export default class extends Phaser.State {
 
     //ENEMIES MOVING
     this.enemies.forEachAlive(function (enemy) {
-      enemy.move(this.player.x, this.player.y, this.map.get_eagle_point().x, this.map.get_eagle_point().y, this.game.time.now);
+      enemy.move(this.player.x, this.player.y, this.map.get_eagle_point().x * 36, this.map.get_eagle_point().y * 36, this.game.time.now);
     }, this);
 
     //COLLISIONS
