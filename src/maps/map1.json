@@ -17,6 +17,8 @@
 			"y": 3
 		}
 	],
+	"spawn_counter": 2,
+	"enemy_counter": 20,
 	"brick": [
 		{
 			"x": 4,

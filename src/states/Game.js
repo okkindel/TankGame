@@ -12,11 +12,10 @@ export default class extends Phaser.State {
 
   constructor() {
     super()
-    this.bullet_time = 0;
-    this.enemy_bullet_time = 2000;
     this.map = new Map();
-    this.enemy_number = 20;
+    this.enemy_bullet_time = 20000;
     this.enemy_spawn_interval = 5000;
+    this.bullet_time = 0;
     this.last_time_spawn = 0;
   }
 
@@ -38,16 +37,11 @@ export default class extends Phaser.State {
     this.game.add.existing(this.player)
 
     //ENEMY TANKS
+    this.enemy_number = this.map.get_enemy_counter();
+    this.spawn_counter = this.map.get_spawn_counter();
     this.enemy_spawn_point = this.map.get_enemy_spawn_point();
     this.enemies = this.game.add.group();
-    let random = this.game.rnd.integerInRange(0, 1)
-    this.enemy = new Enemy({
-      game: this.game,
-      x: this.enemy_spawn_point[random].x * 36 + 18 /*+ 100 * Math.random()*-1*/,
-      y: this.enemy_spawn_point[random].y * 36,
-      asset: 'enemy_img'
-    })
-    this.enemies.add(this.enemy);
+    this.addNewEnemy();
 
     //EAGLE
     this.eagle_position = this.map.get_eagle_point();
@@ -179,11 +173,15 @@ export default class extends Phaser.State {
 
   update() {
 
+    //ADD NEW ENEMIES
+    if (this.enemy_number > 0 && (this.game.time.now - this.last_time_spawn) > this.enemy_spawn_interval) {
+      this.addNewEnemy();
+    }
+
     //ENEMIES MOVING
     this.enemies.forEachAlive(function (enemy) {
       enemy.move(this.player.x, this.player.y, this.map.get_eagle_point().x, this.map.get_eagle_point().y, this.game.time.now);
     }, this);
-
 
     //COLLISIONS
     this.game.physics.arcade.overlap(this.bullets, this.enemies, this.collisionHandler, null, this);
@@ -202,19 +200,6 @@ export default class extends Phaser.State {
     this.game.physics.arcade.collide(this.enemies, this.walls);
     this.game.physics.arcade.collide(this.player, this.eagle);
     this.game.physics.arcade.collide(this.enemies, this.eagle);
-
-    if (this.enemy_number > 0 && (this.game.time.now - this.last_time_spawn) > this.enemy_spawn_interval) {
-      this.last_time_spawn = this.game.time.now;
-      this.enemy_number -= 1;
-      let random = this.game.rnd.integerInRange(0, 2)
-      this.enemy = new Enemy({
-        game: this.game,
-        x: this.enemy_spawn_point[random].x * 36 + 18 /*+ 100 * Math.random()*-1*/,
-        y: this.enemy_spawn_point[random].y * 36,
-        asset: 'enemy_img'
-      })
-      this.enemies.add(this.enemy);
-    }
 
     if (this.player.alive) {
 
@@ -248,6 +233,22 @@ export default class extends Phaser.State {
         this.enemyFires();
       }
     }
+  }
+
+  addNewEnemy() {
+
+    this.last_time_spawn = this.game.time.now;
+    let random = this.game.rnd.integerInRange(0, this.spawn_counter)
+    this.enemy = new Enemy({
+      game: this.game,
+      x: this.enemy_spawn_point[random].x * 36 + 18,
+      y: this.enemy_spawn_point[random].y * 36,
+      asset: 'enemy_img'
+    })
+    this.enemies.add(this.enemy);
+    this.enemy_number -= 1;
+
+    console.log(this.enemy_number);
   }
 
   fireBullet() {
@@ -329,7 +330,6 @@ export default class extends Phaser.State {
     this.state.start('GameOver');
   }
 
-
   collisionHandler(enemy, object) {
     object.kill();
     enemy.kill();
@@ -361,6 +361,7 @@ export default class extends Phaser.State {
       this.state.start('GameOver');
     }
   }
+
   resetObject(bullet) {
     bullet.kill();
   }
