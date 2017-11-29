@@ -203,8 +203,11 @@ export default class extends Phaser.State {
     game.physics.arcade.overlap(this.enemy_bullets, this.player, this.collisionPlayer, null, this);
     game.physics.arcade.overlap(this.bullets, this.bricks, this.collisionHandler, null, this);
     game.physics.arcade.overlap(this.enemy_bullets, this.bricks, this.collisionHandler, null, this);
+    game.physics.arcade.overlap(this.bullets, this.walls, this.collision, null, this);
+    game.physics.arcade.overlap(this.enemy_bullets, this.walls, this.collision, null, this);
     game.physics.arcade.overlap(this.bullets, this.eagle, this.collisionEagle, null, this);
     game.physics.arcade.overlap(this.enemy_bullets, this.eagle, this.collisionEagle, null, this);
+    
 
     this.game.physics.arcade.collide(this.player, this.enemies);
     this.game.physics.arcade.collide(this.enemies, this.enemies);
