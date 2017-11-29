@@ -194,7 +194,7 @@ export default class extends Phaser.State {
 
     //ENEMIES MOVING
     this.enemies.forEachAlive(function (enemy) {
-      enemy.move(this.player.x, this.player.y, this.map.get_eagle_point().x * 36, this.map.get_eagle_point().y * 36, this.game.time.now);
+      enemy.move(this.player.x, this.player.y, this.eagle_position.x * 36, this.eagle_position.y * 36, this.game.time.now);
     }, this);
 
     //COLLISIONS
