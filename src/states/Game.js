@@ -12,7 +12,6 @@ export default class extends Phaser.State {
     super()
     this.bullet_time = 0;
     this.enemy_bullet_time = 2000;
-    this.player_lives = 3;
     this.map = new Map();
   }
 
@@ -295,10 +294,10 @@ export default class extends Phaser.State {
     explosion.reset(object.body.x, object.body.y);
     explosion.play('kaboom', 30, false, true);
 
-    this.player_lives -= 1;
     this.player.x = this.player_start_point.x * 36 + 18;
     this.player.y = this.player_start_point.y * 36;
     this.player.angle = 0;
+    
     if (this.lives.countLiving() < 1) {
       this.player.kill();
       this.state.start('GameOver');
