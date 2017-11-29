@@ -135,7 +135,7 @@ export default class extends Phaser.State {
       this.icon.anchor.setTo(0.5, 0.5);
       this.icon.angle = 90;
       this.icon.scale.setTo(0.9, 0.9);
-      this.icon.alpha = 0.6;
+      this.icon.alpha = 0.8;
     }
 
     //EXPLOSIONS
