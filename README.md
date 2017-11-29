@@ -26,7 +26,7 @@ You can add your own features and ideas in the game
 ```bash
 git clone https://github.com/nokia-wroclaw/innovativeproject-tanks-game.git
 cd innovativeproject-tanks-game
-npm install // or yarn install
+npm install
 npm start
 ```
 
@@ -35,6 +35,13 @@ npm start
   <img src="https://raw.githubusercontent.com/nokia-wroclaw/innovativeproject-tanks-game/Development/scr1.png" alt="Main menu"/>
   <img src="https://raw.githubusercontent.com/nokia-wroclaw/innovativeproject-tanks-game/Development/scr2.png" alt="Gameplay"/>
   <img src="https://raw.githubusercontent.com/nokia-wroclaw/innovativeproject-tanks-game/Development/scr3.png" alt="Game over"/>
+</p>
+
+## Technologies and Frameworks
+<p align="center">
+  <img width="70px" src="https://raw.githubusercontent.com/nokia-wroclaw/innovativeproject-tanks-game/Development/phaser-logo.png" alt="Phaser"/>
+  <img width="70px" src="https://raw.githubusercontent.com/nokia-wroclaw/innovativeproject-tanks-game/Development/react-logo.svg" alt="React"/>
+  <img width="70px" src="https://raw.githubusercontent.com/nokia-wroclaw/innovativeproject-tanks-game/Development/webpack-logo.svg" alt="Webpack"/>
 </p>
 
 ## Senseis
