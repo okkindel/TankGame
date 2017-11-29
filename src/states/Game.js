@@ -154,6 +154,11 @@ export default class extends Phaser.State {
     this.small_explode.createMultiple(30, 'explode_small_img');
     this.small_explode.forEach(this.small_boom, this);
 
+    //APPEAR
+    this.appear = this.game.add.group();
+    this.appear.createMultiple(30, 'appear_img');
+    this.appear.forEach(this.appear_tank, this);
+
     //CURSORS
     this.cursors = game.input.keyboard.createCursorKeys();
     game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
@@ -171,11 +176,20 @@ export default class extends Phaser.State {
     object.animations.add('small_kaboom');
   }
 
+  appear_tank(object) {
+    object.anchor.x = 0.5;
+    object.anchor.y = 0.5;
+    object.animations.add('appearing');
+  }
+
   update() {
 
     //ADD NEW ENEMIES
     if (this.enemy_number > 0 && (this.game.time.now - this.last_time_spawn) > this.enemy_spawn_interval) {
       this.addNewEnemy();
+      const apearing = this.appear.getFirstExists(false);
+      apearing.reset(this.enemy.x, this.enemy.y);
+      apearing.play('appearing', 30, false, true);
     }
 
     //ENEMIES MOVING
@@ -247,14 +261,15 @@ export default class extends Phaser.State {
     })
     this.enemies.add(this.enemy);
     this.enemy_number -= 1;
-
     console.log(this.enemy_number);
   }
 
   fireBullet() {
+    
+    const explosion = this.small_explode.getFirstExists(false);
     if (this.game.time.now > this.bullet_time) {
       this.bullet = this.bullets.getFirstExists(false);
-      const explosion = this.small_explode.getFirstExists(false);
+
 
       if (this.bullet) {
         if (this.player_dir === 'up') {
@@ -284,6 +299,7 @@ export default class extends Phaser.State {
   }
 
   enemyFires() {
+
     this.livingEnemies = [];
     this.livingEnemies.length = 0;
     this.enemy_bullet = this.enemy_bullets.getFirstExists(false);
@@ -341,9 +357,7 @@ export default class extends Phaser.State {
 
   collisionPlayer(player, object) {
     object.kill();
-
     this.live = this.lives.getFirstAlive();
-
     if (this.live) {
       this.live.kill();
     }
