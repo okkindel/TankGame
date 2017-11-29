@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://camo.githubusercontent.com/9ab8c3115efd1dd973669448dccc47c72cc0f061/68747470733a2f2f7261772e6769746875622e636f6d2f6e736e2d77726f636c61772f696e6e6f76617469766570726f6a656374732f6d61737465722f7372632f666967757265732f696e6e6f7661746976652d70726f6a656374732e706e67" alt="Innovative Project"/>
+  <img src="https://raw.githubusercontent.com/nokia-wroclaw/innovativeproject-tanks-game/Development/innovative_logo.png" alt="Innovative Project"/>
 </p>
 
 ## Idea
@@ -10,8 +10,7 @@ In case of any questions, proposals or improvements just write to us: innovative
 ## Project goal
 The goal of project is to preare a React component, that can be included on webpage
 and after pressing a certain combination of keys it overlays the webpage
-and opens up a game based on "Tanks" (see: https://pl.wikipedia.org/
-wiki/Battle_City).
+and opens up a game based on "Tanks" (see: https://pl.wikipedia.org/wiki/Battle_City).
 
 ## Scope definition
 Following project includes::
@@ -22,6 +21,9 @@ destructible terrain
 • Highscores
 You can add your own features and ideas in the game
 
+## Screenshots
+<img src="https://raw.githubusercontent.com/nokia-wroclaw/innovativeproject-tanks-game/Development/scr1.png" alt="Gameplay"/>
+
 ## Senseis
 <ul>
   <li>Andrzej Rozenfeld</li>
@@ -29,8 +31,8 @@ You can add your own features and ideas in the game
   <li>Ewa Kaczmarek</li>
 </ul>
 
-## Team
-# Intercontinental Programmers
+## About us
+<b>Intercontinental Programmers</b>
 <ul>
   <li>Maciej Dziadyk</li>
   <li>Maciej Hajduk</li>
