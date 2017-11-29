@@ -22,7 +22,11 @@ destructible terrain
 You can add your own features and ideas in the game
 
 ## Screenshots
-<img src="https://raw.githubusercontent.com/nokia-wroclaw/innovativeproject-tanks-game/Development/scr1.png" alt="Gameplay"/>
+<p align="center">
+  <img src="https://raw.githubusercontent.com/nokia-wroclaw/innovativeproject-tanks-game/Development/scr1.png" alt="Main menu"/>
+  <img src="https://raw.githubusercontent.com/nokia-wroclaw/innovativeproject-tanks-game/Development/scr2.png" alt="Gameplay"/>
+  <img src="https://raw.githubusercontent.com/nokia-wroclaw/innovativeproject-tanks-game/Development/scr3.png" alt="Game over"/>
+</p>
 
 ## Senseis
 <ul>
