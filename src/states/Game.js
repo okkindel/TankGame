@@ -36,10 +36,10 @@ export default class extends Phaser.State {
     this.enemy_spawn_point = this.map.get_enemy_spawn_point();
     this.enemies = this.game.add.group();
     for (let i = 0; i < 10; i++) {
-      let random = this.game.rnd.integerInRange(0, 1)
+      let random = this.game.rnd.integerInRange(0, 2)
       this.enemy = new Enemy({
         game: this.game,
-        x: this.enemy_spawn_point[random].x * 36 + 18 + 100 * Math.random()*-1,
+        x: this.enemy_spawn_point[random].x * 36 + 18 /*+ 100 * Math.random()*-1*/,
         y: this.enemy_spawn_point[random].y * 36,
         asset: 'enemy_img'
       })
@@ -121,7 +121,7 @@ export default class extends Phaser.State {
       this.icon.anchor.setTo(0.5, 0.5);
       this.icon.angle = 90;
       this.icon.scale.setTo(0.9, 0.9);
-      this.icon.alpha = 0.4;
+      this.icon.alpha = 0.6;
     }
 
     //EXPLOSIONS

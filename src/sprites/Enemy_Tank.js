@@ -96,10 +96,6 @@ export default class extends Phaser.Sprite {
     }
   }
 
-  die() {
-    // this.destroy();
-  }
-
   update() {
   }
 }
