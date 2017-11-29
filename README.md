@@ -26,7 +26,7 @@ You can add your own features and ideas in the game
 <ul>
   <li>Andrzej Rozenfeld</li>
   <li>Mateusz Sikora</li>
-  <li>Ewa //TODO: znaleźć nazwisko</li>
+  <li>Ewa Kaczmarek</li>
 </ul>
 
 ## Team
