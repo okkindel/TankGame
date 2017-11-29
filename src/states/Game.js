@@ -4,6 +4,7 @@ import Player_Bullets from '../sprites/Player_Bullets'
 import Enemy_Bullets from '../sprites/Enemy_Bullets'
 import Player from '../sprites/Player'
 import Walls from '../sprites/Walls'
+import Brick from '../sprites/Brick'
 import Map from '../Map'
 
 export default class extends Phaser.State {
@@ -46,47 +47,60 @@ export default class extends Phaser.State {
       this.enemies.add(this.enemy);
     }
 
+    //BRICKS
+    this.brick_position = this.map.get_brick_array();
+    this.bricks = this.game.add.group();
+    //LEFT UP
+    for (i = 0; i < this.brick_position.length; i++) {
+      this.brick = new Brick({
+        game: this.game,
+        x: this.brick_position[i].x * 36,
+        y: this.brick_position[i].y * 36,
+        asset: 'small_wall_1'
+      })
+      this.bricks.add(this.brick);
+    }
+    //RIGHT UP
+    for (i = 0; i < this.brick_position.length; i++) {
+      this.brick = new Brick({
+        game: this.game,
+        x: this.brick_position[i].x * 36 + 18,
+        y: this.brick_position[i].y * 36,
+        asset: 'small_wall_2'
+      })
+      this.bricks.add(this.brick);
+    }
+    //LEFT DOWN
+    for (i = 0; i < this.brick_position.length; i++) {
+      this.brick = new Brick({
+        game: this.game,
+        x: this.brick_position[i].x * 36,
+        y: this.brick_position[i].y * 36 + 18,
+        asset: 'small_wall_3'
+      })
+      this.bricks.add(this.brick);
+    }
+    //RIGHT DOWN
+    for (i = 0; i < this.brick_position.length; i++) {
+      this.brick = new Brick({
+        game: this.game,
+        x: this.brick_position[i].x * 36 + 18,
+        y: this.brick_position[i].y * 36 + 18,
+        asset: 'small_wall_4'
+      })
+      this.bricks.add(this.brick);
+    }
+
     //WALLS
     this.walls_position = this.map.get_walls_array();
     this.walls = this.game.add.group();
 
-    //LEFT UP
     for (i = 0; i < this.walls_position.length; i++) {
       this.wall = new Walls({
         game: this.game,
         x: this.walls_position[i].x * 36,
         y: this.walls_position[i].y * 36,
-        asset: 'small_wall_1'
-      })
-      this.walls.add(this.wall);
-    }
-    //RIGHT UP
-    for (i = 0; i < this.walls_position.length; i++) {
-      this.wall = new Walls({
-        game: this.game,
-        x: this.walls_position[i].x * 36 + 18,
-        y: this.walls_position[i].y * 36,
-        asset: 'small_wall_2'
-      })
-      this.walls.add(this.wall);
-    }
-    //LEFT DOWN
-    for (i = 0; i < this.walls_position.length; i++) {
-      this.wall = new Walls({
-        game: this.game,
-        x: this.walls_position[i].x * 36,
-        y: this.walls_position[i].y * 36 + 18,
-        asset: 'small_wall_3'
-      })
-      this.walls.add(this.wall);
-    }
-    //RIGHT DOWN
-    for (i = 0; i < this.walls_position.length; i++) {
-      this.wall = new Walls({
-        game: this.game,
-        x: this.walls_position[i].x * 36 + 18,
-        y: this.walls_position[i].y * 36 + 18,
-        asset: 'small_wall_4'
+        asset: 'wall_img'
       })
       this.walls.add(this.wall);
     }
@@ -117,7 +131,7 @@ export default class extends Phaser.State {
     this.lives = game.add.group();
 
     for (var i = 0; i < 3; i++) {
-      this.icon = this.lives.create(game.world.width - 95 + (35 * i), 22, 'tank_img');
+      this.icon = this.lives.create(this.game.world.width - 95 + (35 * i), 22, 'tank_img');
       this.icon.anchor.setTo(0.5, 0.5);
       this.icon.angle = 90;
       this.icon.scale.setTo(0.9, 0.9);
@@ -163,11 +177,15 @@ export default class extends Phaser.State {
     this.game.physics.arcade.overlap(this.bullets, this.enemies, this.collisionHandler, null, this);
     game.physics.arcade.overlap(this.bullets, this.enemy_bullets, this.collisionHandler, null, this);
     game.physics.arcade.overlap(this.enemy_bullets, this.player, this.collisionPlayer, null, this);
-    game.physics.arcade.overlap(this.bullets, this.walls, this.collisionHandler, null, this);
-    game.physics.arcade.overlap(this.enemy_bullets, this.walls, this.collisionHandler, null, this);
+    game.physics.arcade.overlap(this.bullets, this.bricks, this.collisionHandler, null, this);
+    game.physics.arcade.overlap(this.enemy_bullets, this.bricks, this.collisionHandler, null, this);
+    game.physics.arcade.overlap(this.bullets, this.walls, this.collision, null, this);
+    game.physics.arcade.overlap(this.enemy_bullets, this.walls, this.collision, null, this);
 
     this.game.physics.arcade.collide(this.player, this.enemies);
     this.game.physics.arcade.collide(this.enemies, this.enemies);
+    this.game.physics.arcade.collide(this.player, this.bricks);
+    this.game.physics.arcade.collide(this.enemies, this.bricks);
     this.game.physics.arcade.collide(this.player, this.walls);
     this.game.physics.arcade.collide(this.enemies, this.walls);
 
@@ -297,7 +315,7 @@ export default class extends Phaser.State {
     this.player.x = this.player_start_point.x * 36 + 18;
     this.player.y = this.player_start_point.y * 36;
     this.player.angle = 0;
-    
+
     if (this.lives.countLiving() < 1) {
       this.player.kill();
       this.state.start('GameOver');
