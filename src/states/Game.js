@@ -189,7 +189,7 @@ export default class extends Phaser.State {
       this.addNewEnemy();
       const apearing = this.appear.getFirstExists(false);
       apearing.reset(this.enemy.x, this.enemy.y);
-      apearing.play('appearing', 30, false, true);
+      apearing.play('appearing', 60, false, true);
     }
 
     //ENEMIES MOVING
