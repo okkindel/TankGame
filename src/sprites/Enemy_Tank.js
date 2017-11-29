@@ -10,7 +10,7 @@ export default class extends Phaser.Sprite {
       this.body.collideWorldBounds = true,
       this.timeToStep = 0,
       this.direction = 0;
-      //RIGHT LEFT UP DOWN
+      //RIGHT LEFT DOWN UP
       this.chances = [25, 25, 25, 25];
   }
 
@@ -61,19 +61,19 @@ export default class extends Phaser.Sprite {
       this.body.velocity.setTo(0,0);
 
       if( dirChance < this.chances[0]) {
-        this.direction = 1; // Prawo
+        this.direction = 1; //RIGHT
         this.angle = 90;
         this.body.velocity.x = 100;
       } else if( dirChance < this.chances[0] + this.chances[1]) {
-        this.direction = 2; // Lewo
+        this.direction = 2; //LEFT
         this.angle = 270;
         this.body.velocity.x = -100;
       } else if( dirChance < this.chances[0] + this.chances[1] + this.chances[2]) {
-        this.direction = 3; // dół
+        this.direction = 3; //DOWN
         this.angle = 180;
         this.body.velocity.y = 100;
       } else {
-        this.direction = 4; // góra
+        this.direction = 4; //UP
         this.angle = 0;
         this.body.velocity.y = -100;
       }
