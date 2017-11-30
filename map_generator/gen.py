@@ -150,6 +150,7 @@ while not done:
         f.close()
         if spawn_checker != spawn_counter:
             print("THERE IS ERROR, TOO MUCH OR TO LESS SPAWN POINTS!")
+        print("MAP EXPORTED")
         pass
 
 
