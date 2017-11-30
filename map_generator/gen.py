@@ -20,7 +20,6 @@ for row in range(20):
         grid[row].append(0)
 
 spawn_counter = int(input("Enter spawn points counter: "))
-spawn_counter -= 1
 enemy_counter = int(input("Enter enemy counter: "))
 spawn_x = int(input("Enter spawn X (12): "))
 spawn_y = int(input("Enter spawn Y (15): "))
@@ -83,7 +82,7 @@ while not done:
 
     def map():
 
-        spawn_checker = -1
+        spawn_checker = 0
 
         f = open('map.json', 'w')
         f.write('{' + '\n')

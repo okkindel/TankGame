@@ -255,7 +255,7 @@ export default class extends Phaser.State {
   addNewEnemy() {
 
     this.last_time_spawn = this.game.time.now;
-    let random = this.game.rnd.integerInRange(0, this.spawn_counter)
+    let random = this.game.rnd.integerInRange(1, this.spawn_counter)
     this.enemy = new Enemy({
       game: this.game,
       x: this.enemy_spawn_point[random].x * 36 + 18,
