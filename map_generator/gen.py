@@ -11,7 +11,6 @@ TANK = (36, 124, 29)
 # This sets the WIDTH and HEIGHT of each grid location
 WIDTH = 20
 HEIGHT = 20
-
 MARGIN = 2
 
 grid = []
@@ -31,7 +30,7 @@ eagle_y = int(input("Enter eagle Y (17): "))
 grid[eagle_y][eagle_x] = 4
 
 pygame.init()
-WINDOW_SIZE = [552, 462]
+WINDOW_SIZE = [552, 472]
 screen = pygame.display.set_mode(WINDOW_SIZE)
 pygame.display.set_caption("Map Generator")
 done = False
@@ -56,10 +55,9 @@ while not done:
                 elif grid[row][column] == 3:
                     grid[row][column] = 0
                 print("Click ", pos, "Grid coordinates: ", row, column)
-            elif 0 < pos[0] < 552 and 442 < pos[1] < 462:
+            elif 0 < pos[0] < 552 and 442 < pos[1] < 472:
                 map();
 
-    # Set the screen background
     screen.fill(BACK)
 
     # Draw the grid
@@ -79,6 +77,9 @@ while not done:
             pygame.draw.rect(screen, color, [(MARGIN + WIDTH) * column + MARGIN,
                                              (MARGIN + HEIGHT) * row + MARGIN, WIDTH, HEIGHT])
 
+    pygame.draw.rect(screen, FRONT, [2, 444, 548, 26])
+    label = pygame.font.SysFont("monospace", 15).render("GENERATE", 1, (255, 255, 255))
+    screen.blit(label, (240, 450))
 
     def map():
 
