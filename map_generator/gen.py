@@ -81,8 +81,10 @@ while not done:
 
 
     def map():
+
         spawn_checker = -1
-        f = open('map.txt', 'w')
+
+        f = open('map.json', 'w')
         f.write('{' + '\n')
         f.write('"start_point": {' + '\n')
         f.write('"x": ' + str(spawn_x) + ',\n')
@@ -93,23 +95,17 @@ while not done:
             for y in range(0, 20):
                 if grid[y][x] == 3:
                     spawn_checker += 1
-                    if (spawn_checker > spawn_counter):
-                        print ("THERE IS ERROR, TOO MUCH SPAWNS!")
                     f.write('{\n')
                     f.write('"x": ' + str(x) + ',\n')
                     f.write('"y": ' + str(y) + '\n')
                     f.write("}\n")
-                    find = False
-                    for a in range(x, 25):
-                        for b in range(y, 20):
-                            if a == x and b == y:
-                                continue
-                            elif grid[b][a] == 3:
-                                f.write(",\n")
-                                find = True
-                                break
-                        if find:
-                            break
+                    f.write(",\n")
+        f.close()
+        r = open('map.json')
+        lines = r.readlines()
+        r.close()
+        f = open('map.json', 'w')
+        f.writelines([item for item in lines[:-1]])
         f.write('],' + '\n')
         f.write('"spawn_counter": 0,' + '\n')
         f.write('"enemy_counter": ' + str(enemy_counter) + ',\n')
@@ -125,17 +121,13 @@ while not done:
                     f.write('"x": ' + str(x) + ',\n')
                     f.write('"y": ' + str(y) + '\n')
                     f.write("}\n")
-                    find = False
-                    for a in range(x, 25):
-                        for b in range(y, 20):
-                            if a == x and b == y:
-                                continue
-                            elif grid[b][a] == 1:
-                                f.write(",\n")
-                                find = True
-                                break
-                        if find:
-                            break
+                    f.write(",\n")
+        f.close()
+        r = open('map.json')
+        lines = r.readlines()
+        r.close()
+        f = open('map.json', 'w')
+        f.writelines([item for item in lines[:-1]])
         f.write('],' + '\n')
         f.write('"walls": [' + '\n')
         for x in range(0, 25):
@@ -145,19 +137,18 @@ while not done:
                     f.write('"x": ' + str(x) + ',\n')
                     f.write('"y": ' + str(y) + '\n')
                     f.write("}\n")
-                    find = False
-                    for a in range(x, 25):
-                        for b in range(y, 20):
-                            if a == x and b == y:
-                                continue
-                            elif grid[b][a] == 2:
-                                f.write(",\n")
-                                find = True
-                                break
-                        if find:
-                            break
+                    f.write(",\n")
+        f.close()
+        r = open('map.json')
+        lines = r.readlines()
+        r.close()
+        f = open('map.json', 'w')
+        f.writelines([item for item in lines[:-1]])
         f.write(']' + '\n')
         f.write('}' + '\n')
+        f.close()
+        if spawn_checker != spawn_counter:
+            print("THERE IS ERROR, TOO MUCH OR TO LESS SPAWN POINTS!")
         pass
 
 
