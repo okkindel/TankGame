@@ -107,7 +107,7 @@ while not done:
         f = open('map.json', 'w')
         f.writelines([item for item in lines[:-1]])
         f.write('],' + '\n')
-        f.write('"spawn_counter": 0,' + '\n')
+        f.write('"spawn_counter": ' + str(spawn_counter) + ',\n')
         f.write('"enemy_counter": ' + str(enemy_counter) + ',\n')
         f.write('"eagle": {' + '\n')
         f.write('"x": ' + str(eagle_x) + ',\n')

@@ -30,15 +30,15 @@ export default class extends Phaser.State {
     this.player_start_point = this.map.get_start_point();
     this.player = new Player({
       game: this.game,
-      x: this.player_start_point.x * 36 +18,
-      y: this.player_start_point.y * 36 +18,
+      x: this.player_start_point.x * 36 + 18,
+      y: this.player_start_point.y * 36 + 18,
       asset: 'tank_img'
     })
     this.game.add.existing(this.player)
 
     //ENEMY TANKS
     this.enemy_number = this.map.get_enemy_counter();
-    this.spawn_counter = this.map.get_spawn_counter();
+    this.spawn_counter = this.map.get_spawn_counter() - 1;
     this.enemy_spawn_point = this.map.get_enemy_spawn_point();
     this.enemies = this.game.add.group();
     this.addNewEnemy();
@@ -207,7 +207,7 @@ export default class extends Phaser.State {
     game.physics.arcade.overlap(this.enemy_bullets, this.walls, this.collision, null, this);
     game.physics.arcade.overlap(this.bullets, this.eagle, this.collisionEagle, null, this);
     game.physics.arcade.overlap(this.enemy_bullets, this.eagle, this.collisionEagle, null, this);
-    
+
 
     this.game.physics.arcade.collide(this.player, this.enemies);
     this.game.physics.arcade.collide(this.enemies, this.enemies);
@@ -255,11 +255,11 @@ export default class extends Phaser.State {
   addNewEnemy() {
 
     this.last_time_spawn = this.game.time.now;
-    let random = this.game.rnd.integerInRange(1, this.spawn_counter)
+    let random = this.game.rnd.integerInRange(0, this.spawn_counter)
     this.enemy = new Enemy({
       game: this.game,
       x: this.enemy_spawn_point[random].x * 36 + 18,
-      y: this.enemy_spawn_point[random].y * 36,
+      y: this.enemy_spawn_point[random].y * 36 + 18,
       asset: 'enemy_img'
     })
     this.enemies.add(this.enemy);
@@ -268,7 +268,7 @@ export default class extends Phaser.State {
   }
 
   fireBullet() {
-    
+
     const explosion = this.small_explode.getFirstExists(false);
     if (this.game.time.now > this.bullet_time) {
       this.bullet = this.bullets.getFirstExists(false);
@@ -370,7 +370,7 @@ export default class extends Phaser.State {
     explosion.play('kaboom', 30, false, true);
 
     this.player.x = this.player_start_point.x * 36 + 18;
-    this.player.y = this.player_start_point.y * 36;
+    this.player.y = this.player_start_point.y * 36 + 18;
     this.player.angle = 0;
 
     if (this.lives.countLiving() < 1) {

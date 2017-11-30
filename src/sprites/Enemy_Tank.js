@@ -23,8 +23,6 @@ export default class extends Phaser.Sprite {
       let dist_to_player = this.distanceFromTo(this.x, playerX, this.y, playerY);
       let dist_to_eagle = this.distanceFromTo(this.x, eagleX, this.y, eagleY);
 
-      console.log("eX " + eagleX + " | eY " + eagleY);
-
       if (dist_to_player > dist_to_eagle) {
         // Swap
         playerX = eagleX;

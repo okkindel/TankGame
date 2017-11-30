@@ -30,7 +30,6 @@ export default class Map {
         }
     }
 
-    //WE ARE COUNTING FROM 0
     get_spawn_counter() {
         if (this.is_loaded) {
             return this.spawn_counter;
