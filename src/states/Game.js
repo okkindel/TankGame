@@ -12,9 +12,9 @@ export default class extends Phaser.State {
 
   constructor() {
     super()
-    this.map = new Map();
     this.enemy_bullet_time = 2000;
     this.enemy_spawn_interval = 5000;
+    this.map_counter = 2;
     this.bullet_time = 0;
     this.last_time_spawn = 0;
   }
@@ -24,7 +24,7 @@ export default class extends Phaser.State {
   create() {
 
     //MAP LOADING
-    this.map_counter = 0;
+    this.map = new Map();
     this.map_list = require("../maps/map_list.json").list;
     this.map.load_map(require('../maps/' + this.map_list[this.map_counter]));    
 

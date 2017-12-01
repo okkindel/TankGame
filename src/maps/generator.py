@@ -2,11 +2,11 @@ import pygame
 
 FRONT = (24, 36, 55)
 BACK = (44, 65, 100)
-BRICK = (166, 97, 7)
-WALL = (80, 76, 68)
-SPAWN = (179, 108, 84)
-EAGLE = (204, 212, 77)
-TANK = (36, 124, 29)
+BRICK = (162, 81, 63)
+WALL = (108, 108, 108)
+SPAWN = (206, 56, 22)
+EAGLE = (192, 118, 35)
+TANK = (60, 84, 17)
 
 # This sets the WIDTH and HEIGHT of each grid location
 WIDTH = 20
@@ -56,7 +56,7 @@ while not done:
                     grid[row][column] = 0
                 print("Click ", pos, "Grid coordinates: ", row, column)
             elif 0 < pos[0] < 552 and 442 < pos[1] < 472:
-                map_save();
+                map_save()
 
     screen.fill(BACK)
 
@@ -90,7 +90,7 @@ while not done:
         f = open('map_list.json', 'w')
         f.writelines([item for item in lines[:-2]])
         f.write(",\n")
-        f.write('"' + str(map_name) + '"')
+        f.write('"' + str(map_name) + '.json"')
         f.write(']' + '\n')
         f.write('}' + '\n')
         f.close()
