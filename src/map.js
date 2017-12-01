@@ -8,7 +8,6 @@ export default class Map {
         this.walls = [];
         this.eagle = {};
         this.is_loaded = false;
-
     }
 
     load_map(map) {

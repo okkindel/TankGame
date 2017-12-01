@@ -19,6 +19,7 @@ for row in range(20):
     for column in range(25):
         grid[row].append(0)
 
+map_name = input("Enter map title: ")
 spawn_counter = int(input("Enter spawn points counter: "))
 enemy_counter = int(input("Enter enemy counter: "))
 spawn_x = int(input("Enter spawn X (12): "))
@@ -55,7 +56,7 @@ while not done:
                     grid[row][column] = 0
                 print("Click ", pos, "Grid coordinates: ", row, column)
             elif 0 < pos[0] < 552 and 442 < pos[1] < 472:
-                map();
+                map_save();
 
     screen.fill(BACK)
 
@@ -80,11 +81,23 @@ while not done:
     label = pygame.font.SysFont("monospace", 15).render("GENERATE", 1, (255, 255, 255))
     screen.blit(label, (240, 450))
 
-    def map():
+
+    def map_save():
+
+        r = open('map_list.json')
+        lines = r.readlines()
+        r.close()
+        f = open('map_list.json', 'w')
+        f.writelines([item for item in lines[:-2]])
+        f.write(",\n")
+        f.write('"' + str(map_name) + '"')
+        f.write(']' + '\n')
+        f.write('}' + '\n')
+        f.close()
 
         spawn_checker = 0
 
-        f = open('map.json', 'w')
+        f = open(map_name + '.json', 'w')
         f.write('{' + '\n')
         f.write('"start_point": {' + '\n')
         f.write('"x": ' + str(spawn_x) + ',\n')
@@ -101,10 +114,10 @@ while not done:
                     f.write("}\n")
                     f.write(",\n")
         f.close()
-        r = open('map.json')
+        r = open(map_name + '.json')
         lines = r.readlines()
         r.close()
-        f = open('map.json', 'w')
+        f = open(map_name + '.json', 'w')
         f.writelines([item for item in lines[:-1]])
         f.write('],' + '\n')
         f.write('"spawn_counter": ' + str(spawn_counter) + ',\n')
@@ -123,10 +136,10 @@ while not done:
                     f.write("}\n")
                     f.write(",\n")
         f.close()
-        r = open('map.json')
+        r = open(map_name + '.json')
         lines = r.readlines()
         r.close()
-        f = open('map.json', 'w')
+        f = open(map_name + '.json', 'w')
         f.writelines([item for item in lines[:-1]])
         f.write('],' + '\n')
         f.write('"walls": [' + '\n')
@@ -139,10 +152,10 @@ while not done:
                     f.write("}\n")
                     f.write(",\n")
         f.close()
-        r = open('map.json')
+        r = open(map_name + '.json')
         lines = r.readlines()
         r.close()
-        f = open('map.json', 'w')
+        f = open(map_name + '.json', 'w')
         f.writelines([item for item in lines[:-1]])
         f.write(']' + '\n')
         f.write('}' + '\n')
