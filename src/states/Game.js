@@ -24,7 +24,7 @@ export default class extends Phaser.State {
   create() {
 
     //MAP LOADING
-    this.map.load_map(require("../maps/map1.json"));
+    this.map.load_map(require("../maps/map.json"));
 
     //PLAYER TANK
     this.player_start_point = this.map.get_start_point();
