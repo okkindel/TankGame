@@ -6,7 +6,7 @@ import Player_Bullets from '../sprites/Player_Bullets'
 import Enemy_Bullets from '../sprites/Enemy_Bullets'
 import Walls from '../sprites/Walls'
 import Brick from '../sprites/Brick'
-import Map from '../Map'
+import Map from '../map'
 
 export default class extends Phaser.State {
 
