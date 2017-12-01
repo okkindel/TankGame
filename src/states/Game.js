@@ -14,7 +14,7 @@ export default class extends Phaser.State {
     super()
     this.enemy_bullet_time = 2000;
     this.enemy_spawn_interval = 5000;
-    this.map_counter = 2;
+    this.map_counter = 3;
     this.bullet_time = 0;
     this.last_time_spawn = 0;
   }
