@@ -14,7 +14,7 @@ export default class extends Phaser.State {
     super()
     this.enemy_bullet_time = 2000;
     this.enemy_spawn_interval = 5000;
-    this.map_counter = 1;
+    this.map_counter = 0;
     this.bullet_time = 0;
     this.last_time_spawn = 0;
   }
@@ -337,6 +337,11 @@ export default class extends Phaser.State {
       }
       explosion.play('small_kaboom', 80, false, true);
       this.enemy_bullet_time = game.time.now + 750 / Math.sqrt(this.livingEnemies.length);
+    }
+
+    if (this.enemy_number == 0 && this.livingEnemies.length == 0) {
+      this.map_counter ++;
+      this.state.start('NextLevel');
     }
   }
 
