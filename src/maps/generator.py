@@ -30,7 +30,7 @@ eagle_y = int(input("Enter eagle Y (0-19, middle: 10): "))
 grid[eagle_y][eagle_x] = 4
 
 pygame.init()
-WINDOW_SIZE = [580, 472]
+WINDOW_SIZE = [552, 472]
 screen = pygame.display.set_mode(WINDOW_SIZE)
 pygame.display.set_caption("Map Generator")
 done = False
@@ -43,18 +43,21 @@ while not done:
         elif event.type == pygame.MOUSEBUTTONDOWN:
             pos = pygame.mouse.get_pos()
             if pos[0] < 552 and pos[1] < 442:
-                column = pos[0] // (WIDTH + MARGIN)
-                row = pos[1] // (HEIGHT + MARGIN)
-                # Set that location to one
-                if grid[row][column] == 0:
-                    grid[row][column] = 1
-                elif grid[row][column] == 1:
-                    grid[row][column] = 2
-                elif grid[row][column] == 2:
-                    grid[row][column] = 3
-                elif grid[row][column] == 3:
-                    grid[row][column] = 0
-                print("Changed ", pos, "on coordinates: ", row, column)
+                try:
+                    column = pos[0] // (WIDTH + MARGIN)
+                    row = pos[1] // (HEIGHT + MARGIN)
+
+                    if grid[row][column] == 0:
+                        grid[row][column] = 1
+                    elif grid[row][column] == 1:
+                        grid[row][column] = 2
+                    elif grid[row][column] == 2:
+                        grid[row][column] = 3
+                    elif grid[row][column] == 3:
+                        grid[row][column] = 0
+                    print("Changed ", pos, "on coordinates: ", row, column)
+                except IndexError:
+                    print("Out of bound exception, try again")
             elif 0 < pos[0] < 552 and 442 < pos[1] < 472:
                 map_save()
 
@@ -166,6 +169,7 @@ while not done:
             f.write('}' + '\n')
             f.close()
         pass
+
 
     clock.tick(60)
     pygame.display.flip()
