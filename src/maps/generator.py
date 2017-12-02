@@ -167,7 +167,6 @@ while not done:
             f.close()
         pass
 
-
     clock.tick(60)
     pygame.display.flip()
 
