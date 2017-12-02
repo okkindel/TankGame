@@ -30,7 +30,7 @@ eagle_y = int(input("Enter eagle Y (0-19, middle: 10): "))
 grid[eagle_y][eagle_x] = 4
 
 pygame.init()
-WINDOW_SIZE = [552, 472]
+WINDOW_SIZE = [580, 472]
 screen = pygame.display.set_mode(WINDOW_SIZE)
 pygame.display.set_caption("Map Generator")
 done = False
@@ -42,7 +42,7 @@ while not done:
             done = True
         elif event.type == pygame.MOUSEBUTTONDOWN:
             pos = pygame.mouse.get_pos()
-            if pos[1] < 442:
+            if pos[0] < 552 and pos[1] < 442:
                 column = pos[0] // (WIDTH + MARGIN)
                 row = pos[1] // (HEIGHT + MARGIN)
                 # Set that location to one
