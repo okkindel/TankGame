@@ -22,11 +22,11 @@ for row in range(20):
 map_name = input("Enter map title: ")
 spawn_counter = int(input("Enter spawn points counter: "))
 enemy_counter = int(input("Enter enemy counter: "))
-spawn_x = int(input("Enter spawn X (12): "))
-spawn_y = int(input("Enter spawn Y (15): "))
+spawn_x = int(input("Enter spawn X (0-24, middle: 12): "))
+spawn_y = int(input("Enter spawn Y (0-19, middle: 10): "))
 grid[spawn_y][spawn_x] = 5
-eagle_x = int(input("Enter eagle X (12): "))
-eagle_y = int(input("Enter eagle Y (17): "))
+eagle_x = int(input("Enter eagle X (0-24, middle: 12): "))
+eagle_y = int(input("Enter eagle Y (0-19, middle: 10): "))
 grid[eagle_y][eagle_x] = 4
 
 pygame.init()
@@ -54,7 +54,7 @@ while not done:
                     grid[row][column] = 3
                 elif grid[row][column] == 3:
                     grid[row][column] = 0
-                print("Click ", pos, "Grid coordinates: ", row, column)
+                print("Changed ", pos, "on coordinates: ", row, column)
             elif 0 < pos[0] < 552 and 442 < pos[1] < 472:
                 map_save()
 
@@ -83,17 +83,6 @@ while not done:
 
 
     def map_save():
-
-        r = open('map_list.json')
-        lines = r.readlines()
-        r.close()
-        f = open('map_list.json', 'w')
-        f.writelines([item for item in lines[:-2]])
-        f.write(",\n")
-        f.write('"' + str(map_name) + '.json"')
-        f.write(']' + '\n')
-        f.write('}' + '\n')
-        f.close()
 
         spawn_checker = 0
 
@@ -163,6 +152,19 @@ while not done:
         if spawn_checker != spawn_counter:
             print("THERE IS ERROR, TOO MUCH OR TO LESS SPAWN POINTS!")
         print("MAP EXPORTED")
+
+        answer = input("Do you want to add it to map list? (Y/y): ")
+        if answer == 'Y' or answer == 'y':
+            r = open('map_list.json')
+            lines = r.readlines()
+            r.close()
+            f = open('map_list.json', 'w')
+            f.writelines([item for item in lines[:-2]])
+            f.write(",\n")
+            f.write('"' + str(map_name) + '.json"')
+            f.write(']' + '\n')
+            f.write('}' + '\n')
+            f.close()
         pass
 
 
