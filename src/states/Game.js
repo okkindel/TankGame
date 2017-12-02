@@ -26,7 +26,8 @@ export default class extends Phaser.State {
     //MAP LOADING
     this.map = new Map();
     this.map_list = require("../maps/map_list.json").list;
-    this.map.load_map(require('../maps/' + this.map_list[this.map_counter]));    
+    this.map.load_map(require('../maps/' + this.map_list[this.map_counter]));
+    console.log(this.map)
 
     //PLAYER TANK
     this.player_start_point = this.map.get_start_point();
@@ -340,7 +341,10 @@ export default class extends Phaser.State {
     }
 
     if (this.enemy_number == 0 && this.livingEnemies.length == 0) {
-      this.map_counter ++;
+      if (this.map_list.length >= this.map_counter)
+        this.map_counter++;
+      else
+        this.map_counter = 0;
       this.state.start('NextLevel');
     }
   }
@@ -387,15 +391,15 @@ export default class extends Phaser.State {
     }
   }
 
-  resetObject(bullet) {
-    bullet.kill();
-  }
-
   collision(object, bullet) {
     object.kill();
     const explosion = this.small_explode.getFirstExists(false);
     explosion.reset(object.body.x, object.body.y);
     explosion.play('small_kaboom', 80, false, true);
+  }
+
+  resetObject(bullet) {
+    bullet.kill();
   }
 
   render() {

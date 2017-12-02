@@ -13,6 +13,9 @@ WIDTH = 20
 HEIGHT = 20
 MARGIN = 2
 
+spawn_counter = 0
+enemy_counter = 0
+
 grid = []
 for row in range(20):
     grid.append([])
@@ -20,13 +23,19 @@ for row in range(20):
         grid[row].append(0)
 
 map_name = input("Enter map title: ")
-spawn_counter = int(input("Enter spawn points counter: "))
-enemy_counter = int(input("Enter enemy counter: "))
-spawn_x = int(input("Enter spawn X (0-24, middle: 12): "))
-spawn_y = int(input("Enter spawn Y (0-19, middle: 10): "))
+while spawn_counter < 1:
+    spawn_counter = int(input("Enter spawn points counter: "))
+    if spawn_counter < 1:
+        print("There must be more spawn points.")
+while enemy_counter < 1:
+    enemy_counter = int(input("Enter enemy counter: "))
+    if enemy_counter < 1:
+        print("There must be at least one enemy.")
+spawn_x = int(input("Enter spawn X (from 0 to 24, middle: 12): "))
+spawn_y = int(input("Enter spawn Y (from 0 to 19, middle: 10): "))
 grid[spawn_y][spawn_x] = 5
-eagle_x = int(input("Enter eagle X (0-24, middle: 12): "))
-eagle_y = int(input("Enter eagle Y (0-19, middle: 10): "))
+eagle_x = int(input("Enter eagle X (from 0 to 24, middle: 12): "))
+eagle_y = int(input("Enter eagle Y (from 0 to 19, middle: 10): "))
 grid[eagle_y][eagle_x] = 4
 
 pygame.init()
