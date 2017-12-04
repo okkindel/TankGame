@@ -14,7 +14,7 @@ export default class extends Phaser.State {
     super()
     this.enemy_bullet_time = 2000;
     this.enemy_spawn_interval = 5000;
-    this.map_counter = 4;
+    this.map_counter = 0;
     this.bullet_time = 0;
     this.last_time_spawn = 0;
   }
@@ -210,7 +210,7 @@ export default class extends Phaser.State {
     game.physics.arcade.overlap(this.enemy_bullets, this.walls, this.collision, null, this);
     game.physics.arcade.overlap(this.bullets, this.eagle, this.collisionEagle, null, this);
     game.physics.arcade.overlap(this.enemy_bullets, this.eagle, this.collisionEagle, null, this);
-
+    game.physics.arcade.overlap(this.player, this.enemies, this.simpleCollision, null, this);
 
     this.game.physics.arcade.collide(this.player, this.enemies);
     this.game.physics.arcade.collide(this.enemies, this.enemies);
@@ -250,7 +250,7 @@ export default class extends Phaser.State {
         this.fireBullet();
       }
       if (this.game.time.now > this.enemy_bullet_time) {
-        this.enemyFires();
+        // /this.enemyFires();
       }
     }
   }
@@ -268,6 +268,11 @@ export default class extends Phaser.State {
     this.enemies.add(this.enemy);
     this.enemy_number -= 1;
     console.log(this.enemy_number);
+  }
+
+  simpleCollision(tank, enemy) {
+    tank.body.velocity.setTo(0,0);
+    enemy.body.velocity.setTo(0,0)
   }
 
   fireBullet() {
