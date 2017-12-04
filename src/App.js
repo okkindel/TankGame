@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Game from './TanksGame';
+import Game from './TanskGameMain';
 import './App.css';
 
 
@@ -39,6 +39,7 @@ class App extends Component {
         });
         if (this.state.superPrivatePass.length === this.props.password.length && this.state.superPrivatePass === this.props.password) {
           this.setState({ showApp: true });
+          // this.game = new Game();
           
         }
         if (event.key === this.props.reset) {
@@ -52,11 +53,17 @@ class App extends Component {
     }
   }
 
+  startgame() {
+    this.game = new Game();
+
+    return null;
+  }
+
   render() {
     return (
       <div className='App'>
         <h1 align='center'>TANKS GAME</h1>
-        {this.state.showApp && <div className='container'><div id='phaser'> {Game()}</div></div>}
+        {this.state.showApp && <div className='container'><div id='phaser'>{this.startgame()}</div></div>}
       </div>
     );
   }
