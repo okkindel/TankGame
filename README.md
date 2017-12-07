@@ -1,5 +1,9 @@
 <p align="center">
+<<<<<<< HEAD
   <img src="https://raw.githubusercontent.com/nokia-wroclaw/innovativeproject-tanks-game/Development/innovative_logo.png" alt="Innovative Project"/>
+=======
+  <img src="https://github.com/nokia-wroclaw/innovativeproject-tanks-game/blob/repare_react_branch/assets/readme/innovative_logo.png" alt="Innovative Project"/>
+>>>>>>> origin/demo
 </p>
 
 ## Idea
@@ -32,16 +36,28 @@ npm start
 
 ## Screenshots
 <p align="center">
+<<<<<<< HEAD
   <img src="https://raw.githubusercontent.com/nokia-wroclaw/innovativeproject-tanks-game/Development/scr1.png" alt="Main menu"/>
   <img src="https://raw.githubusercontent.com/nokia-wroclaw/innovativeproject-tanks-game/Development/scr2.png" alt="Gameplay"/>
   <img src="https://raw.githubusercontent.com/nokia-wroclaw/innovativeproject-tanks-game/Development/scr3.png" alt="Game over"/>
+=======
+  <img src="https://github.com/nokia-wroclaw/innovativeproject-tanks-game/blob/repare_react_branch/assets/readme/scr1.png" alt="Main menu"/>
+  <img src="https://github.com/nokia-wroclaw/innovativeproject-tanks-game/blob/repare_react_branch/assets/readme/scr2.png" alt="Gameplay"/>
+  <img src="https://github.com/nokia-wroclaw/innovativeproject-tanks-game/blob/repare_react_branch/assets/readme/scr3.png" alt="Generator"/>
+>>>>>>> origin/demo
 </p>
 
 ## Technologies and Frameworks
 <p align="center">
+<<<<<<< HEAD
   <img width="25%" src="https://raw.githubusercontent.com/nokia-wroclaw/innovativeproject-tanks-game/Development/phaser-logo.png" alt="Phaser"/>
   <img width="25%" src="https://raw.githubusercontent.com/nokia-wroclaw/innovativeproject-tanks-game/Development/react-logo.png" alt="React"/>
   <img width="25%" src="https://raw.githubusercontent.com/nokia-wroclaw/innovativeproject-tanks-game/Development/wpack-logo.png" alt="Webpack"/>
+=======
+  <img width="25%" src="https://github.com/nokia-wroclaw/innovativeproject-tanks-game/blob/repare_react_branch/assets/readme/phaser-logo.png" alt="Phaser"/>
+  <img width="25%" src="https://github.com/nokia-wroclaw/innovativeproject-tanks-game/blob/repare_react_branch/assets/readme/react-logo.png" alt="React"/>
+  <img width="25%" src="https://github.com/nokia-wroclaw/innovativeproject-tanks-game/blob/repare_react_branch/assets/readme/wpack-logo.png" alt="Webpack"/>
+>>>>>>> origin/demo
 </p>
 
 ## Senseis
@@ -58,4 +74,8 @@ npm start
   <li>Maciej Hajduk</li>
   <li>Michał Treter</li>
   <li>Adrian Mucha</li>
+<<<<<<< HEAD
 </ul>
+=======
+</ul>
+>>>>>>> origin/demo

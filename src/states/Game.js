@@ -6,15 +6,15 @@ import Player_Bullets from '../sprites/Player_Bullets'
 import Enemy_Bullets from '../sprites/Enemy_Bullets'
 import Walls from '../sprites/Walls'
 import Brick from '../sprites/Brick'
-import Map from '../Map'
+import Map from '../map'
 
 export default class extends Phaser.State {
 
   constructor() {
     super()
-    this.map = new Map();
     this.enemy_bullet_time = 2000;
     this.enemy_spawn_interval = 5000;
+    this.map_counter = 0;
     this.bullet_time = 0;
     this.last_time_spawn = 0;
   }
@@ -24,7 +24,10 @@ export default class extends Phaser.State {
   create() {
 
     //MAP LOADING
-    this.map.load_map(require("../maps/map1.json"));
+    this.map = new Map();
+    this.map_list = require("../maps/map_list.json").list;
+    this.map.load_map(require('../maps/' + this.map_list[this.map_counter]));
+    console.log(this.map)
 
     //PLAYER TANK
     this.player_start_point = this.map.get_start_point();
@@ -207,6 +210,7 @@ export default class extends Phaser.State {
     this.game.physics.arcade.overlap(this.enemy_bullets, this.walls, this.collision, null, this);
     this.game.physics.arcade.overlap(this.bullets, this.eagle, this.collisionEagle, null, this);
     this.game.physics.arcade.overlap(this.enemy_bullets, this.eagle, this.collisionEagle, null, this);
+    this.game.physics.arcade.overlap(this.player, this.enemies, this.simpleCollision, null, this);
 
 
     this.game.physics.arcade.collide(this.player, this.enemies);
@@ -265,6 +269,11 @@ export default class extends Phaser.State {
     this.enemies.add(this.enemy);
     this.enemy_number -= 1;
     console.log(this.enemy_number);
+  }
+
+  simpleCollision(tank, enemy) {
+    tank.body.velocity.setTo(0,0);
+    enemy.body.velocity.setTo(0,0)
   }
 
   fireBullet() {
@@ -336,6 +345,14 @@ export default class extends Phaser.State {
       explosion.play('small_kaboom', 80, false, true);
       this.enemy_bullet_time = this.game.time.now + 750 / Math.sqrt(this.livingEnemies.length);
     }
+
+    if (this.enemy_number == 0 && this.livingEnemies.length == 0) {
+      if (this.map_list.length >= this.map_counter)
+        this.map_counter++;
+      else
+        this.map_counter = 0;
+      this.state.start('NextLevel');
+    }
   }
 
   collisionEagle(eagle, object) {
@@ -345,7 +362,7 @@ export default class extends Phaser.State {
     const explosion = this.explosions.getFirstExists(false);
     explosion.reset(object.x, object.y);
     explosion.play('kaboom', 30, false, true);
-
+    this.map_counter = 0;
     this.state.start('GameOver');
   }
 
@@ -375,12 +392,9 @@ export default class extends Phaser.State {
 
     if (this.lives.countLiving() < 1) {
       this.player.kill();
+      this.map_counter = 0;
       this.state.start('GameOver');
     }
-  }
-
-  resetObject(bullet) {
-    bullet.kill();
   }
 
   collision(object, bullet) {
@@ -388,6 +402,10 @@ export default class extends Phaser.State {
     const explosion = this.small_explode.getFirstExists(false);
     explosion.reset(object.body.x, object.body.y);
     explosion.play('small_kaboom', 80, false, true);
+  }
+
+  resetObject(bullet) {
+    bullet.kill();
   }
 
   render() {

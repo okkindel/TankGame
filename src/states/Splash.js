@@ -20,7 +20,7 @@ export default class extends Phaser.State {
 
   preload () {
 
-    //JAKIEŚ PASKI ŁADOWANIA NA KIJU
+    //LOADING BARS
     this.loaderBg = this.add.sprite(this.game.world.centerX, this.game.world.centerY, 'loaderBg')
     this.loaderBar = this.add.sprite(this.game.world.centerX, this.game.world.centerY, 'loaderBar')
     centerGameObjects([this.loaderBg, this.loaderBar])

@@ -6,7 +6,7 @@ export default class extends Phaser.Sprite {
       this.anchor.setTo(0.5),
       this.game.physics.arcade.enable(this),
       this.enableBody = true,
-      this.body.immovable = false,
+      //this.body.immovable = false,
       this.body.collideWorldBounds = true,
       this.timeToStep = 0,
       this.direction = 0;
