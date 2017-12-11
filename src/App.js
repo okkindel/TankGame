@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import Game from './game/main';
+import GameWrapper from './GameWrapper';
 import './App.css';
 
 class App extends Component {
@@ -67,9 +67,7 @@ render() {
   return (
     <div className='App'>
       <h1 align='center'>TANKS GAME</h1>
-      {this.state.showApp && <div className='container'>
-        <div id='phaser'>{this.startgame()}</div>
-      </div>}
+      {this.state.showApp && <GameWrapper/>}
     </div>
   );
 }
