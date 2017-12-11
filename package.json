@@ -84,7 +84,9 @@
       "[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$"
     ],
     "moduleNameMapper": {
-      "^react-native$": "react-native-web"
+      "^pixi.js$": "<rootDir>/__mocks__/pixi.js",
+      "^p2$": "<rootDir>/__mocks__/p2.js",
+      "^Phaser$": "<rootDir>/__mocks__/phaser.js"
     },
     "moduleFileExtensions": [
       "web.js",
