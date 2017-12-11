@@ -6,6 +6,8 @@ export default class Map {
         this.enemy_counter = 0;
         this.brick = [];
         this.walls = [];
+        this.water = [];
+        this.leaves = [];
         this.eagle = {};
         this.is_loaded = false;
     }
@@ -18,6 +20,8 @@ export default class Map {
             this.enemy_spawn = map.enemy_spawn;
             this.brick = map.brick;
             this.walls = map.walls;
+            this.water = map.water;
+            this.leaves = map.leaves;
             this.eagle = map.eagle;
             this.is_loaded = true;
         }
@@ -56,6 +60,18 @@ export default class Map {
     get_walls_array() {
         if (this.is_loaded) {
             return this.walls;
+        }
+    }
+
+    get_water_array() {
+        if (this.is_loaded) {
+            return this.water;
+        }
+    }
+
+    get_leaves_array() {
+        if (this.is_loaded) {
+            return this.leaves;
         }
     }
 

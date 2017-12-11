@@ -6,6 +6,8 @@ import Player_Bullets from '../sprites/Player_Bullets'
 import Enemy_Bullets from '../sprites/Enemy_Bullets'
 import Walls from '../sprites/Walls'
 import Brick from '../sprites/Brick'
+import Water from '../sprites/Water'
+import Leaves from '../sprites/Leaves'
 import Map from '../map'
 
 export default class extends Phaser.State {
@@ -14,7 +16,7 @@ export default class extends Phaser.State {
     super()
     this.enemy_bullet_time = 2000;
     this.enemy_spawn_interval = 5000;
-    this.map_counter = 0;
+    this.map_counter = 5;
     this.bullet_time = 0;
     this.last_time_spawn = 0;
   }
@@ -112,6 +114,34 @@ export default class extends Phaser.State {
         asset: 'wall_img'
       })
       this.walls.add(this.wall);
+    }
+
+    //WATER
+    this.water_position = this.map.get_water_array();
+    this.water = this.game.add.group();
+
+    for (i = 0; i < this.water_position.length; i++) {
+      this.water_drop = new Water({
+        game: this.game,
+        x: this.water_position[i].x * 36,
+        y: this.water_position[i].y * 36,
+        asset: 'water_img'
+      })
+      this.water.add(this.water_drop);
+    }
+
+    //LEAVES
+    this.leaves_position = this.map.get_leaves_array();
+    this.leaves = this.game.add.group();
+
+    for (i = 0; i < this.leaves_position.length; i++) {
+      this.leaf = new Leaves({
+        game: this.game,
+        x: this.leaves_position[i].x * 36,
+        y: this.leaves_position[i].y * 36,
+        asset: 'leaves_img'
+      })
+      this.leaves.add(this.leaf);
     }
 
     //PLAYER BULLETS
@@ -219,6 +249,8 @@ export default class extends Phaser.State {
     this.game.physics.arcade.collide(this.enemies, this.bricks);
     this.game.physics.arcade.collide(this.player, this.walls);
     this.game.physics.arcade.collide(this.enemies, this.walls);
+    this.game.physics.arcade.collide(this.player, this.water);
+    this.game.physics.arcade.collide(this.enemies, this.water);
     this.game.physics.arcade.collide(this.player, this.eagle);
     this.game.physics.arcade.collide(this.enemies, this.eagle);
 
@@ -272,8 +304,8 @@ export default class extends Phaser.State {
   }
 
   simpleCollision(tank, enemy) {
-    tank.body.velocity.setTo(0,0);
-    enemy.body.velocity.setTo(0,0)
+    tank.body.velocity.setTo(0, 0);
+    enemy.body.velocity.setTo(0, 0)
   }
 
   fireBullet() {

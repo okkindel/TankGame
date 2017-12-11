@@ -2,6 +2,8 @@ import Phaser from 'phaser'
 import { centerGameObjects } from '../utils'
 import tank_img from '../assets/tank.png'
 import wall_img from '../assets/wall.png'
+import water_img from '../assets/water.png'
+import leaves_img from '../assets/leaves.png'
 import eagle_img from '../assets/eagle.png'
 import small_wall_1_img from '../assets/small_wall_1.png'
 import small_wall_2_img from '../assets/small_wall_2.png'
@@ -30,6 +32,8 @@ export default class extends Phaser.State {
     this.load.image('button', button_img)
     this.load.image('tank_img', tank_img)
     this.load.image('wall_img', wall_img)
+    this.load.image('water_img', water_img)
+    this.load.image('leaves_img', leaves_img)
     this.load.image('eagle_img', eagle_img)
     this.load.image('small_wall_1', small_wall_1_img)
     this.load.image('small_wall_2', small_wall_2_img)

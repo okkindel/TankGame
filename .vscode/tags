@@ -1,0 +1,57 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+BACK	../src/game/maps/generator.py	/^BACK = (44, 65, 100)$/;"	kind:variable	line:4
+BRICK	../src/game/maps/generator.py	/^BRICK = (162, 81, 63)$/;"	kind:variable	line:5
+EAGLE	../src/game/maps/generator.py	/^EAGLE = (192, 118, 35)$/;"	kind:variable	line:8
+FRONT	../src/game/maps/generator.py	/^FRONT = (24, 36, 55)$/;"	kind:variable	line:3
+HEIGHT	../src/game/maps/generator.py	/^HEIGHT = 20$/;"	kind:variable	line:15
+LEAVES	../src/game/maps/generator.py	/^LEAVES = (0, 34, 5)$/;"	kind:variable	line:10
+MARGIN	../src/game/maps/generator.py	/^MARGIN = 2$/;"	kind:variable	line:16
+SPAWN	../src/game/maps/generator.py	/^SPAWN = (206, 56, 22)$/;"	kind:variable	line:7
+TANK	../src/game/maps/generator.py	/^TANK = (60, 84, 17)$/;"	kind:variable	line:11
+WALL	../src/game/maps/generator.py	/^WALL = (108, 108, 108)$/;"	kind:variable	line:6
+WATER	../src/game/maps/generator.py	/^WATER = (24, 54, 87)$/;"	kind:variable	line:9
+WIDTH	../src/game/maps/generator.py	/^WIDTH = 20$/;"	kind:variable	line:14
+WINDOW_SIZE	../src/game/maps/generator.py	/^WINDOW_SIZE = [570, 472]$/;"	kind:variable	line:45
+clock	../src/game/maps/generator.py	/^clock = pygame.time.Clock()$/;"	kind:variable	line:49
+color	../src/game/maps/generator.py	/^    	color = FRONT$/;"	kind:variable	line:108
+color	../src/game/maps/generator.py	/^        	color = SPAWN$/;"	kind:variable	line:114
+color	../src/game/maps/generator.py	/^                color = BRICK$/;"	kind:variable	line:91
+color	../src/game/maps/generator.py	/^                color = EAGLE$/;"	kind:variable	line:97
+color	../src/game/maps/generator.py	/^                color = LEAVES$/;"	kind:variable	line:103
+color	../src/game/maps/generator.py	/^                color = SPAWN$/;"	kind:variable	line:95
+color	../src/game/maps/generator.py	/^                color = TANK$/;"	kind:variable	line:99
+color	../src/game/maps/generator.py	/^                color = WALL$/;"	kind:variable	line:93
+color	../src/game/maps/generator.py	/^                color = WATER$/;"	kind:variable	line:101
+color	../src/game/maps/generator.py	/^            color = BRICK$/;"	kind:variable	line:110
+color	../src/game/maps/generator.py	/^            color = EAGLE$/;"	kind:variable	line:116
+color	../src/game/maps/generator.py	/^            color = FRONT$/;"	kind:variable	line:89
+color	../src/game/maps/generator.py	/^            color = TANK$/;"	kind:variable	line:118
+color	../src/game/maps/generator.py	/^            color = WALL$/;"	kind:variable	line:112
+column	../src/game/maps/generator.py	/^                    column = pos[0] \/\/ (WIDTH + MARGIN)$/;"	kind:variable	line:59
+column_tiles	../src/game/maps/generator.py	/^                    column_tiles = pos[0] \/\/ (WIDTH + MARGIN)$/;"	kind:variable	line:72
+done	../src/game/maps/generator.py	/^            done = True$/;"	kind:variable	line:54
+done	../src/game/maps/generator.py	/^done = False$/;"	kind:variable	line:48
+eagle_x	../src/game/maps/generator.py	/^eagle_x = int(input("Enter eagle X (from 0 to 24, middle: 12): "))$/;"	kind:variable	line:40
+eagle_y	../src/game/maps/generator.py	/^eagle_y = int(input("Enter eagle Y (from 0 to 19, middle: 10): "))$/;"	kind:variable	line:41
+enemy_counter	../src/game/maps/generator.py	/^    enemy_counter = int(input("Enter enemy counter: "))$/;"	kind:variable	line:34
+enemy_counter	../src/game/maps/generator.py	/^enemy_counter = 0$/;"	kind:variable	line:20
+generator.py	../src/game/maps/generator.py	1;"	kind:file	line:1
+grid	../src/game/maps/generator.py	/^grid = []$/;"	kind:variable	line:22
+label	../src/game/maps/generator.py	/^    label = pygame.font.SysFont("monospace", 15).render("GENERATE", 1, (255, 255, 255))$/;"	kind:variable	line:122
+map_name	../src/game/maps/generator.py	/^map_name = input("Enter map title: ")$/;"	kind:variable	line:28
+map_save	../src/game/maps/generator.py	/^    def map_save():$/;"	kind:function	line:126
+pos	../src/game/maps/generator.py	/^            pos = pygame.mouse.get_pos()$/;"	kind:variable	line:56
+row	../src/game/maps/generator.py	/^                    row = pos[1] \/\/ (HEIGHT + MARGIN)$/;"	kind:variable	line:60
+row_tiles	../src/game/maps/generator.py	/^                    row_tiles = pos[1] \/\/ (HEIGHT + MARGIN)$/;"	kind:variable	line:73
+screen	../src/game/maps/generator.py	/^screen = pygame.display.set_mode(WINDOW_SIZE)$/;"	kind:variable	line:46
+spawn_counter	../src/game/maps/generator.py	/^    spawn_counter = int(input("Enter spawn points counter: "))$/;"	kind:variable	line:30
+spawn_counter	../src/game/maps/generator.py	/^spawn_counter = 0$/;"	kind:variable	line:19
+spawn_x	../src/game/maps/generator.py	/^spawn_x = int(input("Enter spawn X (from 0 to 24, middle: 12): "))$/;"	kind:variable	line:37
+spawn_y	../src/game/maps/generator.py	/^spawn_y = int(input("Enter spawn Y (from 0 to 19, middle: 10): "))$/;"	kind:variable	line:38
+tile_choosen	../src/game/maps/generator.py	/^                    tile_choosen = grid[row_tiles][column_tiles]$/;"	kind:variable	line:75
+tile_choosen	../src/game/maps/generator.py	/^tile_choosen = 0$/;"	kind:variable	line:18
