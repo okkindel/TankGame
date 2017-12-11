@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import Game from './main';
+import Game from './game/main';
 import './App.css';
 
 class App extends Component {
@@ -29,6 +29,12 @@ class App extends Component {
     document.addEventListener('keydown', this.combinationListener, false);
   }
 
+  resetPasswordState() {
+    this.passIndex = 0;
+    this.state.superPrivatePass = '';
+  }
+
+
   combinationListener(event) {
     // Check if App hidden
     if (!this.state.showApp) {
@@ -49,11 +55,6 @@ class App extends Component {
       this.setState({ showApp: false });
       this.resetPasswordState();
     }
-  }
-
-  resetPasswordState() {
-    this.passIndex = 0;
-    this.state.superPrivatePass = '';
   }
 
 startgame() {
