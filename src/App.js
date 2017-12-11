@@ -20,6 +20,7 @@ class App extends Component {
       showApp: false,
       superPrivatePass: ''
     };
+    this.passIndex = 0;
     this.combinationListener = this
       .combinationListener
       .bind(this);
