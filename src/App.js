@@ -58,11 +58,6 @@ class App extends Component {
     }
   }
 
-startgame() {
-  this.game = new Game();
-
-  return null;
-}
 
 render() {
   return (
