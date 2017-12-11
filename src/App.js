@@ -6,14 +6,11 @@ import './App.css';
 
 class App extends Component {
   static propTypes = {
-    children: PropTypes.node.isRequired,
-    reset: PropTypes.string,
     password: PropTypes.string,
     quitKey: PropTypes.string
   };
 
   static defaultProps = {
-    reset: 'q',
     password: 'pass',
     quitKey: 'Escape'
   };
