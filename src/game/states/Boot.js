@@ -1,6 +1,6 @@
 import Phaser from 'phaser'
 import WebFont from 'webfontloader'
-import asset1 from '../assets/button.png'
+import button from '../assets/button.png'
 import loaderBg_img from '../assets/images/loader-bg.png'
 import loaderBar_img from '../assets/images/loader-bar.png'
 
@@ -20,7 +20,7 @@ export default class extends Phaser.State {
       active: this.fontsLoaded
     })
 
-    this.load.image('button', asset1)
+    this.load.image('button', button)
     this.load.image('loaderBg', loaderBg_img)
     this.load.image('loaderBar', loaderBar_img)
   }
