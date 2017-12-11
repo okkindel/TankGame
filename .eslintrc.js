@@ -7,7 +7,6 @@ module.exports = {
     'es6': true,
     'jest': true
   },
-  'extends': 'airbnb',
   'parser': 'babel-eslint',
   'rules': {
     'comma-dangle': [ERROR, 'never'],
