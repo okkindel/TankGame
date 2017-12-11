@@ -1,8 +1,7 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import Game from './main';
 import './App.css';
-
 
 class App extends Component {
   static propTypes = {
@@ -21,7 +20,9 @@ class App extends Component {
       showApp: false,
       superPrivatePass: ''
     };
-    this.combinationListener = this.combinationListener.bind(this);
+    this.combinationListener = this
+      .combinationListener
+      .bind(this);
   }
 
   componentDidMount() {
@@ -29,41 +30,48 @@ class App extends Component {
   }
 
   combinationListener(event) {
+    // Check if App hidden
     if (!this.state.showApp) {
-      if (this.props.password.indexOf(event.key) > -1) {
-        this.setState({
-          superPrivatePass: this.state.superPrivatePass + event.key
-        });
-        if (this.state.superPrivatePass.length === this.props.password.length && this.state.superPrivatePass === this.props.password) {
+      if (event.key === this.props.password.charAt(this.passIndex)) {
+        // if password char matches, inrement iterator and add that char
+        this.passIndex += 1;
+        this.state.superPrivatePass += event.key;
+
+        if (this.props.password === this.state.superPrivatePass) {
+          // Password matches, show App and reset password state
           this.setState({ showApp: true });
-          // this.game = new Game();
-          
         }
-        if (event.key === this.props.reset) {
-          this.setState({ superPrivatePass: '' });
-        }
-      } else if (event.key === this.props.reset) {  
-        this.setState({ superPrivatePass: '' });
+      } else {
+        // Reset password iterator on bad input
+        this.resetPasswordState();
       }
     } else if (event.key === this.props.quitKey) {
       this.setState({ showApp: false });
+      this.resetPasswordState();
     }
   }
 
-  startgame() {
-    this.game = new Game();
-
-    return null;
+  resetPasswordState() {
+    this.passIndex = 0;
+    this.state.superPrivatePass = '';
   }
 
-  render() {
-    return (
-      <div className='App'>
-        <h1 align='center'>TANKS GAME</h1>
-        {this.state.showApp && <div className='container'><div id='phaser'>{this.startgame()}</div></div>}
-      </div>
-    );
-  }
+startgame() {
+  this.game = new Game();
+
+  return null;
+}
+
+render() {
+  return (
+    <div className='App'>
+      <h1 align='center'>TANKS GAME</h1>
+      {this.state.showApp && <div className='container'>
+        <div id='phaser'>{this.startgame()}</div>
+      </div>}
+    </div>
+  );
+}
 }
 
 export default App;
