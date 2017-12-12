@@ -31,6 +31,21 @@ export default class extends Phaser.State {
     this.map.load_map(require('../maps/' + this.map_list[this.map_counter]));
     console.log(this.map)
 
+
+    //WATER
+    this.water_position = this.map.get_water_array();
+    this.water = this.game.add.group();
+    
+    for (i = 0; i < this.water_position.length; i++) {
+      this.water_drop = new Water({
+        game: this.game,
+        x: this.water_position[i].x * 36,
+        y: this.water_position[i].y * 36,
+        asset: 'water_img'
+      })
+      this.water.add(this.water_drop);
+    }
+
     //PLAYER TANK
     this.player_start_point = this.map.get_start_point();
     this.player = new Player({
@@ -116,19 +131,6 @@ export default class extends Phaser.State {
       this.walls.add(this.wall);
     }
 
-    //WATER
-    this.water_position = this.map.get_water_array();
-    this.water = this.game.add.group();
-
-    for (i = 0; i < this.water_position.length; i++) {
-      this.water_drop = new Water({
-        game: this.game,
-        x: this.water_position[i].x * 36,
-        y: this.water_position[i].y * 36,
-        asset: 'water_img'
-      })
-      this.water.add(this.water_drop);
-    }
 
     //LEAVES
     this.leaves_position = this.map.get_leaves_array();
@@ -225,10 +227,6 @@ export default class extends Phaser.State {
       apearing.play('appearing', 60, false, true);
     }
 
-    //ENEMIES MOVING
-    this.enemies.forEachAlive(function(enemy) {
-      enemy.move(this.player.x, this.player.y, this.eagle_position.x * 36, this.eagle_position.y * 36, this.game.time.now);
-    }, this);
 
     //COLLISIONS
     this.game.physics.arcade.overlap(this.bullets, this.enemies, this.collisionHandler, null, this);
@@ -249,10 +247,20 @@ export default class extends Phaser.State {
     this.game.physics.arcade.collide(this.enemies, this.bricks);
     this.game.physics.arcade.collide(this.player, this.walls);
     this.game.physics.arcade.collide(this.enemies, this.walls);
-    this.game.physics.arcade.collide(this.player, this.water);
+    this.game.physics.arcade.collide(this.player, this.water); // if we want collision with water
     this.game.physics.arcade.collide(this.enemies, this.water);
     this.game.physics.arcade.collide(this.player, this.eagle);
     this.game.physics.arcade.collide(this.enemies, this.eagle);
+
+
+    //water slow us down
+    // if we want to slow down on water
+    // if(this.game.physics.arcade.overlap(this.player, this.water, null)){
+    //   this.player.setSlowDownMode(true);
+    // } else {
+    //   this.player.setSlowDownMode(false);
+    // }
+
 
     if (this.player.alive) {
 
@@ -260,24 +268,16 @@ export default class extends Phaser.State {
       this.player.body.velocity.setTo(0, 0);
 
       if (this.cursors.left.isDown) {
-        this.player_dir = 'left';
-        this.player.body.velocity.x = -100;
-        this.player.angle = 270;
+        this.player.moveLeft();
       }
       else if (this.cursors.right.isDown) {
-        this.player_dir = 'right';
-        this.player.body.velocity.x = 100;
-        this.player.angle = 90;
+        this.player.moveRight();
       }
       else if (this.cursors.up.isDown) {
-        this.player_dir = 'up';
-        this.player.body.velocity.y = -100;
-        this.player.angle = 0;
+        this.player.moveUp();
       }
       else if (this.cursors.down.isDown) {
-        this.player_dir = 'down';
-        this.player.body.velocity.y = 100;
-        this.player.angle = 180;
+        this.player.moveDown();
       }
       if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
         this.fireBullet();
@@ -296,7 +296,8 @@ export default class extends Phaser.State {
       game: this.game,
       x: this.enemy_spawn_point[random].x * 36 + 18,
       y: this.enemy_spawn_point[random].y * 36 + 18,
-      asset: 'enemy_img'
+      asset: 'enemy_img',
+      Game: this
     })
     this.enemies.add(this.enemy);
     this.enemy_number -= 1;
@@ -316,22 +317,22 @@ export default class extends Phaser.State {
 
 
       if (this.bullet) {
-        if (this.player_dir === 'up') {
+        if (this.player.getDirection() === 'up') {
           this.bullet.reset(this.player.x - 4, this.player.y - 20);
           explosion.reset(this.player.x, this.player.y - 20);
           this.bullet.body.velocity.y = -200;
         }
-        if (this.player_dir === 'down') {
+        if (this.player.getDirection() === 'down') {
           this.bullet.reset(this.player.x - 4, this.player.y + 20);
           explosion.reset(this.player.x, this.player.y + 20);
           this.bullet.body.velocity.y = +200;
         }
-        if (this.player_dir === 'left') {
+        if (this.player.getDirection() === 'left') {
           this.bullet.reset(this.player.x - 20, this.player.y - 4);
           explosion.reset(this.player.x - 20, this.player.y);
           this.bullet.body.velocity.x = -200;
         }
-        if (this.player_dir === 'right') {
+        if (this.player.getDirection() === 'right') {
           this.bullet.reset(this.player.x + 20, this.player.y - 4);
           explosion.reset(this.player.x + 20, this.player.y);
           this.bullet.body.velocity.x = +200;
@@ -341,7 +342,7 @@ export default class extends Phaser.State {
       }
     }
   }
-
+  //to fix Hajduk! ShitCode Alert!
   enemyFires() {
 
     this.livingEnemies = [];
@@ -354,22 +355,22 @@ export default class extends Phaser.State {
       const random = this.game.rnd.integerInRange(0, this.livingEnemies.length - 1);
       const shooter = this.livingEnemies[random];
       const explosion = this.small_explode.getFirstExists(false);
-      if (shooter.direction == 4) {
+      if (shooter.getDirection() == 'up') {
         this.enemy_bullet.reset(shooter.x - 4, shooter.y - 20);
         explosion.reset(shooter.x, shooter.y - 20);
         this.enemy_bullet.body.velocity.y = -120;
       }
-      if (shooter.direction == 3) {
+      if (shooter.direction == 'down') {
         this.enemy_bullet.reset(shooter.x - 4, shooter.y + 20);
         explosion.reset(shooter.x, shooter.y + 20);
         this.enemy_bullet.body.velocity.y = +120;
       }
-      if (shooter.direction == 2) {
+      if (shooter.direction == 'left') {
         this.enemy_bullet.reset(shooter.x - 20, shooter.y - 4);
         explosion.reset(shooter.x - 20, shooter.y);
         this.enemy_bullet.body.velocity.x = -120;
       }
-      if (shooter.direction == 1) {
+      if (shooter.direction == 'right') {
         this.enemy_bullet.reset(shooter.x + 20, shooter.y - 4);
         explosion.reset(shooter.x + 20, shooter.y);
         this.enemy_bullet.body.velocity.x = +120;
