@@ -59,5 +59,6 @@ node_modules/**/*
 .env
 
 .idea/
+.vscode/
 
 dist/

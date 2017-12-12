@@ -226,7 +226,7 @@ export default class extends Phaser.State {
     }
 
     //ENEMIES MOVING
-    this.enemies.forEachAlive(function (enemy) {
+    this.enemies.forEachAlive(function(enemy) {
       enemy.move(this.player.x, this.player.y, this.eagle_position.x * 36, this.eagle_position.y * 36, this.game.time.now);
     }, this);
 
@@ -380,7 +380,7 @@ export default class extends Phaser.State {
 
     if (this.enemy_number == 0 && this.livingEnemies.length == 0) {
       if (this.map_list.length >= this.map_counter)
-        this.map_counter++;
+        this.map_counter += 1;
       else
         this.map_counter = 0;
       this.state.start('NextLevel');

@@ -11,7 +11,7 @@ import NextLevel from './states/NextLevel'
 import config from './config'
 
 export default class extends Phaser.Game {
-  constructor () {
+  constructor() {
     const docElement = document.documentElement;
     const width = docElement.clientWidth > config.gameWidth ? config.gameWidth : docElement.clientWidth;
     const height = docElement.clientHeight > config.gameHeight ? config.gameHeight : docElement.clientHeight;

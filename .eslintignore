@@ -1,3 +1,11 @@
 node_modules/
 public/phaser.min.js
-src/**
+__mocks__/
+config/
+dist/
+public/
+scripts/
+test-utils/
+webpack.config.js
+webpack.cordova.config.js
+webpack.production.config.js

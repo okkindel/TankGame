@@ -18,9 +18,9 @@ import appear_img from '../assets/appear.png'
 import button_img from '../assets/button.png'
 
 export default class extends Phaser.State {
-  init () {}
+  init() {}
 
-  preload () {
+  preload() {
 
     //LOADING BARS
     this.loaderBg = this.add.sprite(this.game.world.centerX, this.game.world.centerY, 'loaderBg')
@@ -47,7 +47,7 @@ export default class extends Phaser.State {
     this.load.spritesheet('appear_img', appear_img, 68, 68)
   }
 
-  create () {
+  create() {
     this.state.start('Game')
   }
 }
