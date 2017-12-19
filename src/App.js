@@ -62,7 +62,7 @@ class App extends Component {
 render() {
   return (
     <div className='App'>
-      <h1 align='center'>TANKS GAME</h1>
+
       {this.state.showApp && <GameWrapper/>}
     </div>
   );
