@@ -20,6 +20,9 @@ export default class extends Phaser.State {
     this.map_counter = 0;
     this.bullet_time = 0;
     this.last_time_spawn = 0;
+
+    //SCORE
+    this.score = new Score();
   }
 
   init() { }
@@ -31,9 +34,6 @@ export default class extends Phaser.State {
     this.map_list = require("../maps/map_list.json").list;
     this.map.load_map(require('../maps/' + this.map_list[this.map_counter]));
     console.log(this.map)
-
-    //SCORE
-    this.score = new Score();
 
     //WATER
     this.water_position = this.map.get_water_array();
