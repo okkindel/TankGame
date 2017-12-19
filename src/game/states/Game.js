@@ -1,6 +1,7 @@
 import Phaser from 'phaser'
 import Player from '../sprites/Player'
-import Enemy from '../sprites/Enemy_Tank'
+import BasicTank from '../sprites/Tanks/BasicTank'
+import FastTank from '../sprites/Tanks/FastTank'
 import Eagle from '../sprites/Eagle'
 import Player_Bullets from '../sprites/Player_Bullets'
 import Enemy_Bullets from '../sprites/Enemy_Bullets'
@@ -59,7 +60,7 @@ export default class extends Phaser.State {
     })
     this.game.add.existing(this.player)
 
-    //ENEMY TANKS
+    //BasicTank TANKS
     this.enemy_number = this.map.get_enemy_counter();
     this.spawn_counter = this.map.get_spawn_counter() - 1;
     this.enemy_spawn_point = this.map.get_enemy_spawn_point();
@@ -160,7 +161,7 @@ export default class extends Phaser.State {
       this.bullets.add(this.bullet);
     }
 
-    //ENEMY BULLETS
+    //BasicTank BULLETS
     this.enemy_bullets = this.game.add.group();
     for (i = 0; i < 20; i++) {
       this.enemy_bullet = new Enemy_Bullets({
@@ -286,13 +287,24 @@ export default class extends Phaser.State {
 
     this.last_time_spawn = this.game.time.now;
     let random = this.game.rnd.integerInRange(0, this.spawn_counter)
-    this.enemy = new Enemy({
-      game: this.game,
-      x: this.enemy_spawn_point[random].x * 36 + 18,
-      y: this.enemy_spawn_point[random].y * 36 + 18,
-      asset: 'enemy_img',
-      Game: this
-    })
+
+    if(Math.random() * 10 >= 5) {
+      this.enemy = new BasicTank({
+        game: this.game,
+        x: this.enemy_spawn_point[random].x * 36 + 18,
+        y: this.enemy_spawn_point[random].y * 36 + 18,
+        asset: 'enemy_img',
+        Game: this
+      })
+    } else {
+      this.enemy = new FastTank({
+        game: this.game,
+        x: this.enemy_spawn_point[random].x * 36 + 18,
+        y: this.enemy_spawn_point[random].y * 36 + 18,
+        asset: 'enemy_img',
+        Game: this
+      })
+    }
     this.enemies.add(this.enemy);
     this.enemy_number -= 1;
     console.log(this.enemy_number);
