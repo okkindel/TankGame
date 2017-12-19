@@ -11,11 +11,13 @@ import small_wall_3_img from '../assets/small_wall_3.png'
 import small_wall_4_img from '../assets/small_wall_4.png'
 import bullet_img from '../assets/bullet.png'
 import enemy_img from '../assets/enemy.png'
+import enemy_blue_img from '../assets/enemy_blue.png'
 import enemy_bullet_img from '../assets/enemy_bullet.png'
 import explode_img from '../assets/explode.png'
 import explode_small_img from '../assets/explode_small.png'
 import appear_img from '../assets/appear.png'
 import button_img from '../assets/button.png'
+import bonus_speed from '../assets/bonus/bonus_speed.png'
 
 export default class extends Phaser.State {
   init() {}
@@ -41,6 +43,8 @@ export default class extends Phaser.State {
     this.load.image('small_wall_4', small_wall_4_img)
     this.load.image('bullet_img', bullet_img)
     this.load.image('enemy_img', enemy_img)
+    this.load.image('enemy_blue_img', enemy_blue_img)
+    this.load.image('bonus_speed', bonus_speed)
     this.load.image('enemy_bullet_img', enemy_bullet_img)
     this.load.spritesheet('explode_img', explode_img, 68, 68)
     this.load.spritesheet('explode_small_img', explode_small_img, 48, 48)

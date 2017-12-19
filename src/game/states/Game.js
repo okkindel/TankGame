@@ -85,8 +85,6 @@ export default class extends Phaser.State {
 
     //Bonus
     this.bonuses = this.game.add.group();
-    
-
 
     //LEFT UP
     for (i = 0; i < this.brick_position.length; i++) {
@@ -169,7 +167,7 @@ export default class extends Phaser.State {
       this.bullets.add(this.bullet);
     }
 
-    //BasicTank BULLETS
+    //TANK BULLETS
     this.enemy_bullets = this.game.add.group();
     for (i = 0; i < 20; i++) {
       this.enemy_bullet = new Enemy_Bullets({
@@ -232,10 +230,10 @@ export default class extends Phaser.State {
   addBonus(){
     this.bonus = new BonusSpeedUp({
       game: this.game,
-      x: 10 * 36,
-      y: 10 * 36,
-      asset: 'eagle_img',
-      lifeTime: 50000
+      x: this.game.rnd.integerInRange(50, 850),
+      y: this.game.rnd.integerInRange(50, 550),
+      asset: 'bonus_speed',
+      lifeTime: 10000
     });
     this.bonuses.add(this.bonus);
   }
@@ -326,7 +324,7 @@ export default class extends Phaser.State {
         game: this.game,
         x: this.enemy_spawn_point[random].x * 36 + 18,
         y: this.enemy_spawn_point[random].y * 36 + 18,
-        asset: 'enemy_img',
+        asset: 'enemy_blue_img',
         Game: this
       })
     }

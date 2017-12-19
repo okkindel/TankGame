@@ -6,6 +6,7 @@ export default class BasicTank extends AbstractTank {
     super({ game, x, y, asset, Game })
     this.timeToStep = 0;
     this.chances = [25, 25, 25, 25];
+    this.points = 30;
   }
 
   move() {
@@ -56,20 +57,19 @@ export default class BasicTank extends AbstractTank {
       if (dirChance < this.chances[0]) {
         this.setDirection('right'); //RIGHT
         this.angle = 90;
-        this.body.velocity.x = 100;
+        this.body.velocity.x = 80;
       } else if (dirChance < this.chances[0] + this.chances[1]) {
         this.setDirection('left'); //LEFT
         this.angle = 270;
-        this.body.velocity.x = -100;
+        this.body.velocity.x = -80;
       } else if (dirChance < this.chances[0] + this.chances[1] + this.chances[2]) {
         this.setDirection('down'); //DOWN
         this.angle = 180;
-        this.body.velocity.y = 100;
+        this.body.velocity.y = 80;
       } else {
         this.setDirection('up'); //UP
-        
         this.angle = 0;
-        this.body.velocity.y = -100;
+        this.body.velocity.y = -80;
       }
 
       if (randomSum >= 1000) {
