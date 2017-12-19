@@ -26,7 +26,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/api', api);
-app.use('/users', users);
 
 mongoose.connect('mongodb://admin:adrian123@ds046027.mlab.com:46027/tanks-database')
 .then(() =>  console.log('connection succesful'))
