@@ -11,6 +11,7 @@ export default class extends Phaser.Sprite {
       this.body.collideWorldBounds = true,
       this.timeToStep = 0,
       this.direction = "up"
+      this.points = 50;
     //RIGHT LEFT DOWN UP
     this.chances = [25, 25, 25, 25];
   }

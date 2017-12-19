@@ -18,7 +18,7 @@
 		}
 	],
 	"spawn_counter": 3,
-	"enemy_counter": 10,
+	"enemy_counter": 1,
 	"eagle": {
 		"x": 12,
 		"y": 17

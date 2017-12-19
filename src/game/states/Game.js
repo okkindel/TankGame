@@ -8,6 +8,7 @@ import Walls from '../sprites/Walls'
 import Brick from '../sprites/Brick'
 import Water from '../sprites/Water'
 import Leaves from '../sprites/Leaves'
+import Score from '../score'
 import Map from '../map'
 
 export default class extends Phaser.State {
@@ -31,6 +32,8 @@ export default class extends Phaser.State {
     this.map.load_map(require('../maps/' + this.map_list[this.map_counter]));
     console.log(this.map)
 
+    //SCORE
+    this.score = new Score();
 
     //WATER
     this.water_position = this.map.get_water_array();
@@ -229,7 +232,7 @@ export default class extends Phaser.State {
 
 
     //COLLISIONS
-    this.game.physics.arcade.overlap(this.bullets, this.enemies, this.collisionHandler, null, this);
+    this.game.physics.arcade.overlap(this.bullets, this.enemies, this.collisionTank, null, this);
     this.game.physics.arcade.overlap(this.bullets, this.enemy_bullets, this.collisionHandler, null, this);
     this.game.physics.arcade.overlap(this.enemy_bullets, this.player, this.collisionPlayer, null, this);
     this.game.physics.arcade.overlap(this.bullets, this.bricks, this.collisionHandler, null, this);
@@ -247,19 +250,10 @@ export default class extends Phaser.State {
     this.game.physics.arcade.collide(this.enemies, this.bricks);
     this.game.physics.arcade.collide(this.player, this.walls);
     this.game.physics.arcade.collide(this.enemies, this.walls);
-    this.game.physics.arcade.collide(this.player, this.water); // if we want collision with water
+    this.game.physics.arcade.collide(this.player, this.water);
     this.game.physics.arcade.collide(this.enemies, this.water);
     this.game.physics.arcade.collide(this.player, this.eagle);
     this.game.physics.arcade.collide(this.enemies, this.eagle);
-
-
-    //water slow us down
-    // if we want to slow down on water
-    // if(this.game.physics.arcade.overlap(this.player, this.water, null)){
-    //   this.player.setSlowDownMode(true);
-    // } else {
-    //   this.player.setSlowDownMode(false);
-    // }
 
 
     if (this.player.alive) {
@@ -399,9 +393,20 @@ export default class extends Phaser.State {
     this.state.start('GameOver');
   }
 
-  collisionHandler(enemy, object) {
+  collisionHandler(bullet, object) {
+    object.kill();
+    bullet.kill();
+
+    const explosion = this.explosions.getFirstExists(false);
+    explosion.reset(object.x, object.y);
+    explosion.play('kaboom', 30, false, true);
+  }
+
+  collisionTank(object, enemy) {
     object.kill();
     enemy.kill();
+    this.score.addScore(enemy)
+
 
     const explosion = this.explosions.getFirstExists(false);
     explosion.reset(object.x, object.y);
