@@ -51,7 +51,7 @@ export default class extends Phaser.Sprite {
     let before = this[obj.name];
     setTimeout(() => {
       this[obj.name] = before;
-    }, 10000);
+    }, 5000);
 
     this[obj.name] = obj.value;
   }
