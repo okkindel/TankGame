@@ -1,22 +1,11 @@
 import Phaser from 'phaser'
+import AbstractTank from './AbstractTank'
 
-export default class extends Phaser.Sprite {
-  constructor({ game, x, y, asset,Game }) {
-    super(game, x, y, asset),
-      this.anchor.setTo(0.5),
-      this.game.physics.arcade.enable(this),
-      this.enableBody = true,
-      this.Game = Game;
-      //this.body.immovable = false,
-      this.body.collideWorldBounds = true,
-      this.timeToStep = 0,
-      this.direction = "up"
-    //RIGHT LEFT DOWN UP
+export default class BasicTank extends AbstractTank {
+  constructor({ game, x, y, asset, Game }) {
+    super({ game, x, y, asset, Game })
+    this.timeToStep = 0;
     this.chances = [25, 25, 25, 25];
-  }
-
-  distanceFromTo(x1, x2, y1, y2) {
-    return Math.sqrt(Math.pow((x2 - x1), 2) + Math.pow((y2 - y1), 2));
   }
 
   move() {
@@ -65,19 +54,19 @@ export default class extends Phaser.Sprite {
       this.body.velocity.setTo(0, 0);
 
       if (dirChance < this.chances[0]) {
-        this.direction = 'right'; //RIGHT
+        this.setDirection('right'); //RIGHT
         this.angle = 90;
         this.body.velocity.x = 100;
       } else if (dirChance < this.chances[0] + this.chances[1]) {
-        this.direction = 'left'; //LEFT
+        this.setDirection('left'); //LEFT
         this.angle = 270;
         this.body.velocity.x = -100;
       } else if (dirChance < this.chances[0] + this.chances[1] + this.chances[2]) {
-        this.direction = 'down'; //DOWN
+        this.setDirection('down'); //DOWN
         this.angle = 180;
         this.body.velocity.y = 100;
       } else {
-        this.direction = 'up'; //UP
+        this.setDirection('up'); //UP
         
         this.angle = 0;
         this.body.velocity.y = -100;
@@ -90,12 +79,8 @@ export default class extends Phaser.Sprite {
     }
   }
 
-  getDirection(){
-    return this.direction;
-  }
-
+  // overload
   update() {
     this.move();
-
   }
 }
