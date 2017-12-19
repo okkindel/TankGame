@@ -9,11 +9,11 @@ export default class extends Phaser.Sprite {
       this.body.collideWorldBounds = true;
       this.speed = 100;
       this.direction = 'up';
-      this.slowMode = 0;
+      this.immortality = 0; 
+      this.save = [{}];
   }
 
   moveRight(){
-    this.slowMode ? this.speed = 50 : this.speed = 100;
     this.body.velocity.x = this.speed;
     this.angle = 90;
     this.direction = 'right';
@@ -21,35 +21,44 @@ export default class extends Phaser.Sprite {
 
 
   moveLeft(){
-    this.slowMode ? this.speed = 50 : this.speed = 100;
     this.body.velocity.x = -this.speed;
     this.angle = 270;
     this.direction = 'left';
   }
 
   moveDown(){
-    this.slowMode ? this.speed = 50 : this.speed = 100;
     this.body.velocity.y = this.speed;
     this.angle = 180;
     this.direction = 'down';
   }
 
   moveUp(){
-    this.slowMode ? this.speed = 50 : this.speed = 100;
     this.body.velocity.y = -this.speed;
     this.angle = 0;
     this.direction = 'up';
   }
 
   setSlowDownMode(isOnWater){
-    isOnWater ? this.slowMode = true : this.slowMode = false;
+    isOnWater ? this.speed = 50 : this.speed = 100;
   }
 
 
   getDirection(){
     return this.direction;
   }
+  
+  modifyAttributes(obj){
+    let before = this[obj.name];
+    setTimeout(() => {
+      this[obj.name] = before;
+    }, 1000);
+
+    this[obj.name] = obj.value;
+  }
+
 
   update() {
+
+    
   }
 }

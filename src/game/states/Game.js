@@ -9,6 +9,7 @@ import Brick from '../sprites/Brick'
 import Water from '../sprites/Water'
 import Leaves from '../sprites/Leaves'
 import Map from '../map'
+import BonusSpeedUp from '../sprites/Bonuses/BonusSpeedUp';
 
 export default class extends Phaser.State {
 
@@ -19,6 +20,7 @@ export default class extends Phaser.State {
     this.map_counter = 0;
     this.bullet_time = 0;
     this.last_time_spawn = 0;
+    this.next_bonus = 0;
   }
 
   init() { }
@@ -76,6 +78,12 @@ export default class extends Phaser.State {
     //BRICKS
     this.brick_position = this.map.get_brick_array();
     this.bricks = this.game.add.group();
+
+    //Bonus
+    this.bonuses = this.game.add.group();
+    
+
+
     //LEFT UP
     for (i = 0; i < this.brick_position.length; i++) {
       this.brick = new Brick({
@@ -217,6 +225,17 @@ export default class extends Phaser.State {
     object.animations.add('appearing');
   }
 
+  addBonus(){
+    this.bonus = new BonusSpeedUp({
+      game: this.game,
+      x: 10 * 36,
+      y: 10 * 36,
+      asset: 'eagle_img',
+      lifeTime: 50000
+    });
+    this.bonuses.add(this.bonus);
+  }
+
   update() {
 
     //ADD NEW ENEMIES
@@ -225,6 +244,11 @@ export default class extends Phaser.State {
       const apearing = this.appear.getFirstExists(false);
       apearing.reset(this.enemy.x, this.enemy.y);
       apearing.play('appearing', 60, false, true);
+    }
+
+    if (this.game.time.now > this.next_bonus){
+      this.addBonus();
+      this.next_bonus = this.game.time.now + ((Math.random() * 20000) + 10000);
     }
 
 
@@ -239,6 +263,7 @@ export default class extends Phaser.State {
     this.game.physics.arcade.overlap(this.bullets, this.eagle, this.collisionEagle, null, this);
     this.game.physics.arcade.overlap(this.enemy_bullets, this.eagle, this.collisionEagle, null, this);
     this.game.physics.arcade.overlap(this.player, this.enemies, this.simpleCollision, null, this);
+    this.game.physics.arcade.overlap(this.player, this.bonuses, this.simpleBonusCollision, null, this);
 
 
     this.game.physics.arcade.collide(this.player, this.enemies);
@@ -307,6 +332,11 @@ export default class extends Phaser.State {
   simpleCollision(tank, enemy) {
     tank.body.velocity.setTo(0, 0);
     enemy.body.velocity.setTo(0, 0)
+  }
+
+  simpleBonusCollision(player, bonus) {
+    bonus.modify(player);
+    bonus.kill();
   }
 
   fireBullet() {
