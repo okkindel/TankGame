@@ -9,7 +9,6 @@ import Walls from '../sprites/Walls'
 import Brick from '../sprites/Brick'
 import Water from '../sprites/Water'
 import Leaves from '../sprites/Leaves'
-import Score from '../score'
 import Map from '../map'
 import BonusSpeedUp from '../sprites/Bonuses/BonusSpeedUp';
 
@@ -22,9 +21,6 @@ export default class extends Phaser.State {
     this.map_counter = 1;
     this.bullet_time = 0;
     this.last_time_spawn = 0;
-
-    //SCORE
-    this.score = new Score();
     this.next_bonus = 0;
   }
 
@@ -445,7 +441,7 @@ export default class extends Phaser.State {
   collisionTank(object, enemy) {
     object.kill();
     enemy.kill();
-    this.score.addScore(enemy)
+    this.game.score.addScore(enemy)
 
 
     const explosion = this.explosions.getFirstExists(false);

@@ -7,6 +7,7 @@ import SplashState from './states/Splash'
 import GameState from './states/Game'
 import GameOver from './states/GameOver'
 import NextLevel from './states/NextLevel'
+import Score from './score'
 
 import config from './config'
 
@@ -21,8 +22,9 @@ export default class extends Phaser.Game {
     this.state.add('Boot', BootState, false);
     this.state.add('Splash', SplashState, false);
     this.state.add('Game', GameState, false);
-    this.state.add('GameOver', GameOver, false)
-    this.state.add('NextLevel', NextLevel, false)
+    this.state.add('GameOver', GameOver, false);
+    this.state.add('NextLevel', NextLevel, false);
+    this.score = new Score();
 
     this.state.start('Boot');
   }
