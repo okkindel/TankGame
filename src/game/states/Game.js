@@ -139,7 +139,6 @@ export default class extends Phaser.State {
       this.walls.add(this.wall);
     }
 
-
     //LEAVES
     this.leaves_position = this.map.get_leaves_array();
     this.leaves = this.game.add.group();
@@ -205,6 +204,10 @@ export default class extends Phaser.State {
     //SOUNDS
     this.shot_sound = this.game.add.audio('shot_sound');
     this.bonus_sound = this.game.add.audio('bonus_sound');
+    this.win_sound = this.game.add.audio('win_sound');
+    this.lose_sound = this.game.add.audio('lose_sound');
+    this.explode_sound = this.game.add.audio('explode_sound');
+    this.hit_sound = this.game.add.audio('hit_sound');
 
     //CURSORS
     this.cursors = this.game.input.keyboard.createCursorKeys();
@@ -257,7 +260,6 @@ export default class extends Phaser.State {
     this.game.physics.arcade.overlap(this.enemy_bullets, this.eagle, this.collisionEagle, null, this);
     this.game.physics.arcade.overlap(this.player, this.enemies, this.simpleCollision, null, this);
     this.game.physics.arcade.overlap(this.player, this.bonuses, this.simpleBonusCollision, null, this);
-
 
     this.game.physics.arcade.collide(this.player, this.enemies);
     this.game.physics.arcade.collide(this.enemies, this.enemies);
@@ -352,7 +354,6 @@ export default class extends Phaser.State {
         lifeTime: 10000
       });
     }
-
     this.bonuses.add(this.bonus);
   }
 
@@ -362,7 +363,6 @@ export default class extends Phaser.State {
   }
 
   simpleBonusCollision(player, bonus) {
-    //BONUS SOUND
     this.bonus_sound.play();
     bonus.modify(player);
     bonus.kill();
@@ -373,7 +373,6 @@ export default class extends Phaser.State {
     const explosion = this.small_explode.getFirstExists(false);
     if (this.game.time.now > this.bullet_time) {
       this.bullet = this.bullets.getFirstExists(false);
-      //SHOT SOUND
       this.shot_sound.play();
 
       if (this.bullet) {
@@ -444,6 +443,7 @@ export default class extends Phaser.State {
         this.map_counter += 1;
       else
         this.map_counter = 0;
+      this.win_sound.play();
       this.state.start('NextLevel');
     }
   }
@@ -456,12 +456,14 @@ export default class extends Phaser.State {
     explosion.reset(object.x, object.y);
     explosion.play('kaboom', 30, false, true);
     this.map_counter = 0;
+    this.lose_sound.play();
     this.state.start('GameOver');
   }
 
   collisionHandler(bullet, object) {
     object.kill();
     bullet.kill();
+    this.hit_sound.play();
 
     const explosion = this.explosions.getFirstExists(false);
     explosion.reset(object.x, object.y);
@@ -469,6 +471,7 @@ export default class extends Phaser.State {
   }
 
   collisionTank(object, enemy) {
+    this.explode_sound.play();
     object.kill();
     enemy.kill();
     this.game.score.addScore(enemy)
@@ -491,6 +494,7 @@ export default class extends Phaser.State {
     const explosion = this.explosions.getFirstExists(false);
     explosion.reset(object.body.x, object.body.y);
     explosion.play('kaboom', 30, false, true);
+    this.explode_sound.play();
 
     if (!player.immortality) {
 
@@ -501,6 +505,7 @@ export default class extends Phaser.State {
       if (this.lives.countLiving() < 1) {
         this.player.kill();
         this.map_counter = 0;
+        this.lose_sound.play();
         this.state.start('GameOver');
       }
     }
@@ -508,6 +513,7 @@ export default class extends Phaser.State {
 
   collision(object, bullet) {
     object.kill();
+    this.hit_sound.play();
     const explosion = this.small_explode.getFirstExists(false);
     explosion.reset(object.body.x, object.body.y);
     explosion.play('small_kaboom', 80, false, true);

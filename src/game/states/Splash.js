@@ -1,7 +1,11 @@
 import Phaser from 'phaser'
 import { centerGameObjects } from '../utils'
 import shot_sound from '../assets/sounds/shot.wav'
+import win_sound from '../assets/sounds/win.wav'
+import lose_sound from '../assets/sounds/lose.wav'
 import bonus_sound from '../assets/sounds/bonus.wav'
+import explode_sound from '../assets/sounds/explode.wav'
+import hit_sound from '../assets/sounds/hit.wav'
 import tank_img from '../assets/tanks/tank.png'
 import wall_img from '../assets/board/wall.png'
 import water_img from '../assets/board/water.png'
@@ -57,6 +61,10 @@ export default class extends Phaser.State {
     this.load.spritesheet('appear_img', appear_img, 68, 68)
     this.load.audio('shot_sound', shot_sound)
     this.load.audio('bonus_sound', bonus_sound)
+    this.load.audio('win_sound', win_sound)
+    this.load.audio('lose_sound', lose_sound)
+    this.load.audio('explode_sound', explode_sound)
+    this.load.audio('hit_sound', hit_sound)
   }
 
   create() {
