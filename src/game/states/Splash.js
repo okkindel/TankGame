@@ -1,5 +1,6 @@
 import Phaser from 'phaser'
 import { centerGameObjects } from '../utils'
+import shot_sound from '../assets/sounds/shot.wav'
 import tank_img from '../assets/tank.png'
 import wall_img from '../assets/wall.png'
 import water_img from '../assets/water.png'
@@ -45,6 +46,7 @@ export default class extends Phaser.State {
     this.load.image('enemy_img', enemy_img)
     this.load.image('enemy_blue_img', enemy_blue_img)
     this.load.image('bonus_speed', bonus_speed)
+    this.load.audio('shot_sound', shot_sound)
     this.load.image('enemy_bullet_img', enemy_bullet_img)
     this.load.spritesheet('explode_img', explode_img, 68, 68)
     this.load.spritesheet('explode_small_img', explode_small_img, 48, 48)

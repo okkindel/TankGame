@@ -10,7 +10,7 @@
 }
 ],
 "spawn_counter": 1,
-"enemy_counter": 1,
+"enemy_counter": 10,
 "eagle": {
 "x": 22,
 "y": 2

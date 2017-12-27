@@ -200,6 +200,10 @@ export default class extends Phaser.State {
     this.appear.createMultiple(30, 'appear_img');
     this.appear.forEach(this.appear_tank, this);
 
+    //SOUNDS
+    this.shot_sound = this.game.add.audio('shot_sound');
+    
+
     //CURSORS
     this.cursors = this.game.input.keyboard.createCursorKeys();
     this.game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
@@ -344,7 +348,8 @@ export default class extends Phaser.State {
     const explosion = this.small_explode.getFirstExists(false);
     if (this.game.time.now > this.bullet_time) {
       this.bullet = this.bullets.getFirstExists(false);
-
+      //SHOT SOUND
+      this.shot_sound.play();
 
       if (this.bullet) {
         if (this.player.getDirection() === 'up') {
