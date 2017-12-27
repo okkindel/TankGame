@@ -16,7 +16,8 @@ import small_wall_2_img from '../assets/board/small_wall_2.png'
 import small_wall_3_img from '../assets/board/small_wall_3.png'
 import small_wall_4_img from '../assets/board/small_wall_4.png'
 import bullet_img from '../assets/bullet.png'
-import enemy_img from '../assets/tanks/enemy_red.png'
+import enemy_red_img from '../assets/tanks/enemy_red.png'
+import enemy_white_img from '../assets/tanks/enemy_white.png'
 import enemy_blue_img from '../assets/tanks/enemy_blue.png'
 import enemy_bullet_img from '../assets/enemy_bullet.png'
 import explode_img from '../assets/explode.png'
@@ -50,8 +51,9 @@ export default class extends Phaser.State {
     this.load.image('small_wall_3', small_wall_3_img)
     this.load.image('small_wall_4', small_wall_4_img)
     this.load.image('bullet_img', bullet_img)
-    this.load.image('enemy_img', enemy_img)
+    this.load.image('enemy_red_img', enemy_red_img)
     this.load.image('enemy_blue_img', enemy_blue_img)
+    this.load.image('enemy_white_img', enemy_white_img)
     this.load.image('bonus_speed', bonus_speed)
     this.load.image('bonus_slow', bonus_slow)
     this.load.image('bonus_immortal', bonus_immortal)

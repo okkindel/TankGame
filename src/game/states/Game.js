@@ -2,6 +2,7 @@ import Phaser from 'phaser'
 import Player from '../sprites/Player'
 import BasicTank from '../sprites/Tanks/BasicTank'
 import FastTank from '../sprites/Tanks/FastTank'
+import IronTank from '../sprites/Tanks/IronTank'
 import Eagle from '../sprites/Eagle'
 import Player_Bullets from '../sprites/Player_Bullets'
 import Enemy_Bullets from '../sprites/Enemy_Bullets'
@@ -303,21 +304,30 @@ export default class extends Phaser.State {
 
     this.last_time_spawn = this.game.time.now;
     let random = this.game.rnd.integerInRange(0, this.spawn_counter)
+    let type = this.game.rnd.integerInRange(0, 15)
 
-    if (Math.random() * 10 >= 3) {
+    if (type < 9) {
       this.enemy = new BasicTank({
         game: this.game,
         x: this.enemy_spawn_point[random].x * 36 + 18,
         y: this.enemy_spawn_point[random].y * 36 + 18,
-        asset: 'enemy_img',
+        asset: 'enemy_red_img',
         Game: this
       })
-    } else {
+    } else if (type < 12) {
       this.enemy = new FastTank({
         game: this.game,
         x: this.enemy_spawn_point[random].x * 36 + 18,
         y: this.enemy_spawn_point[random].y * 36 + 18,
         asset: 'enemy_blue_img',
+        Game: this
+      })
+    } else {
+      this.enemy = new IronTank({
+        game: this.game,
+        x: this.enemy_spawn_point[random].x * 36 + 18,
+        y: this.enemy_spawn_point[random].y * 36 + 18,
+        asset: 'enemy_white_img',
         Game: this
       })
     }
@@ -473,7 +483,9 @@ export default class extends Phaser.State {
   collisionTank(object, enemy) {
     this.explode_sound.play();
     object.kill();
-    enemy.kill();
+    enemy.live_counter -= 1;
+    if (enemy.live_counter == 0)
+      enemy.kill();
     this.game.score.addScore(enemy)
 
 

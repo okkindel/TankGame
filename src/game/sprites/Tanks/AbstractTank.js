@@ -14,7 +14,7 @@ export default class AbstractTank extends Phaser.Sprite {
     this.Game = Game;
     this.body.collideWorldBounds = true,
     this.direction = "up"
-
+    this.live_counter = 1;
   }
 
   setAnchor(val) {
