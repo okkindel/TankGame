@@ -11,6 +11,8 @@ import Water from '../sprites/Water'
 import Leaves from '../sprites/Leaves'
 import Map from '../map'
 import BonusSpeedUp from '../sprites/Bonuses/BonusSpeedUp';
+import BonusSlowUp from '../sprites/Bonuses/BonusSlowUp';
+import BonusImmortality from '../sprites/Bonuses/BonusImmortality';
 
 export default class extends Phaser.State {
 
@@ -37,7 +39,7 @@ export default class extends Phaser.State {
     //WATER
     this.water_position = this.map.get_water_array();
     this.water = this.game.add.group();
-    
+
     for (i = 0; i < this.water_position.length; i++) {
       this.water_drop = new Water({
         game: this.game,
@@ -202,7 +204,7 @@ export default class extends Phaser.State {
 
     //SOUNDS
     this.shot_sound = this.game.add.audio('shot_sound');
-    
+    this.bonus_sound = this.game.add.audio('bonus_sound');
 
     //CURSORS
     this.cursors = this.game.input.keyboard.createCursorKeys();
@@ -227,17 +229,6 @@ export default class extends Phaser.State {
     object.animations.add('appearing');
   }
 
-  addBonus(){
-    this.bonus = new BonusSpeedUp({
-      game: this.game,
-      x: this.game.rnd.integerInRange(50, 850),
-      y: this.game.rnd.integerInRange(50, 550),
-      asset: 'bonus_speed',
-      lifeTime: 10000
-    });
-    this.bonuses.add(this.bonus);
-  }
-
   update() {
 
     //ADD NEW ENEMIES
@@ -248,7 +239,7 @@ export default class extends Phaser.State {
       apearing.play('appearing', 60, false, true);
     }
 
-    if (this.game.time.now > this.next_bonus){
+    if (this.game.time.now > this.next_bonus) {
       this.addBonus();
       this.next_bonus = this.game.time.now + ((Math.random() * 20000) + 10000);
     }
@@ -311,7 +302,7 @@ export default class extends Phaser.State {
     this.last_time_spawn = this.game.time.now;
     let random = this.game.rnd.integerInRange(0, this.spawn_counter)
 
-    if(Math.random() * 10 >= 5) {
+    if (Math.random() * 10 >= 3) {
       this.enemy = new BasicTank({
         game: this.game,
         x: this.enemy_spawn_point[random].x * 36 + 18,
@@ -333,12 +324,46 @@ export default class extends Phaser.State {
     console.log(this.enemy_number);
   }
 
+  addBonus() {
+    let random = this.game.rnd.integerInRange(0, 15)
+    if (random < 5) {
+      this.bonus = new BonusSpeedUp({
+        game: this.game,
+        x: this.game.rnd.integerInRange(50, 850),
+        y: this.game.rnd.integerInRange(50, 550),
+        asset: 'bonus_speed',
+        lifeTime: 10000
+      });
+    }
+    else if (random < 10) {
+      this.bonus = new BonusSlowUp({
+        game: this.game,
+        x: this.game.rnd.integerInRange(50, 850),
+        y: this.game.rnd.integerInRange(50, 550),
+        asset: 'bonus_slow',
+        lifeTime: 10000
+      });
+    } else {
+      this.bonus = new BonusImmortality({
+        game: this.game,
+        x: this.game.rnd.integerInRange(50, 850),
+        y: this.game.rnd.integerInRange(50, 550),
+        asset: 'bonus_immortal',
+        lifeTime: 10000
+      });
+    }
+
+    this.bonuses.add(this.bonus);
+  }
+
   simpleCollision(tank, enemy) {
     tank.body.velocity.setTo(0, 0);
     enemy.body.velocity.setTo(0, 0)
   }
 
   simpleBonusCollision(player, bonus) {
+    //BONUS SOUND
+    this.bonus_sound.play();
     bonus.modify(player);
     bonus.kill();
   }
@@ -377,7 +402,7 @@ export default class extends Phaser.State {
       }
     }
   }
-  //to fix Hajduk! ShitCode Alert!
+
   enemyFires() {
 
     this.livingEnemies = [];
@@ -456,23 +481,28 @@ export default class extends Phaser.State {
 
   collisionPlayer(player, object) {
     object.kill();
-    this.live = this.lives.getFirstAlive();
-    if (this.live) {
-      this.live.kill();
+    if (!player.immortality) {
+      this.live = this.lives.getFirstAlive();
+      if (this.live) {
+        this.live.kill();
+      }
     }
 
     const explosion = this.explosions.getFirstExists(false);
     explosion.reset(object.body.x, object.body.y);
     explosion.play('kaboom', 30, false, true);
 
-    this.player.x = this.player_start_point.x * 36 + 18;
-    this.player.y = this.player_start_point.y * 36 + 18;
-    this.player.angle = 0;
+    if (!player.immortality) {
 
-    if (this.lives.countLiving() < 1) {
-      this.player.kill();
-      this.map_counter = 0;
-      this.state.start('GameOver');
+      this.player.x = this.player_start_point.x * 36 + 18;
+      this.player.y = this.player_start_point.y * 36 + 18;
+      this.player.angle = 0;
+
+      if (this.lives.countLiving() < 1) {
+        this.player.kill();
+        this.map_counter = 0;
+        this.state.start('GameOver');
+      }
     }
   }
 
