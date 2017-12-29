@@ -15,6 +15,5 @@ export default class Bonus extends Phaser.Sprite {
     }
 
     modify(player) {
-        console.log("modify!");
     }
 }

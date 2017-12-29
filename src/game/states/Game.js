@@ -35,7 +35,6 @@ export default class extends Phaser.State {
     this.map = new Map();
     this.map_list = require("../maps/map_list.json").list;
     this.map.load_map(require('../maps/' + this.map_list[this.map_counter]));
-    console.log(this.map)
 
     //WATER
     this.water_position = this.map.get_water_array();
@@ -344,7 +343,6 @@ export default class extends Phaser.State {
     }
     this.enemies.add(this.enemy);
     this.enemy_number -= 1;
-    console.log(this.enemy_number);
   }
 
   addBonus() {
