@@ -82,7 +82,7 @@ export default class extends Phaser.State {
     this.brick_position = this.map.get_brick_array();
     this.bricks = this.game.add.group();
 
-    //Bonus
+    //BONUSSES
     this.bonuses = this.game.add.group();
 
     //LEFT UP
@@ -181,6 +181,17 @@ export default class extends Phaser.State {
 
     for (var i = 0; i < 3; i++) {
       this.icon = this.lives.create(this.game.world.width - 90 + (35 * i), 15, 'tank_img');
+      this.icon.anchor.setTo(0.5, 0.5);
+      this.icon.angle = 0;
+      this.icon.scale.setTo(0.9, 0.9);
+      this.icon.alpha = 0.8;
+    }
+
+    //ENEMIES INDICATOR
+    this.enemies_counter = this.game.add.group();
+
+    for (var i = 0; i < this.enemy_number; i++) {
+      this.icon = this.enemies_counter.create(20 + (15 * i), 15, 'enemy_red_img');
       this.icon.anchor.setTo(0.5, 0.5);
       this.icon.angle = 0;
       this.icon.scale.setTo(0.9, 0.9);
@@ -343,8 +354,7 @@ export default class extends Phaser.State {
         game: this.game,
         x: this.game.rnd.integerInRange(50, 850),
         y: this.game.rnd.integerInRange(50, 550),
-        asset: 'bonus_speed',
-        lifeTime: 10000
+        asset: 'bonus_speed'
       });
     }
     else if (random < 10) {
@@ -352,16 +362,14 @@ export default class extends Phaser.State {
         game: this.game,
         x: this.game.rnd.integerInRange(50, 850),
         y: this.game.rnd.integerInRange(50, 550),
-        asset: 'bonus_slow',
-        lifeTime: 10000
+        asset: 'bonus_slow'
       });
     } else {
       this.bonus = new BonusImmortality({
         game: this.game,
         x: this.game.rnd.integerInRange(50, 850),
         y: this.game.rnd.integerInRange(50, 550),
-        asset: 'bonus_immortal',
-        lifeTime: 10000
+        asset: 'bonus_immortal'
       });
     }
     this.bonuses.add(this.bonus);
@@ -484,8 +492,13 @@ export default class extends Phaser.State {
     this.explode_sound.play();
     object.kill();
     enemy.live_counter -= 1;
-    if (enemy.live_counter == 0)
+    if (enemy.live_counter == 0) {
+      this.enemy_cnt = this.enemies_counter.getFirstAlive();
+      if (this.enemy_cnt) {
+        this.enemy_cnt.kill();
+      }
       enemy.kill();
+    }
     this.game.score.addScore(enemy);
     const explosion = this.explosions.getFirstExists(false);
     explosion.reset(object.x, object.y);

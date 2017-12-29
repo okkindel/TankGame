@@ -1,6 +1,7 @@
 export default class Score {
     constructor() {
         this.score = 0;
+        this.player = 'guest';
     }
 
     addScore(object) {
@@ -13,5 +14,9 @@ export default class Score {
 
     resetScore() {
         this.score = 0;
+    }
+
+    addPlayer(variable){
+        this.player = variable;
     }
 }
