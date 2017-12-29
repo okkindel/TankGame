@@ -180,9 +180,9 @@ export default class extends Phaser.State {
     this.lives = this.game.add.group();
 
     for (var i = 0; i < 3; i++) {
-      this.icon = this.lives.create(this.game.world.width - 95 + (35 * i), 22, 'tank_img');
+      this.icon = this.lives.create(this.game.world.width - 90 + (35 * i), 15, 'tank_img');
       this.icon.anchor.setTo(0.5, 0.5);
-      this.icon.angle = 90;
+      this.icon.angle = 0;
       this.icon.scale.setTo(0.9, 0.9);
       this.icon.alpha = 0.8;
     }
@@ -486,9 +486,7 @@ export default class extends Phaser.State {
     enemy.live_counter -= 1;
     if (enemy.live_counter == 0)
       enemy.kill();
-    this.game.score.addScore(enemy)
-
-
+    this.game.score.addScore(enemy);
     const explosion = this.explosions.getFirstExists(false);
     explosion.reset(object.x, object.y);
     explosion.play('kaboom', 30, false, true);
@@ -497,6 +495,7 @@ export default class extends Phaser.State {
   collisionPlayer(player, object) {
     object.kill();
     if (!player.immortality) {
+      this.game.score.addStaticScore(-70);
       this.live = this.lives.getFirstAlive();
       if (this.live) {
         this.live.kill();

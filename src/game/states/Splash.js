@@ -70,6 +70,7 @@ export default class extends Phaser.State {
   }
 
   create() {
+    this.game.score.resetScore();
     this.state.start('Game')
   }
 }

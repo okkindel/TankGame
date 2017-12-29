@@ -12,8 +12,9 @@ export default class AbstractTank extends Phaser.Sprite {
     this.game.physics.arcade.enable(this);
     this.enableBody = true;
     this.Game = Game;
-    this.body.collideWorldBounds = true,
-    this.direction = "up"
+    this.body.collideWorldBounds = true;
+    this.direction = "up";
+    this.points = 25;
     this.live_counter = 1;
   }
 

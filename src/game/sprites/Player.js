@@ -2,11 +2,11 @@ import Phaser from 'phaser'
 
 export default class extends Phaser.Sprite {
   constructor({ game, x, y, asset }) {
-    super(game, x, y, asset)
-    this.anchor.setTo(0.5),
-      this.game.physics.arcade.enable(this),
-      this.enableBody = true,
-      this.body.collideWorldBounds = true;
+    super(game, x, y, asset);
+    this.anchor.setTo(0.5);
+    this.game.physics.arcade.enable(this);
+    this.enableBody = true;
+    this.body.collideWorldBounds = true;
     this.speed = 100;
     this.direction = 'up';
     this.immortality = 0;

@@ -6,8 +6,8 @@ export default class BasicTank extends AbstractTank {
     super({ game, x, y, asset, Game })
     this.timeToStep = 0;
     this.chances = [25, 25, 25, 25];
-    this.points = 30;
     this.live_counter = 3;
+    this.points = 40;
   }
 
   move() {

@@ -5,10 +5,13 @@ export default class Score {
 
     addScore(object) {
         this.score += object.points;
-        console.log(this.score);
     }
 
-    showScore() {
-        return this.score
+    addStaticScore(variable) {
+        this.score += variable;
+    }
+
+    resetScore() {
+        this.score = 0;
     }
 }
