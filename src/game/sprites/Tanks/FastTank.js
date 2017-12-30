@@ -6,7 +6,7 @@ export default class FastTank extends AbstractTank {
     super({ game, x, y, asset, Game })
     this.timeToStep = 0;
     this.chances = [25, 25, 25, 25];
-    this.points = 50;
+    this.points = 45;
   }
 
   move() {

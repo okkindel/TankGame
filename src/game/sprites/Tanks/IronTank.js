@@ -7,7 +7,7 @@ export default class BasicTank extends AbstractTank {
     this.timeToStep = 0;
     this.chances = [25, 25, 25, 25];
     this.live_counter = 3;
-    this.points = 40;
+    this.points = 55;
   }
 
   move() {
@@ -21,7 +21,6 @@ export default class BasicTank extends AbstractTank {
       let dist_to_eagle = this.distanceFromTo(this.x, this.eagleX, this.y, this.eagleY);
 
       if (dist_to_player > dist_to_eagle) {
-        // Swap
         this.playerX = this.eagleX;
         this.playerY = this.eagleY
       }
