@@ -12,16 +12,37 @@ router.get('/high_scores', (req, res, next) => {
 });
 
 router.post('/post_score', (req, res, next) => {
-    var newEntry = new ScoreEntry;
-    newEntry.nick = req.body.nickname;
-    newEntry.score = req.body.score;
 
-    newEntry.save((err, product, numAffected) => {
+    ScoreEntry.findOne({'nick': req.body.nickname}, function(err, score){
         if(err){
-            res.json({status: 'fail'});
+            var newEntry = new ScoreEntry;
+            newEntry.nick = req.body.nickname;
+            newEntry.score = req.body.score;
+            newEntry.save((err, product, numAffected) => {
+                if(err){
+                    res.json({status: 'fail'});
+                }
+                else{
+                    res.json({status: 'ok'});
+                }
+            });
         }
         else{
-            res.json({status: 'ok'});
+            if(score.score < req.body.score){
+                score.score = req.body.score;
+                score.save((err, product, numAffected) => {
+                    if(err){
+                        res.json({status: 'fail'});
+                    }
+                    else{
+                        res.json({status: 'updated'});
+                    }
+                });
+                
+            }
+            else{
+                res.json({status: 'not updated'});
+            }
         }
     });
     
