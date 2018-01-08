@@ -19,6 +19,7 @@ import MapSupervisor from '../MapSupervisor';
 export default class extends Phaser.State {
 
   constructor() {
+    console.log("Game Constructor Runs");
     super()
     this.enemy_bullet_time = 2000;
     this.enemy_spawn_interval = 5000;
@@ -30,9 +31,10 @@ export default class extends Phaser.State {
     this.sound_on = false;    
   }
 
-  init() { }
-  preload() { }
+  init() { console.log("init") }
+  preload() { console.log("preload") }
   create() {
+    console.log("create");
     this.cursors = {
       up: this.game.input.keyboard.addKey(Phaser.Keyboard.UP),
       down: this.game.input.keyboard.addKey(Phaser.Keyboard.DOWN),
