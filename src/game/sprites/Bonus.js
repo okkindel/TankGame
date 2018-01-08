@@ -7,7 +7,6 @@ export default class Bonus extends Phaser.Sprite {
         this.game.physics.arcade.enable(this);
         this.enableBody = true;
         this.body.immovable = true;
-        this.lifeTime = 10000;
         this.lifeTime = this.game.time.now + lifeTime;
     }
 
