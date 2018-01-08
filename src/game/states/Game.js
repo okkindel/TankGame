@@ -352,7 +352,8 @@ export default class extends Phaser.State {
         game: this.game,
         x: this.game.rnd.integerInRange(50, 850),
         y: this.game.rnd.integerInRange(50, 550),
-        asset: 'bonus_speed'
+        asset: 'bonus_speed',
+        lifeTime: 10000
       });
     }
     else if (random < 10) {
@@ -360,14 +361,16 @@ export default class extends Phaser.State {
         game: this.game,
         x: this.game.rnd.integerInRange(50, 850),
         y: this.game.rnd.integerInRange(50, 550),
-        asset: 'bonus_slow'
+        asset: 'bonus_slow',
+        lifeTime: 10000
       });
     } else {
       this.bonus = new BonusImmortality({
         game: this.game,
         x: this.game.rnd.integerInRange(50, 850),
         y: this.game.rnd.integerInRange(50, 550),
-        asset: 'bonus_immortal'
+        asset: 'bonus_immortal',
+        lifeTime: 10000
       });
     }
     this.bonuses.add(this.bonus);
