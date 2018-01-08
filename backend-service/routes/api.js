@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var ScoreEntry = require('../models/score_entry');
+var mapEntry = require('../models/map_instance');
 
 /* GET users listing. */
 router.get('/high_scores', (req, res, next) => {
