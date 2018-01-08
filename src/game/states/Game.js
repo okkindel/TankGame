@@ -14,6 +14,7 @@ import Map from '../map'
 import BonusSpeedUp from '../sprites/Bonuses/BonusSpeedUp';
 import BonusSlowUp from '../sprites/Bonuses/BonusSlowUp';
 import BonusImmortality from '../sprites/Bonuses/BonusImmortality';
+import MapSupervisor from '../MapSupervisor';
 
 export default class extends Phaser.State {
 
@@ -25,6 +26,7 @@ export default class extends Phaser.State {
     this.bullet_time = 0;
     this.last_time_spawn = 0;
     this.next_bonus = 0;
+    this.mapSupervisor = new MapSupervisor(require("../maps/map_list.json").list);
   }
 
   init() { }
@@ -32,10 +34,9 @@ export default class extends Phaser.State {
   create() {
 
     //MAP LOADING
-    this.map = new Map();
-    this.map_list = require("../maps/map_list.json").list;
-    this.map.load_map(require('../maps/' + this.map_list[this.map_counter]));
-
+    
+    this.map = this.mapSupervisor.getCurrentMap();
+  
     //WATER
     this.water_position = this.map.get_water_array();
     this.water = this.game.add.group();
@@ -455,7 +456,7 @@ export default class extends Phaser.State {
     }
 
     if (this.enemy_number == 0 && this.livingEnemies.length == 0) {
-      if (this.map_list.length >= this.map_counter)
+      if (this.mapSupervisor.getMapList().length >= this.map_counter)
         this.map_counter += 1;
       else
         this.map_counter = 0;

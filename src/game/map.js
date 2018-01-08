@@ -1,5 +1,5 @@
 export default class Map {
-    constructor() {
+    constructor(map_list) {
         this.start_point = {};
         this.enemy_spawn = {};
         this.spawn_counter = 0;
