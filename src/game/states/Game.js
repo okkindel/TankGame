@@ -25,6 +25,7 @@ export default class extends Phaser.State {
     this.bullet_time = 0;
     this.last_time_spawn = 0;
     this.next_bonus = 0;
+    this.sound_on = false;
   }
 
   init() { }
@@ -223,6 +224,7 @@ export default class extends Phaser.State {
     //CURSORS
     this.cursors = this.game.input.keyboard.createCursorKeys();
     this.game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
+    this.game.sound.mute = true;
   }
 
   big_boom(object) {
@@ -244,7 +246,6 @@ export default class extends Phaser.State {
   }
 
   update() {
-
     //ADD NEW ENEMIES
     if (this.enemy_number > 0 && (this.game.time.now - this.last_time_spawn) > this.enemy_spawn_interval) {
       this.addNewEnemy();
@@ -282,7 +283,6 @@ export default class extends Phaser.State {
     this.game.physics.arcade.collide(this.enemies, this.water);
     this.game.physics.arcade.collide(this.player, this.eagle);
     this.game.physics.arcade.collide(this.enemies, this.eagle);
-
 
     if (this.player.alive) {
 

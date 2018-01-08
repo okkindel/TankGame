@@ -29,7 +29,12 @@ import bonus_slow from '../assets/bonus/bonus_slow.png'
 import bonus_immortal from '../assets/bonus/bonus_immortal.png'
 
 export default class extends Phaser.State {
-  init() {}
+  init() {
+    var person = prompt("Please enter your name:", "guest");
+    if (person != null) {
+      this.game.score.player = person;
+    }
+  }
 
   preload() {
 
