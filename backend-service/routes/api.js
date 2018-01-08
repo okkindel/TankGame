@@ -4,9 +4,13 @@ var ScoreEntry = require('../models/score_entry');
 
 /* GET users listing. */
 router.get('/high_scores', (req, res, next) => {
-    var highScores = [];
-    
-    ScoreEntry.find({}).sort('-score').exec((err, result) =>{
+    var limit = 5;
+
+    if(req.body.hasOwnProperty('limit')){
+        limit = req.body.limit;
+    }
+
+    ScoreEntry.find({}).sort('-score').limit(limit).exec((err, result) =>{
         res.json(result);
     });
 });
