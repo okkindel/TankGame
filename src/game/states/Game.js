@@ -38,7 +38,7 @@ export default class extends Phaser.State {
       down: this.game.input.keyboard.addKey(Phaser.Keyboard.DOWN),
       left: this.game.input.keyboard.addKey(Phaser.Keyboard.LEFT),
       right: this.game.input.keyboard.addKey(Phaser.Keyboard.RIGHT),
-      fire: this.game.input.keyboard.addKey([Phaser.Keyboard.NUMPAD_0])
+      fire: this.game.input.keyboard.addKey([Phaser.Keyboard.SPACEBAR])
     }
 
     this.wasd = {
