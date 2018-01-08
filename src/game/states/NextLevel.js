@@ -32,7 +32,7 @@ export default class extends Phaser.State {
 
   render() {
     if (this.buttonCliked) {
-      this.state.start('Splash')
+      this.state.start('Game')
     }
   }
 
