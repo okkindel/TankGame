@@ -27,12 +27,27 @@ export default class extends Phaser.State {
     this.last_time_spawn = 0;
     this.next_bonus = 0;
     this.mapSupervisor = new MapSupervisor(require("../maps/map_list.json").list);
-    this.sound_on = false;
+    this.sound_on = false;    
   }
 
   init() { }
   preload() { }
   create() {
+    this.cursors = {
+      up: this.game.input.keyboard.addKey(Phaser.Keyboard.UP),
+      down: this.game.input.keyboard.addKey(Phaser.Keyboard.DOWN),
+      left: this.game.input.keyboard.addKey(Phaser.Keyboard.LEFT),
+      right: this.game.input.keyboard.addKey(Phaser.Keyboard.RIGHT),
+      fire: this.game.input.keyboard.addKey([Phaser.Keyboard.NUMPAD_0])
+    }
+
+    this.wasd = {
+      up: this.game.input.keyboard.addKey(Phaser.Keyboard.W),
+      down: this.game.input.keyboard.addKey(Phaser.Keyboard.S),
+      left: this.game.input.keyboard.addKey(Phaser.Keyboard.A),
+      right: this.game.input.keyboard.addKey(Phaser.Keyboard.D),
+      fire: this.game.input.keyboard.addKey([Phaser.Keyboard.SPACEBAR])
+    };
 
     //MAP LOADING
     
@@ -58,7 +73,9 @@ export default class extends Phaser.State {
       game: this.game,
       x: this.player_start_point.x * 36 + 18,
       y: this.player_start_point.y * 36 + 18,
-      asset: 'tank_img'
+      asset: 'tank_img',
+      controls: this.cursors,
+      appContext: this
     })
     this.game.add.existing(this.player)
 
@@ -222,9 +239,8 @@ export default class extends Phaser.State {
     this.explode_sound = this.game.add.audio('explode_sound');
     this.hit_sound = this.game.add.audio('hit_sound');
 
-    //CURSORS
-    this.cursors = this.game.input.keyboard.createCursorKeys();
-    this.game.input.keyboard.addKeyCapture([Phaser.Keyboard.SPACEBAR]);
+
+    // SOUND MUTE
     this.game.sound.mute = true;
   }
 
@@ -284,31 +300,6 @@ export default class extends Phaser.State {
     this.game.physics.arcade.collide(this.enemies, this.water);
     this.game.physics.arcade.collide(this.player, this.eagle);
     this.game.physics.arcade.collide(this.enemies, this.eagle);
-
-    if (this.player.alive) {
-
-      //MOVING
-      this.player.body.velocity.setTo(0, 0);
-
-      if (this.cursors.left.isDown) {
-        this.player.moveLeft();
-      }
-      else if (this.cursors.right.isDown) {
-        this.player.moveRight();
-      }
-      else if (this.cursors.up.isDown) {
-        this.player.moveUp();
-      }
-      else if (this.cursors.down.isDown) {
-        this.player.moveDown();
-      }
-      if (this.game.input.keyboard.isDown(Phaser.Keyboard.SPACEBAR)) {
-        this.fireBullet();
-      }
-      if (this.game.time.now > this.enemy_bullet_time) {
-        this.enemyFires();
-      }
-    }
   }
 
   addNewEnemy() {
@@ -389,7 +380,6 @@ export default class extends Phaser.State {
   }
 
   fireBullet() {
-
     const explosion = this.small_explode.getFirstExists(false);
     if (this.game.time.now > this.bullet_time) {
       this.bullet = this.bullets.getFirstExists(false);
