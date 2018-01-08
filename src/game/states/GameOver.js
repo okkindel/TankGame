@@ -22,7 +22,9 @@ export default class extends Phaser.State {
 
   create() {
     let text = this.add.text(this.world.centerX, this.world.centerY - 120, 'Game Over', { font: '110px Sheriff', fill: '#dddddd', align: 'center' })
-    let score = this.add.text(this.world.centerX, this.world.centerY - 20, 'Score: ' + this.game.score.score, { font: '35px Sheriff', fill: '#dddddd', align: 'center' })
+    let score = this.add.text(this.world.centerX, this.world.centerY + 20, 'Score: ' + this.game.score.score, { font: '25px Sheriff', fill: '#dddddd', align: 'center' })
+    let nick = this.add.text(this.world.centerX, this.world.centerY - 30, 'Player: ' + this.game.score.player, { font: '35px Sheriff', fill: '#dddddd', align: 'center' })
+    nick.anchor.setTo(0.5, 0.5)
     text.anchor.setTo(0.5, 0.5)
     score.anchor.setTo(0.5, 0.5)
     let button = this.game.add.button(this.game.world.centerX - 150, 450, 'button', this.actionOnClick, this, 2, 1, 0);
