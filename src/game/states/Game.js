@@ -71,13 +71,13 @@ export default class extends Phaser.State {
     this.player_start_point = this.map.get_start_point();
     this.player = new Player({
       game: this.game,
-      x: this.player_start_point.x * 36 + 18,
-      y: this.player_start_point.y * 36 + 18,
+      x: this.player_start_point.x * 36 - 18,
+      y: this.player_start_point.y * 36 - 18,
       asset: 'tank_img',
       controls: this.cursors,
       appContext: this
     })
-    this.game.add.existing(this.player)
+    this.game.add.existing(this.player);
 
     //BasicTank TANKS
     this.enemy_number = this.map.get_enemy_counter();
@@ -300,6 +300,10 @@ export default class extends Phaser.State {
     this.game.physics.arcade.collide(this.enemies, this.water);
     this.game.physics.arcade.collide(this.player, this.eagle);
     this.game.physics.arcade.collide(this.enemies, this.eagle);
+
+    if (this.game.time.now > this.enemy_bullet_time) {
+      this.enemyFires();
+    }
   }
 
   addNewEnemy() {
@@ -379,31 +383,31 @@ export default class extends Phaser.State {
     bonus.kill();
   }
 
-  fireBullet() {
+  fireBullet(who) {
     const explosion = this.small_explode.getFirstExists(false);
     if (this.game.time.now > this.bullet_time) {
       this.bullet = this.bullets.getFirstExists(false);
       this.shot_sound.play();
 
       if (this.bullet) {
-        if (this.player.getDirection() === 'up') {
-          this.bullet.reset(this.player.x - 4, this.player.y - 20);
-          explosion.reset(this.player.x, this.player.y - 20);
+        if (who.getDirection() === 'up') {
+          this.bullet.reset(who.x - 4, who.y - 20);
+          explosion.reset(who.x, who.y - 20);
           this.bullet.body.velocity.y = -200;
         }
-        if (this.player.getDirection() === 'down') {
-          this.bullet.reset(this.player.x - 4, this.player.y + 20);
-          explosion.reset(this.player.x, this.player.y + 20);
+        if (who.getDirection() === 'down') {
+          this.bullet.reset(who.x - 4, who.y + 20);
+          explosion.reset(who.x, who.y + 20);
           this.bullet.body.velocity.y = +200;
         }
-        if (this.player.getDirection() === 'left') {
-          this.bullet.reset(this.player.x - 20, this.player.y - 4);
-          explosion.reset(this.player.x - 20, this.player.y);
+        if (who.getDirection() === 'left') {
+          this.bullet.reset(who.x - 20, who.y - 4);
+          explosion.reset(who.x - 20, who.y);
           this.bullet.body.velocity.x = -200;
         }
-        if (this.player.getDirection() === 'right') {
-          this.bullet.reset(this.player.x + 20, this.player.y - 4);
-          explosion.reset(this.player.x + 20, this.player.y);
+        if (who.getDirection() === 'right') {
+          this.bullet.reset(who.x + 20, who.y - 4);
+          explosion.reset(who.x + 20, who.y);
           this.bullet.body.velocity.x = +200;
         }
         explosion.play('small_kaboom', 80, false, true);

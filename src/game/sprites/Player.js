@@ -59,7 +59,7 @@ export default class extends Phaser.Sprite {
   }
 
   fireBullet() {
-    this.appContext.fireBullet();
+    this.appContext.fireBullet(this);
   }
 
   update() {
@@ -80,11 +80,9 @@ export default class extends Phaser.Sprite {
       else if (this.controls.down.isDown) {
         this.moveDown();
       }
+
       if (this.controls.fire.isDown) {
         this.fireBullet();
-      }
-      if (this.game.time.now > this.enemy_bullet_time) {
-        this.enemyFires();
       }
     }
   }
