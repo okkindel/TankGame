@@ -1,9 +1,51 @@
 var express = require('express');
 var router = express.Router();
 var ScoreEntry = require('../models/score_entry');
-var mapEntry = require('../models/map_instance');
+var MapEntry = require('../models/map_instance');
 
-/* GET users listing. */
+
+router.post('/post_map', (req, res, next) => {
+    MapEntry.findOne({'round' : req.body.round, 'type' : req.body.type}, 
+                    function(err, map){
+                        if(map === null){
+                            //We create new Map
+                            var newMap = new MapEntry;
+                            newMap.creator = req.body.creator;
+                            newMap.type = req.body.type;
+                            newMap.round = req.body.round;
+                            newMap.map = req.body.map;
+
+                            newMap.save(function(err, product, numAffected){
+                                if(err){
+                                    res.json({status: 'fail'});
+                                }
+                                else{
+                                    res.json({status: 'ok'});
+                                }
+                            });
+                        }
+                        else{
+                            //We update old map
+                            map.creator = req.body.creator;
+                            map.type = req.body.type;
+                            map.round = req.body.round;
+                            map.map = req.body.map;
+                            map.created = Date.now;
+
+                            map.save(function(err, product, numAffected){
+                                if(err){
+                                    res.json({status: 'fail to update'});
+                                }
+                                else{
+                                    res.json({status: 'updated'});
+                                }
+                            });
+                        }
+                    });
+});
+
+
+/* Highscores API */
 router.get('/high_scores', (req, res, next) => {
     var limit = 5;
 
@@ -19,7 +61,7 @@ router.get('/high_scores', (req, res, next) => {
 router.post('/post_score', (req, res, next) => {
 
     ScoreEntry.findOne({'nick': req.body.nickname}, function(err, score){
-        if(err){
+        if(score === null){
             var newEntry = new ScoreEntry;
             newEntry.nick = req.body.nickname;
             newEntry.score = req.body.score;
