@@ -28,7 +28,7 @@ export default class extends Phaser.State {
     text.anchor.setTo(0.5, 0.5)
     score.anchor.setTo(0.5, 0.5)
     let button = this.game.add.button(this.game.world.centerX - 320, 480, 'button', this.actionOnClick, this, 2, 1, 0);
-    let scores_bt = this.game.add.button(this.game.world.centerX + 20 , 480, 'scores_bt', this.actionScores, this, 2, 1, 0);
+    let scores_bt = this.game.add.button(this.game.world.centerX + 20, 480, 'scores_bt', this.actionScores, this, 2, 1, 0);
   }
 
   render() {
