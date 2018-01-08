@@ -16,7 +16,7 @@ export default class extends Phaser.State {
       },
       active: this.fontsLoaded
     })
-
+    this.load.image('scores_bt', './assets/scores.png')
     this.load.image('button', './assets/button.png')
   }
 
@@ -27,21 +27,25 @@ export default class extends Phaser.State {
     nick.anchor.setTo(0.5, 0.5)
     text.anchor.setTo(0.5, 0.5)
     score.anchor.setTo(0.5, 0.5)
-    let button = this.game.add.button(this.game.world.centerX - 150, 450, 'button', this.actionOnClick, this, 2, 1, 0);
+    let button = this.game.add.button(this.game.world.centerX - 320, 480, 'button', this.actionOnClick, this, 2, 1, 0);
+    let scores_bt = this.game.add.button(this.game.world.centerX + 20, 480, 'scores_bt', this.actionScores, this, 2, 1, 0);
   }
 
   render() {
+    if (this.scoresClicked) {
+      this.state.start('Scores')
+    }
     if (this.buttonCliked) {
       this.state.start('Splash')
     }
   }
-
   fontsLoaded() {
     this.fontsReady = true
   }
-
-
   actionOnClick() {
     this.buttonCliked = true;
+  }
+  actionScores() {
+    this.scoresClicked = true;
   }
 }

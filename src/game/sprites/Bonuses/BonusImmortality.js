@@ -8,7 +8,6 @@ export default class BonusSpeedUp extends Bonus {
     update() {
         if (this.game.time.now > this.lifeTime)
             this.kill();
-        console.log(`${this.lifeTime}        ${this.game.time.now}`);
     }
     modify(player) {
         player.modifyAttributes({ name: "immortality", value: this.value });
