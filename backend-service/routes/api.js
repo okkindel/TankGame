@@ -3,7 +3,7 @@ var router = express.Router();
 var ScoreEntry = require('../models/score_entry');
 var MapEntry = require('../models/map_instance');
 
-
+// Maps API
 router.post('/post_map', (req, res, next) => {
     MapEntry.findOne({'round' : req.body.round, 'type' : req.body.type}, 
                     function(err, map){
@@ -40,6 +40,19 @@ router.post('/post_map', (req, res, next) => {
                                     res.json({status: 'updated'});
                                 }
                             });
+                        }
+                    });
+});
+
+router.post('/get_map', (req, res, next) => {
+    //Method to get maps
+    MapEntry.findOne({'round' : req.body.round, 'type' : req.body.type}, 
+                    function(err, map){
+                        if(map === null){
+                            res.json({'status' : "Map do not exists!"});
+                        }
+                        else{
+                            res.json(map);
                         }
                     });
 });
