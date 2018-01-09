@@ -21,7 +21,6 @@ export default class extends Phaser.Sprite {
     this.direction = 'right';
   }
 
-
   moveLeft() {
     this.body.velocity.x = -this.speed;
     this.angle = 270;

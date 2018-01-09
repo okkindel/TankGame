@@ -19,22 +19,23 @@ import MapSupervisor from '../MapSupervisor';
 export default class extends Phaser.State {
 
   constructor() {
-    console.log("Game Constructor Runs");
     super()
     this.enemy_bullet_time = 2000;
     this.enemy_spawn_interval = 5000;
-    this.map_counter = 1;
     this.bullet_time = 0;
     this.last_time_spawn = 0;
     this.next_bonus = 0;
-    this.mapSupervisor = new MapSupervisor(require("../maps/map_list.json").list);
-    this.sound_on = false;    
+    this.sound_on = false;
   }
 
-  init() { console.log("init") }
-  preload() { console.log("preload") }
+  init() {
+    //MAP LOADING
+    this.mapSupervisor = new MapSupervisor(require("../maps/map_list.json").list);
+    this.map = this.mapSupervisor.getCurrentMap();
+  }
+  preload() { }
   create() {
-    console.log("create");
+
     this.cursors = {
       up: this.game.input.keyboard.addKey(Phaser.Keyboard.UP),
       down: this.game.input.keyboard.addKey(Phaser.Keyboard.DOWN),
@@ -51,10 +52,6 @@ export default class extends Phaser.State {
       fire: this.game.input.keyboard.addKey([Phaser.Keyboard.SPACEBAR])
     };
 
-    //MAP LOADING
-    
-    this.map = this.mapSupervisor.getCurrentMap();
-  
     //WATER
     this.water_position = this.map.get_water_array();
     this.water = this.game.add.group();
@@ -241,7 +238,6 @@ export default class extends Phaser.State {
     this.explode_sound = this.game.add.audio('explode_sound');
     this.hit_sound = this.game.add.audio('hit_sound');
 
-
     // SOUND MUTE
     this.game.sound.mute = true;
   }
@@ -278,7 +274,6 @@ export default class extends Phaser.State {
       this.next_bonus = this.game.time.now + ((Math.random() * 20000) + 10000);
     }
 
-
     //COLLISIONS
     this.game.physics.arcade.overlap(this.bullets, this.enemies, this.collisionTank, null, this);
     this.game.physics.arcade.overlap(this.bullets, this.enemy_bullets, this.collisionHandler, null, this);
@@ -309,7 +304,6 @@ export default class extends Phaser.State {
   }
 
   addNewEnemy() {
-
     this.last_time_spawn = this.game.time.now;
     let random = this.game.rnd.integerInRange(0, this.spawn_counter)
     let type = this.game.rnd.integerInRange(0, 15)
@@ -385,31 +379,31 @@ export default class extends Phaser.State {
     bonus.kill();
   }
 
-  fireBullet(who) {
+  fireBullet(player) {
     const explosion = this.small_explode.getFirstExists(false);
     if (this.game.time.now > this.bullet_time) {
       this.bullet = this.bullets.getFirstExists(false);
       this.shot_sound.play();
 
       if (this.bullet) {
-        if (who.getDirection() === 'up') {
-          this.bullet.reset(who.x - 4, who.y - 20);
-          explosion.reset(who.x, who.y - 20);
+        if (player.getDirection() === 'up') {
+          this.bullet.reset(player.x - 4, player.y - 20);
+          explosion.reset(player.x, player.y - 20);
           this.bullet.body.velocity.y = -200;
         }
-        if (who.getDirection() === 'down') {
-          this.bullet.reset(who.x - 4, who.y + 20);
-          explosion.reset(who.x, who.y + 20);
+        if (player.getDirection() === 'down') {
+          this.bullet.reset(player.x - 4, player.y + 20);
+          explosion.reset(player.x, player.y + 20);
           this.bullet.body.velocity.y = +200;
         }
-        if (who.getDirection() === 'left') {
-          this.bullet.reset(who.x - 20, who.y - 4);
-          explosion.reset(who.x - 20, who.y);
+        if (player.getDirection() === 'left') {
+          this.bullet.reset(player.x - 20, player.y - 4);
+          explosion.reset(player.x - 20, player.y);
           this.bullet.body.velocity.x = -200;
         }
-        if (who.getDirection() === 'right') {
-          this.bullet.reset(who.x + 20, who.y - 4);
-          explosion.reset(who.x + 20, who.y);
+        if (player.getDirection() === 'right') {
+          this.bullet.reset(player.x + 20, player.y - 4);
+          explosion.reset(player.x + 20, player.y);
           this.bullet.body.velocity.x = +200;
         }
         explosion.play('small_kaboom', 80, false, true);
@@ -455,10 +449,10 @@ export default class extends Phaser.State {
     }
 
     if (this.enemy_number == 0 && this.livingEnemies.length == 0) {
-      if (this.mapSupervisor.getMapList().length >= this.map_counter)
-        this.map_counter += 1;
+      if (this.mapSupervisor.getMapList().length >= this.mapSupervisor.currentMap)
+        this.mapSupervisor.currentMap += 1;
       else
-        this.map_counter = 0;
+        this.mapSupervisor.currentMap = 0;
       this.win_sound.play();
       this.state.start('NextLevel');
     }
@@ -471,7 +465,7 @@ export default class extends Phaser.State {
     const explosion = this.explosions.getFirstExists(false);
     explosion.reset(object.x, object.y);
     explosion.play('kaboom', 30, false, true);
-    this.map_counter = 0;
+    this.mapSupervisor.currentMap = 0;
     this.lose_sound.play();
     this.state.start('GameOver');
   }
@@ -526,7 +520,7 @@ export default class extends Phaser.State {
 
       if (this.lives.countLiving() < 1) {
         this.player.kill();
-        this.map_counter = 0;
+        this.mapSupervisor.currentMap = 0;
         this.lose_sound.play();
         this.state.start('GameOver');
       }

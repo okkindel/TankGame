@@ -1,7 +1,7 @@
 import Map from './map'
 
 export default class MapSupervisor {
-    static currentMapCounter = 1;
+    static currentMapCounter = 0;
 
     constructor(mapList) {
         this.mapList = mapList;
