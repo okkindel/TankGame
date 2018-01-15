@@ -80,7 +80,5 @@ export default class FastTank extends AbstractTank {
   }
 
   // overload
-  update() {
-    this.move();
-  }
+
 }
