@@ -25,23 +25,40 @@ router.post('/post_map', (req, res, next) => {
                             });
                         }
                         else{
-                            //We update old map
-                            map.creator = req.body.creator;
-                            map.type = req.body.type;
-                            map.round = req.body.round;
-                            map.map = req.body.map;
-                            map.created = Date.now;
+                            
+                            //Return that map laready exists
+                            res.json({status : 'Map already exists'});
 
-                            map.save(function(err, product, numAffected){
-                                if(err){
-                                    res.json({status: 'fail to update'});
-                                }
-                                else{
-                                    res.json({status: 'updated'});
-                                }
-                            });
                         }
                     });
+});
+
+router.post('/update_map', (req, res, next) => {
+    MapEntry.findOne({'round' : req.body.round, 'type' : req.body.type}, 
+                    function(err, map){
+                        if(!!map){
+                           //We update old map
+                           map.creator = req.body.creator;
+                           map.type = req.body.type;
+                           map.round = req.body.round;
+                           map.map = req.body.map;
+                           map.created = Date.now();
+
+                           map.save(function(err, product, numAffected){
+                               if(err){
+                                   console.log(err);
+                                   res.json({status: 'fail to update'});
+                               }
+                               else{
+                                   res.json({status: 'updated'});
+                               }
+                           });
+                        }
+                        else{
+                            res.json({status : 'map do not exist'});
+                        }
+                    });
+
 });
 
 router.post('/get_map', (req, res, next) => {

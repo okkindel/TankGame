@@ -1,11 +1,12 @@
 var mongoose = require('mongoose');
+var mapTypes = ['original', 'community'];
 
 var mapInstanceSchema = new mongoose.Schema({
     creator : String,
-    type : String,
+    type : {type : String, enum: mapTypes},
     round : Number,
     map : Object,
-    created: { type: Date, default: Date.now }
+    created: { type: Date, default: Date.now() }
 });
 
 
