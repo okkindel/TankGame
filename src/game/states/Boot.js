@@ -41,9 +41,10 @@ export default class extends Phaser.State {
     }
     if (this.buttonCliked) {
       modal.style.display = "block";
-        this.state.start('Splash')
+      this.state.start('Splash')
     }
   }
+
   fontsLoaded() {
     this.fontsReady = true
   }
