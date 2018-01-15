@@ -6,23 +6,32 @@ export default class BasicTank extends AbstractTank {
     super({ game, x, y, asset, Game })
     this.timeToStep = 0;
     this.chances = [25, 25, 25, 25];
+    this.Game = Game;
+    this.targets = [];
+
+    for(let plr of this.Game.playerList) {
+      this.targets.push(plr);
+    }
+    this.targets.push(this.Game.eagle);
   }
 
   move() {
-    this.playerX = this.Game.player.x;
-    this.playerY = this.Game.player.y;
-    this.eagleX = this.Game.eagle.x;
-    this.eagleY = this.Game.eagle.y;
+    let minDist = null;
+    let tempDist;
+    let target = null;
 
+    
     if (this.game.time.now > this.timeToStep) {
-      let dist_to_player = this.distanceFromTo(this.x, this.playerX, this.y, this.playerY);
-      let dist_to_eagle = this.distanceFromTo(this.x, this.eagleX, this.y, this.eagleY);
-
-      if (dist_to_player > dist_to_eagle) {
-        // Swap
-        this.playerX = this.eagleX;
-        this.playerY = this.eagleY
+      for(let node of this.targets) {
+        tempDist = this.distanceFromTo(this.position.x, node.position.x, this.position.y, node.position.y);
+        if(minDist === null || tempDist < minDist) {
+          minDist = tempDist;
+          target = node;
+        } 
       }
+  
+      this.playerX = target.position.x;
+      this.playerY = target.position.y;
 
       this.timeToStep = this.game.time.now;
       this.timeToStep += Math.floor(1000 * Math.random());

@@ -24,6 +24,7 @@ export default class extends Phaser.State {
     this.last_time_spawn = 0;
     this.next_bonus = 0;
     this.sound_on = false;
+    this.playerList = [];
   }
 
   init() {
@@ -39,7 +40,7 @@ export default class extends Phaser.State {
       down: this.game.input.keyboard.addKey(Phaser.Keyboard.DOWN),
       left: this.game.input.keyboard.addKey(Phaser.Keyboard.LEFT),
       right: this.game.input.keyboard.addKey(Phaser.Keyboard.RIGHT),
-      fire: this.game.input.keyboard.addKey([Phaser.Keyboard.SPACEBAR])
+      fire: this.game.input.keyboard.addKey([Phaser.Keyboard.NUMPAD_0])
     }
 
     this.wasd = {
@@ -66,6 +67,8 @@ export default class extends Phaser.State {
 
     //PLAYER TANK
     this.player_start_point = this.map.get_start_point();
+
+    // TODO: change this.player to let player
     this.player = new Player({
       game: this.game,
       x: this.player_start_point.x * 36 - 18,
@@ -74,14 +77,19 @@ export default class extends Phaser.State {
       controls: this.cursors,
       appContext: this
     })
+    this.playerList.push(this.player);
     this.game.add.existing(this.player);
 
-    //BasicTank TANKS
-    this.enemy_number = this.map.get_enemy_counter();
-    this.spawn_counter = this.map.get_spawn_counter() - 1;
-    this.enemy_spawn_point = this.map.get_enemy_spawn_point();
-    this.enemies = this.game.add.group();
-    this.addNewEnemy();
+    this.player2 = new Player({
+      game: this.game,
+      x: this.player_start_point.x * 36 - 18,
+      y: this.player_start_point.y * 36 - 18,
+      asset: 'tank_img',
+      controls: this.wasd,
+      appContext: this
+    })
+    this.playerList.push(this.player2);
+    this.game.add.existing(this.player2);
 
     //EAGLE
     this.eagle_position = this.map.get_eagle_point();
@@ -92,6 +100,14 @@ export default class extends Phaser.State {
       asset: 'eagle_img'
     })
     this.game.add.existing(this.eagle)
+
+    //BasicTank TANKS
+    this.enemy_number = this.map.get_enemy_counter();
+    this.spawn_counter = this.map.get_spawn_counter() - 1;
+    this.enemy_spawn_point = this.map.get_enemy_spawn_point();
+    this.enemies = this.game.add.group();
+    this.addNewEnemy();
+
 
     //BRICKS
     this.brick_position = this.map.get_brick_array();
@@ -271,6 +287,7 @@ export default class extends Phaser.State {
     this.game.physics.arcade.overlap(this.player, this.bonuses, this.simpleBonusCollision, null, this);
 
     this.game.physics.arcade.collide(this.player, this.enemies);
+    this.game.physics.arcade.collide(this.player, this.enemies);
     this.game.physics.arcade.collide(this.enemies, this.enemies);
     this.game.physics.arcade.collide(this.player, this.bricks);
     this.game.physics.arcade.collide(this.enemies, this.bricks);
@@ -280,6 +297,22 @@ export default class extends Phaser.State {
     this.game.physics.arcade.collide(this.enemies, this.water);
     this.game.physics.arcade.collide(this.player, this.eagle);
     this.game.physics.arcade.collide(this.enemies, this.eagle);
+
+    // SECOND PLAYER XD
+    this.game.physics.arcade.overlap(this.bullets, this.player2, this.collisionPlayer, null, this);
+    this.game.physics.arcade.overlap(this.player2, this.enemies, this.simpleCollision, null, this);
+    this.game.physics.arcade.overlap(this.player2, this.bonuses, this.simpleBonusCollision, null, this);
+    this.game.physics.arcade.collide(this.player2, this.enemies);
+    this.game.physics.arcade.collide(this.player2, this.enemies);
+    this.game.physics.arcade.collide(this.enemies, this.enemies);
+    this.game.physics.arcade.collide(this.player2, this.bricks);
+    this.game.physics.arcade.collide(this.enemies, this.bricks);
+    this.game.physics.arcade.collide(this.player2, this.walls);
+    this.game.physics.arcade.collide(this.enemies, this.walls);
+    this.game.physics.arcade.collide(this.player2, this.water);
+    this.game.physics.arcade.collide(this.enemies, this.water);
+    this.game.physics.arcade.collide(this.player2, this.eagle);
+    this.game.physics.arcade.collide(this.enemies, this.eagle);
   }
 
   addNewEnemy() {
@@ -287,7 +320,7 @@ export default class extends Phaser.State {
     let random = this.game.rnd.integerInRange(0, this.spawn_counter)
     let type = this.game.rnd.integerInRange(0, 15)
 
-    if (type < 9) {
+    if (type > 0) {
       this.enemy = new BasicTank({
         game: this.game,
         x: this.enemy_spawn_point[random].x * 36 + 18,

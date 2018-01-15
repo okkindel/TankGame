@@ -19,6 +19,7 @@ export default class AbstractTank extends Phaser.Sprite {
     this.points = 25;
     this.live_counter = 1;
     this.lastShot =  0;
+    this.position = {x: x, y: y};
   }
 
 
