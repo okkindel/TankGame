@@ -25,13 +25,14 @@ export default class extends Phaser.State {
     this.load.image('scores_bt', scores_bt)
     this.load.image('loaderBg', loaderBg_img)
     this.load.image('loaderBar', loaderBar_img)
+    this.game.score.resetScore();
   }
 
   create() {
     let text = this.add.text(this.world.centerX, this.world.centerY - 100, 'Tank Game', { font: '100px Sheriff', fill: '#fff', align: 'center' })
     text.anchor.setTo(0.5, 0.5)
     let button = this.game.add.button(this.game.world.centerX - 320, 480, 'button', this.actionOnClick, this, 2, 1, 0);
-    let scores_bt = this.game.add.button(this.game.world.centerX + 20 , 480, 'scores_bt', this.actionScores, this, 2, 1, 0);
+    let scores_bt = this.game.add.button(this.game.world.centerX + 20, 480, 'scores_bt', this.actionScores, this, 2, 1, 0);
   }
 
   render() {
@@ -39,9 +40,11 @@ export default class extends Phaser.State {
       this.state.start('Scores')
     }
     if (this.buttonCliked) {
+      modal.style.display = "block";
       this.state.start('Splash')
     }
   }
+
   fontsLoaded() {
     this.fontsReady = true
   }
