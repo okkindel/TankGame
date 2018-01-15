@@ -30,10 +30,10 @@ import bonus_immortal from '../assets/bonus/bonus_immortal.png'
 
 export default class extends Phaser.State {
   init() {
-    var person = prompt("Please enter your name:", "guest");
-    if (person != null) {
-      this.game.score.player = person;
-    }
+    // var person = prompt("Please enter your name:", "guest");
+    // if (person != null) {
+    //   this.game.score.player = person;
+    // }
   }
 
   preload() {
@@ -75,7 +75,6 @@ export default class extends Phaser.State {
   }
 
   create() {
-    this.game.score.resetScore();
     this.state.start('Game')
   }
 }
