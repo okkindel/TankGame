@@ -207,7 +207,7 @@ export default class extends Phaser.State {
     //ENEMIES INDICATOR
     this.enemies_counter = this.game.add.group();
 
-    for (var i = 0; i < this.enemy_number; i++) {
+    for (var i = this.enemy_number; i!= 0; i--) {
       this.icon = this.enemies_counter.create(20 + (15 * i), 15, 'enemy_red_img');
       this.icon.anchor.setTo(0.5, 0.5);
       this.icon.angle = 0;
