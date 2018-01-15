@@ -4,8 +4,7 @@ import BasicTank from '../sprites/Tanks/BasicTank'
 import FastTank from '../sprites/Tanks/FastTank'
 import IronTank from '../sprites/Tanks/IronTank'
 import Eagle from '../sprites/Eagle'
-import Player_Bullets from '../sprites/Player_Bullets'
-import Enemy_Bullets from '../sprites/Enemy_Bullets'
+import Bullet from '../sprites/Bullet'
 import Walls from '../sprites/Walls'
 import Brick from '../sprites/Brick'
 import Water from '../sprites/Water'
@@ -20,7 +19,6 @@ export default class extends Phaser.State {
 
   constructor() {
     super()
-    this.enemy_bullet_time = 2000;
     this.enemy_spawn_interval = 5000;
     this.bullet_time = 0;
     this.last_time_spawn = 0;
@@ -171,32 +169,17 @@ export default class extends Phaser.State {
       this.leaves.add(this.leaf);
     }
 
-    //PLAYER BULLETS
-    this.bullets = this.game.add.group();
-    for (i = 0; i < 20; i++) {
-      this.bullet = new Player_Bullets({
-        game: this.game,
-        asset: 'bullet_img'
-      })
-      this.bullet.events.onOutOfBounds.add(this.resetObject, this);
-      this.bullets.add(this.bullet);
-    }
+
+
 
     //TANK BULLETS
-    this.enemy_bullets = this.game.add.group();
-    for (i = 0; i < 20; i++) {
-      this.enemy_bullet = new Enemy_Bullets({
-        game: this.game,
-        asset: 'enemy_bullet_img'
-      })
-      this.enemy_bullet.events.onOutOfBounds.add(this.resetObject, this);
-      this.enemy_bullets.add(this.enemy_bullet);
-    }
+    this.bullets = this.game.add.group();
+   
 
     //LIVES
     this.lives = this.game.add.group();
 
-    for (var i = 0; i < 3; i++) {
+    for (var i = 0; i < this.player.getLives(); i++) {
       this.icon = this.lives.create(this.game.world.width - 90 + (35 * i), 15, 'tank_img');
       this.icon.anchor.setTo(0.5, 0.5);
       this.icon.angle = 0;
@@ -276,14 +259,14 @@ export default class extends Phaser.State {
 
     //COLLISIONS
     this.game.physics.arcade.overlap(this.bullets, this.enemies, this.collisionTank, null, this);
-    this.game.physics.arcade.overlap(this.bullets, this.enemy_bullets, this.collisionHandler, null, this);
-    this.game.physics.arcade.overlap(this.enemy_bullets, this.player, this.collisionPlayer, null, this);
+    this.game.physics.arcade.overlap(this.bullets, this.bullets, this.collisionHandler, null, this);
+    this.game.physics.arcade.overlap(this.bullets, this.player, this.collisionPlayer, null, this);
     this.game.physics.arcade.overlap(this.bullets, this.bricks, this.collisionHandler, null, this);
-    this.game.physics.arcade.overlap(this.enemy_bullets, this.bricks, this.collisionHandler, null, this);
+    this.game.physics.arcade.overlap(this.bullets, this.bricks, this.collisionHandler, null, this);
     this.game.physics.arcade.overlap(this.bullets, this.walls, this.collision, null, this);
-    this.game.physics.arcade.overlap(this.enemy_bullets, this.walls, this.collision, null, this);
+    this.game.physics.arcade.overlap(this.bullets, this.walls, this.collision, null, this);
     this.game.physics.arcade.overlap(this.bullets, this.eagle, this.collisionEagle, null, this);
-    this.game.physics.arcade.overlap(this.enemy_bullets, this.eagle, this.collisionEagle, null, this);
+    this.game.physics.arcade.overlap(this.bullets, this.eagle, this.collisionEagle, null, this);
     this.game.physics.arcade.overlap(this.player, this.enemies, this.simpleCollision, null, this);
     this.game.physics.arcade.overlap(this.player, this.bonuses, this.simpleBonusCollision, null, this);
 
@@ -297,10 +280,6 @@ export default class extends Phaser.State {
     this.game.physics.arcade.collide(this.enemies, this.water);
     this.game.physics.arcade.collide(this.player, this.eagle);
     this.game.physics.arcade.collide(this.enemies, this.eagle);
-
-    if (this.game.time.now > this.enemy_bullet_time) {
-      this.enemyFires();
-    }
   }
 
   addNewEnemy() {
@@ -412,51 +391,6 @@ export default class extends Phaser.State {
     }
   }
 
-  enemyFires() {
-
-    this.livingEnemies = [];
-    this.livingEnemies.length = 0;
-    this.enemy_bullet = this.enemy_bullets.getFirstExists(false);
-    this.enemies.forEachAlive((enemy) => {
-      this.livingEnemies.push(enemy);
-    });
-    if (this.enemy_bullet && this.livingEnemies.length > 0) {
-      const random = this.game.rnd.integerInRange(0, this.livingEnemies.length - 1);
-      const shooter = this.livingEnemies[random];
-      const explosion = this.small_explode.getFirstExists(false);
-      if (shooter.getDirection() == 'up') {
-        this.enemy_bullet.reset(shooter.x - 4, shooter.y - 20);
-        explosion.reset(shooter.x, shooter.y - 20);
-        this.enemy_bullet.body.velocity.y = -120;
-      }
-      if (shooter.direction == 'down') {
-        this.enemy_bullet.reset(shooter.x - 4, shooter.y + 20);
-        explosion.reset(shooter.x, shooter.y + 20);
-        this.enemy_bullet.body.velocity.y = +120;
-      }
-      if (shooter.direction == 'left') {
-        this.enemy_bullet.reset(shooter.x - 20, shooter.y - 4);
-        explosion.reset(shooter.x - 20, shooter.y);
-        this.enemy_bullet.body.velocity.x = -120;
-      }
-      if (shooter.direction == 'right') {
-        this.enemy_bullet.reset(shooter.x + 20, shooter.y - 4);
-        explosion.reset(shooter.x + 20, shooter.y);
-        this.enemy_bullet.body.velocity.x = +120;
-      }
-      explosion.play('small_kaboom', 80, false, true);
-      this.enemy_bullet_time = this.game.time.now + 750 / Math.sqrt(this.livingEnemies.length);
-    }
-
-    if (this.enemy_number == 0 && this.livingEnemies.length == 0) {
-      if (this.mapSupervisor.getMapList().length >= this.mapSupervisor.currentMap)
-        this.mapSupervisor.currentMap += 1;
-      else
-        this.mapSupervisor.currentMap = 0;
-      this.win_sound.play();
-      this.state.start('NextLevel');
-    }
-  }
 
   collisionEagle(eagle, object) {
     object.kill();
@@ -481,20 +415,22 @@ export default class extends Phaser.State {
   }
 
   collisionTank(object, enemy) {
-    this.explode_sound.play();
-    object.kill();
-    enemy.live_counter -= 1;
-    if (enemy.live_counter == 0) {
-      this.enemy_cnt = this.enemies_counter.getFirstAlive();
-      if (this.enemy_cnt) {
-        this.enemy_cnt.kill();
+    if(object.shooter instanceof Player){
+      this.explode_sound.play();
+      object.destroy();
+      enemy.live_counter -= 1;
+      if (enemy.live_counter == 0 ) {
+        this.enemy_cnt = this.enemies_counter.getFirstAlive();
+        if (this.enemy_cnt) {
+          this.enemy_cnt.kill();
+        }
+        enemy.destroy();
       }
-      enemy.kill();
+      this.game.score.addScore(enemy);
+      const explosion = this.explosions.getFirstExists(false);
+      explosion.reset(object.x, object.y);
+      explosion.play('kaboom', 30, false, true);
     }
-    this.game.score.addScore(enemy);
-    const explosion = this.explosions.getFirstExists(false);
-    explosion.reset(object.x, object.y);
-    explosion.play('kaboom', 30, false, true);
   }
 
   collisionPlayer(player, object) {
@@ -504,6 +440,7 @@ export default class extends Phaser.State {
       this.live = this.lives.getFirstAlive();
       if (this.live) {
         this.live.kill();
+        this.player.modifyLives(-1);
       }
     }
 

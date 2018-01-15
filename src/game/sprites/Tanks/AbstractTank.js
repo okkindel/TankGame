@@ -1,4 +1,5 @@
 import Phaser from 'phaser'
+import Bullet from '../../sprites/Bullet'
 
 export default class AbstractTank extends Phaser.Sprite {
   constructor({ game, x, y, asset, Game }) {
@@ -9,6 +10,7 @@ export default class AbstractTank extends Phaser.Sprite {
     }
 
     this.anchor.setTo(0.5);
+    this.appContext = Game;
     this.game.physics.arcade.enable(this);
     this.enableBody = true;
     this.Game = Game;
@@ -16,6 +18,23 @@ export default class AbstractTank extends Phaser.Sprite {
     this.direction = "up";
     this.points = 25;
     this.live_counter = 1;
+    this.lastShot =  0;
+  }
+
+
+  fire() {
+    let bullet = new Bullet({
+      game: this.game,
+      x: this.position.x,
+      y: this.position.y,
+      asset: 'enemy_bullet_img',
+      direction: this.getDirection(),
+      velocity: 150,
+      shooter: this
+    })
+    bullet.events.onOutOfBounds.add(this.appContext.resetObject, this.appContext);
+    this.appContext.bullets.add(bullet);
+    console.log(this.appContext.bullets.length)
   }
 
   setAnchor(val) {
@@ -57,5 +76,18 @@ export default class AbstractTank extends Phaser.Sprite {
 
   getDirection(){
     return this.direction;
+  }
+
+  move(){
+  
+  }
+
+  update(){
+    this.move();
+    if(this.game.time.now > this.lastShot + 1000 + Math.random()*1500){
+      this.fire();
+      this.lastShot = this.game.time.now;
+      console.log("pal")
+    }
   }
 }

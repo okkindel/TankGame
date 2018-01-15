@@ -78,8 +78,5 @@ export default class BasicTank extends AbstractTank {
     }
   }
 
-  // overload
-  update() {
-    this.move();
-  }
+
 }

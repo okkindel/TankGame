@@ -1,4 +1,5 @@
 import Phaser from 'phaser'
+import Bullet from '../sprites/Bullet'
 
 export default class extends Phaser.Sprite {
   constructor({ game, x, y, asset, controls, appContext }) {
@@ -13,6 +14,17 @@ export default class extends Phaser.Sprite {
     this.immortality = 0;
     this.save = [{}];
     this.appContext = appContext;
+    this.lives = 3;
+    this.position = {x: x, y: y};
+    this.lastShot = 0;
+  }
+
+  modifyLives(num) {
+    this.lives += num;
+  }
+
+  getLives() {
+    return this.lives;
   }
 
   moveRight() {
@@ -57,9 +69,23 @@ export default class extends Phaser.Sprite {
     this[obj.name] = obj.value;
   }
 
-  fireBullet() {
-    this.appContext.fireBullet(this);
-  }
+  fire() {
+      this.lastShot = this.game.time.now;
+      let bullet = new Bullet({
+        game: this.game,
+        x: this.position.x,
+        y: this.position.y,
+        asset: 'enemy_bullet_img',
+        direction: this.getDirection(),
+        velocity: 150,
+        shooter: this
+      })
+      bullet.events.onOutOfBounds.add(this.appContext.resetObject, this.appContext);
+      this.appContext.bullets.add(bullet);
+      console.log(this.appContext.bullets.length)
+    }
+    
+  
 
   update() {
     if (this.alive) {
@@ -80,8 +106,9 @@ export default class extends Phaser.Sprite {
         this.moveDown();
       }
 
-      if (this.controls.fire.isDown) {
-        this.fireBullet();
+      if (this.controls.fire.isDown && this.game.time.now > this.lastShot + 500) {
+        this.fire();
+        this.lastShot = this.game.time.now;
       }
     }
   }
