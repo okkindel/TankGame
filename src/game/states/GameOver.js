@@ -7,6 +7,7 @@ export default class extends Phaser.State {
     this.fontsReady = false
     this.fontsLoaded = this.fontsLoaded.bind(this)
     this.buttonCliked = false;
+    this.backend_url = 'http://0.0.0.0:6969/api/post_score';
   }
 
   preload() {
@@ -21,6 +22,16 @@ export default class extends Phaser.State {
   }
 
   create() {
+    fetch(this.backend_url , {
+      method : 'POST',
+      body : {nickname : this.game.score.player,
+              score: this.game.score.score},
+      headers : new Headers({
+        'Content-type': 'application/json'
+      })}).then(res => res.json())
+      .catch(error => console.error('Error:', error))
+      .then(response => console.log('Success:', response));
+
     let text = this.add.text(this.world.centerX, this.world.centerY - 120, 'Game Over', { font: '110px Sheriff', fill: '#dddddd', align: 'center' })
     let score = this.add.text(this.world.centerX, this.world.centerY + 20, 'Score: ' + this.game.score.score, { font: '25px Sheriff', fill: '#dddddd', align: 'center' })
     let nick = this.add.text(this.world.centerX, this.world.centerY - 30, 'Player: ' + this.game.score.player, { font: '35px Sheriff', fill: '#dddddd', align: 'center' })
