@@ -30,8 +30,12 @@ export default class extends Phaser.State {
 
   init() {
     //MAP LOADING
-    this.mapSupervisor = new MapSupervisor(require("../maps/map_list.json").list);
+    this.mapSupervisor = new MapSupervisor('original', 1);
     this.map = this.mapSupervisor.getCurrentMap();
+    console.log(map);
+    if(map === null){
+      this.state.start('GameOver');
+    }
   }
   preload() { }
   create() {

@@ -1,8 +1,80 @@
 var express = require('express');
 var router = express.Router();
 var ScoreEntry = require('../models/score_entry');
+var MapEntry = require('../models/map_instance');
 
-/* GET users listing. */
+// Maps API
+router.post('/post_map', (req, res, next) => {
+    MapEntry.findOne({'round' : req.body.round, 'type' : req.body.type}, 
+                    function(err, map){
+                        if(map === null){
+                            //We create new Map
+                            var newMap = new MapEntry;
+                            newMap.creator = req.body.creator;
+                            newMap.type = req.body.type;
+                            newMap.round = req.body.round;
+                            newMap.map = req.body.map;
+
+                            newMap.save(function(err, product, numAffected){
+                                if(err){
+                                    res.json({status: 'fail'});
+                                }
+                                else{
+                                    res.json({status: 'ok'});
+                                }
+                            });
+                        }
+                        else{
+                            
+                            //Return that map laready exists
+                            res.json({status : 'Map already exists'});
+
+                        }
+                    });
+});
+
+router.post('/update_map', (req, res, next) => {
+    MapEntry.findOne({'round' : req.body.round, 'type' : req.body.type}, 
+                    function(err, map){
+                        if(!!map){
+                           //We update old map
+                           map.creator = req.body.creator;
+                           map.type = req.body.type;
+                           map.round = req.body.round;
+                           map.map = req.body.map;
+                           map.created = Date.now();
+
+                           map.save(function(err, product, numAffected){
+                               if(err){
+                                   console.log(err);
+                                   res.json({status: 'fail to update'});
+                               }
+                               else{
+                                   res.json({status: 'updated'});
+                               }
+                           });
+                        }
+                        else{
+                            res.json({status : 'map do not exist'});
+                        }
+                    });
+
+});
+
+router.post('/get_map', (req, res, next) => {
+    //Method to get maps
+    MapEntry.findOne({'round' : req.body.round, 'type' : req.body.type}, 
+                    function(err, map){
+                        if(map === null){
+                            res.json({map : null});
+                        }
+                        else{
+                            res.json(map);
+                        }
+                    });
+});
+
+// Score Api
 router.get('/high_scores', (req, res, next) => {
     var limit = 5;
 
