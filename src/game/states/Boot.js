@@ -11,6 +11,7 @@ export default class extends Phaser.State {
     this.fontsReady = false
     this.fontsLoaded = this.fontsLoaded.bind(this)
     this.buttonCliked = false;
+    modal.style.display = "none";
   }
 
   preload() {
@@ -40,8 +41,8 @@ export default class extends Phaser.State {
       this.state.start('Scores')
     }
     if (this.buttonCliked) {
-      modal.style.display = "block";
       this.state.start('Splash')
+      modal.style.display = "block";
     }
   }
 
