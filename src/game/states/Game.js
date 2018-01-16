@@ -70,8 +70,8 @@ export default class extends Phaser.State {
     this.player_start_point = this.map.get_start_point();
     this.player = new Player({
       game: this.game,
-      x: this.player_start_point.x * 36 - 18,
-      y: this.player_start_point.y * 36 - 18,
+      x: this.player_start_point.x * 36 + 18,
+      y: this.player_start_point.y * 36 + 18,
       asset: 'tank_img',
       controls: this.cursors,
       appContext: this
