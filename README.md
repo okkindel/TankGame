@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://github.com/nokia-wroclaw/innovativeproject-tanks-game/blob/master/src/assets/readme/innovative_logo.png" alt="Innovative Project"/>
+  <img src="https://github.com/nokia-wroclaw/innovativeproject-tanks-game/blob/master/src/game/assets/readme/innovative_logo.png" alt="Innovative Project"/>
 </p>
 
 ## Idea
@@ -32,16 +32,16 @@ npm start
 
 ## Screenshots
 <p align="center">
-  <img src="https://github.com/nokia-wroclaw/innovativeproject-tanks-game/blob/master/src/assets/readme/scr1.png" alt="Main menu"/>
-  <img src="https://github.com/nokia-wroclaw/innovativeproject-tanks-game/blob/master/src/assets/readme/scr2.png" alt="Gameplay"/>
-  <img src="https://github.com/nokia-wroclaw/innovativeproject-tanks-game/blob/master/src/assets/readme/scr3.png" alt="Generator"/>
+  <img src="https://github.com/nokia-wroclaw/innovativeproject-tanks-game/blob/master/src/game/assets/readme/scr1.png" alt="Main menu"/>
+  <img src="https://github.com/nokia-wroclaw/innovativeproject-tanks-game/blob/master/src/game/assets/readme/scr2.png" alt="Gameplay"/>
+  <img src="https://github.com/nokia-wroclaw/innovativeproject-tanks-game/blob/master/src/game/assets/readme/scr3.png" alt="Generator"/>
 </p>
 
 ## Technologies and Frameworks
 <p align="center">
-  <img width="25%" src="https://github.com/nokia-wroclaw/innovativeproject-tanks-game/blob/master/src/assets/readme/phaser-logo.png" alt="Phaser"/>
-  <img width="25%" src="https://github.com/nokia-wroclaw/innovativeproject-tanks-game/blob/master/src/assets/readme/react-logo.png" alt="React"/>
-  <img width="25%" src="https://github.com/nokia-wroclaw/innovativeproject-tanks-game/blob/master/src/assets/readme/wpack-logo.png" alt="Webpack"/>
+  <img width="25%" src="https://github.com/nokia-wroclaw/innovativeproject-tanks-game/blob/master/src/game/assets/readme/phaser-logo.png" alt="Phaser"/>
+  <img width="25%" src="https://github.com/nokia-wroclaw/innovativeproject-tanks-game/blob/master/src/game/assets/readme/react-logo.png" alt="React"/>
+  <img width="25%" src="https://github.com/nokia-wroclaw/innovativeproject-tanks-game/blob/master/src/game/assets/readme/wpack-logo.png" alt="Webpack"/>
 </p>
 
 ## Senseis
