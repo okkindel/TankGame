@@ -25,31 +25,47 @@ export default class extends Phaser.State {
     this.load.image('loaderBg', loaderBg_img)
     this.load.image('loaderBar', loaderBar_img)
     this.game.score.resetScore();
+
+    fetch('http://localhost:6969/api/high_scores', {
+      method: 'GET', // or 'PUT'
+      headers: new Headers({
+        'Content-Type': 'application/json'
+      })
+    }).then(res => res.json())
+      .then(response => {
+        this.users = response;
+        this.show_scores();
+      })
+      .catch(error => {
+        this.actionOnClick();
+      })
   }
 
   constructor() {
     super();
-    this.users = { adi: 10, tete: 20, maku: 30, walcu: 40, hajduk: 50 };
   }
 
   create() {
+    let button = this.game.add.button(this.game.world.centerX - 150, 520, 'button', this.actionOnClick, this, 2, 1, 0);
+  }
+
+  show_scores() {
     let text = this.add.text(this.world.centerX, this.world.centerY - 240, 'Highscores', { font: '100px Sheriff', fill: '#fff', align: 'center' })
     text.anchor.setTo(0.5, 0.5)
-    let button = this.game.add.button(this.game.world.centerX - 150, 520, 'button', this.actionOnClick, this, 2, 1, 0);
     let i = 0;
     for (let key in this.users) {
-      let text = this.add.text(this.world.centerX, 250 + 50 * i, i + ':              ' + key + ':  ' + this.users[key],
+      let text = this.add.text(300, 250 + 50 * i, i + '.              ' + this.users[i].nick + ':  ' + this.users[i].score,
         { font: '20px', fill: '#fff', align: 'center' })
-      text.anchor.setTo(0.5, 0.5)
+      text.anchor.setTo(0, 0.5)
       i += 1
     }
   }
 
   render() {
     if (this.buttonCliked) {
-      this.state.start('Splash')
       if (this.game.score.player == 'guest')
         modal.style.display = "block";
+      this.state.start('Splash')
     }
   }
 
