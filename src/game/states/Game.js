@@ -465,7 +465,7 @@ export default class extends Phaser.State {
     const explosion = this.explosions.getFirstExists(false);
     explosion.reset(object.x, object.y);
     explosion.play('kaboom', 30, false, true);
-    this.mapSupervisor.currentMap = 0;
+    MapSupervisor.currentMapCounter = 0;   
     this.lose_sound.play();
     this.state.start('GameOver');
   }
@@ -521,6 +521,7 @@ export default class extends Phaser.State {
       if (this.lives.countLiving() < 1) {
         this.player.kill();
         this.mapSupervisor.currentMap = 0;
+        MapSupervisor.currentMapCounter = 0;   
         this.lose_sound.play();
         this.state.start('GameOver');
       }
