@@ -239,7 +239,7 @@ export default class extends Phaser.State {
     this.hit_sound = this.game.add.audio('hit_sound');
 
     // SOUND MUTE
-    this.game.sound.mute = true;
+    this.game.sound.mute = false;
   }
 
   big_boom(object) {
