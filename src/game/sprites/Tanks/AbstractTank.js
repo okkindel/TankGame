@@ -4,10 +4,6 @@ export default class AbstractTank extends Phaser.Sprite {
   constructor({ game, x, y, asset, Game }) {
     super(game, x, y, asset);
 
-    if(new.target === AbstractTank) {
-      throw new Error("Creation of AbstractTank is forbidden");
-    }
-
     this.anchor.setTo(0.5);
     this.game.physics.arcade.enable(this);
     this.enableBody = true;
